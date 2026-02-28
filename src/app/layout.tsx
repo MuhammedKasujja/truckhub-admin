@@ -32,9 +32,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main>
-          <AppProviders locale={locale}>{children}</AppProviders>
-        </main>
+        <AppProviders locale={locale}>{children}</AppProviders>
       </body>
     </html>
   );

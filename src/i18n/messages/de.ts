@@ -1,3 +1,5 @@
-const de = {} as const;
+const de = {
+  appName: "Truckhub",
+} as const;
 
 export default de;

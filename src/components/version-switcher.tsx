@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { GalleryVerticalEndIcon, ChevronsUpDownIcon, CheckIcon } from "lucide-react"
+import { useTranslation } from "@/i18n"
 
 export function VersionSwitcher({
   versions,
@@ -23,6 +24,7 @@ export function VersionSwitcher({
   defaultVersion: string
 }) {
   const [selectedVersion, setSelectedVersion] = React.useState(defaultVersion)
+  const tr = useTranslation()
 
   return (
     <SidebarMenu>
@@ -37,7 +39,7 @@ export function VersionSwitcher({
                 <GalleryVerticalEndIcon className="size-4" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-medium">Documentation</span>
+                <span className="font-medium">{tr("appName")}</span>
                 <span className="">v{selectedVersion}</span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />

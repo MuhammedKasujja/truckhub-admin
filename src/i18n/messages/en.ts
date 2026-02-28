@@ -1,4 +1,5 @@
 const en = {
+  appName: "Truckhub",
   common: {
     locale: {
       header: "Locale",
@@ -38,6 +39,16 @@ const en = {
     newPassword: "New Password",
     currentPassword: "Current Password",
     logout: "Logout",
+  },
+  routes: {
+    drivers: "Drivers",
+    passengers: "Passengers",
+    settings: "Settings",
+    dashboard: "Dashboard",
+    trips: "Trips",
+    vehicles: "Vehicles",
+    services: "Services",
+    reports: "Reports",
   },
 } as const;
 
