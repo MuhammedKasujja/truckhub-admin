@@ -4,6 +4,8 @@ import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -22,13 +24,14 @@ export const metadata: Metadata = {
   description: "Truckhub app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -38,9 +41,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>{children}</TooltipProvider>
+          <main>
+            <NextIntlClientProvider locale={locale}>
+              <TooltipProvider>{children}</TooltipProvider>
+            </NextIntlClientProvider>
+            <Toaster />
+          </main>
         </ThemeProvider>
-        <Toaster />
       </body>
     </html>
   );
