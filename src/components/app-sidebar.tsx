@@ -42,32 +42,32 @@ const data = {
     },
     {
       title: "routes.trips" as const,
-      url: "#",
+      url: "/admin/trips",
       icon: DatabaseSearch,
     },
     {
       title: "routes.services" as const,
-      url: "#",
+      url: "/admin/services",
       icon: MonitorCog,
     },
     {
       title: "routes.passengers" as const,
-      url: "#",
+      url: "/admin/passengers",
       icon: Users,
     },
     {
       title: "routes.drivers" as const,
-      url: "#",
+      url: "/admin/drivers",
       icon: ShieldUser,
     },
     {
       title: "routes.vehicles" as const,
-      url: "#",
+      url: "/admin/vehicles",
       icon: BusFront,
     },
     {
       title: "routes.reports" as const,
-      url: "#",
+      url: "/admin/reports",
       icon: ChartLine,
     },
     {

@@ -1,16 +1,11 @@
 import {
   Bell,
-  Check,
   Globe,
   Home,
   Keyboard,
-  Link,
   Lock,
-  Menu,
-  MessageCircle,
   Paintbrush,
   Settings,
-  Video,
 } from "lucide-react";
 
 import {
