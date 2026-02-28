@@ -1,6 +1,4 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { LocaleSwitcher } from "@/components/locale-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -15,6 +13,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { NavigationActions } from "@/components/navigation-actions";
 
 export default async function AdminLayout({
   children,
@@ -45,10 +44,7 @@ export default async function AdminLayout({
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div className="flex items-center gap-4">
-              <LocaleSwitcher />
-              <ThemeToggle />
-            </div>
+            <NavigationActions/>
           </div>
         </header>
         <div className="p-4">{children}</div>
