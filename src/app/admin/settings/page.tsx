@@ -35,16 +35,11 @@ import {
 const data = {
   nav: [
     { name: "Notifications", icon: Bell },
-    { name: "Navigation", icon: Menu },
-    { name: "Home", icon: Home },
-    { name: "Appearance", icon: Paintbrush },
-    { name: "Messages & media", icon: MessageCircle },
-    { name: "Language & region", icon: Globe },
-    { name: "Accessibility", icon: Keyboard },
-    { name: "Mark as read", icon: Check },
-    { name: "Audio & video", icon: Video },
-    { name: "Connected accounts", icon: Link },
+    { name: "Car Models", icon: Paintbrush },
+    { name: "Car Brands", icon: Home },
+    { name: "Tonnages", icon: Globe },
     { name: "Privacy & visibility", icon: Lock },
+    { name: "Permissions", icon: Keyboard },
     { name: "Advanced", icon: Settings },
   ],
 };
@@ -61,7 +56,7 @@ export default function SettingsPage() {
                   <SidebarMenuItem key={item.name}>
                     <SidebarMenuButton
                       asChild
-                      isActive={item.name === "Messages & media"}
+                      isActive={item.name === "Notifications"}
                     >
                       <a href="#">
                         <item.icon />
@@ -77,7 +72,7 @@ export default function SettingsPage() {
       </Sidebar>
       <main className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
+          <div className="flex items-start gap-2 px-4">
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -85,7 +80,7 @@ export default function SettingsPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Messages & media</BreadcrumbPage>
+                  <BreadcrumbPage>Notifications</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -95,7 +90,7 @@ export default function SettingsPage() {
           {Array.from({ length: 10 }).map((_, i) => (
             <div
               key={i}
-              className="bg-muted/50 aspect-video max-w-3xl rounded-xl"
+              className="bg-muted/50 aspect-video rounded-xl"
             />
           ))}
         </div>

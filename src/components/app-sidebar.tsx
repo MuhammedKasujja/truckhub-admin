@@ -20,6 +20,17 @@ import Link from "next/link";
 import type { Route } from "next";
 import { GlobalKeys, useTranslation } from "@/i18n";
 import { cn } from "@/lib/utils";
+import type { LucideIcon } from "lucide-react";
+import {
+  DatabaseSearch,
+  Settings2,
+  Users,
+  MonitorCog,
+  LayoutDashboard,
+  BusFront,
+  ShieldUser,
+  ChartLine,
+} from "lucide-react";
 
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
@@ -27,41 +38,49 @@ const data = {
     {
       title: "routes.dashboard" as const,
       url: "/admin/dashboard",
+      icon: LayoutDashboard,
     },
     {
       title: "routes.trips" as const,
       url: "#",
+      icon: DatabaseSearch,
     },
     {
       title: "routes.services" as const,
       url: "#",
+      icon: MonitorCog,
     },
     {
       title: "routes.passengers" as const,
       url: "#",
+      icon: Users,
     },
     {
       title: "routes.drivers" as const,
       url: "#",
+      icon: ShieldUser,
     },
     {
       title: "routes.vehicles" as const,
       url: "#",
+      icon: BusFront,
     },
     {
       title: "routes.reports" as const,
       url: "#",
+      icon: ChartLine,
     },
     {
       title: "routes.settings" as const,
       url: "/admin/settings",
+      icon: Settings2,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <VersionSwitcher
           versions={data.versions}
@@ -83,7 +102,7 @@ export function NavMain({
   items: {
     title: GlobalKeys;
     url: string;
-    icon?: React.ReactNode;
+    icon?: LucideIcon;
   }[];
 }) {
   const pathname = usePathname();
@@ -102,7 +121,7 @@ export function NavMain({
                       "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear",
                   )}
                 >
-                  {/* {item.icon && <item.icon />} */}
+                  {item.icon && <item.icon />}
                   <span>{tr(item.title)}</span>
                 </SidebarMenuButton>
               </Link>
