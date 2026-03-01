@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { NavigationActions } from "@/components/navigation-actions";
+import { verifySession } from "@/lib/session";
 
 export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await verifySession();
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -44,7 +46,7 @@ export default async function AdminLayout({
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <NavigationActions/>
+            <NavigationActions />
           </div>
         </header>
         <div className="p-4">{children}</div>
