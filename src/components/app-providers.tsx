@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "./theme-provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export function AppProviders({
   locale,
@@ -17,10 +18,12 @@ export function AppProviders({
       enableSystem
       disableTransitionOnChange
     >
-      <NextIntlClientProvider locale={locale}>
-        <TooltipProvider>{children}</TooltipProvider>
-      </NextIntlClientProvider>
-      <Toaster />
+      <NuqsAdapter>
+        <NextIntlClientProvider locale={locale}>
+          <TooltipProvider>{children}</TooltipProvider>
+        </NextIntlClientProvider>
+        <Toaster />
+      </NuqsAdapter>
     </ThemeProvider>
   );
 }
