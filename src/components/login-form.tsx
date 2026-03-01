@@ -1,25 +1,44 @@
 "use client";
 import { Card, CardContent } from "./ui/card";
-import { Field, FieldGroup, FieldLabel } from "./ui/field";
-import { Input } from "./ui/input";
+import { Field, FieldGroup } from "./ui/field";
 import { Button } from "./ui/button";
 import { useTranslation } from "@/i18n";
 import { useRouter } from "next/navigation";
+import z from "zod";
+import { toast } from "sonner";
+import { login } from "@/server/auth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EmailField, PasswordField } from "@/components/ui/form-fields";
+
+const formSchema = z.object({
+  email: z.email({ message: "Please enter a valid email." }).trim(),
+  password: z.string().trim(),
+});
 
 export function LoginForm() {
   const router = useRouter();
 
   const tr = useTranslation("common");
 
-  function login(e: any) {
-    e.preventDefault();
-    router.replace("/admin/dashboard");
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { success, message } = await login(values);
+    if (success) {
+      toast.success("Login successfully");
+      router.replace("/admin/dashboard");
+    } else {
+      toast.error(message);
+    }
   }
 
   return (
     <Card className="overflow-hidden p-0">
       <CardContent className="grid p-0 md:grid-cols-2">
-        <form className="p-6 md:p-8" onSubmit={login}>
+        <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <div className="flex flex-col items-center gap-2 text-center">
               <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -27,30 +46,18 @@ export function LoginForm() {
                 Login into Truckhub
               </p>
             </div>
-            <Field>
-              <FieldLabel htmlFor="email">{tr("form.email")}</FieldLabel>
-              <Input
-                id="email"
-                type="email"
-                placeholder="user@example.com"
-                required
-                name="email"
-              />
-            </Field>
-            <Field>
-              <div className="flex items-center">
-                <FieldLabel htmlFor="password">
-                  {tr("form.password")}
-                </FieldLabel>
-                <a
-                  href="#"
-                  className="ml-auto text-sm underline-offset-2 hover:underline"
-                >
-                  Forgot your password?
-                </a>
-              </div>
-              <Input id="password" type="password" required name="password" />
-            </Field>
+            <EmailField
+              label="Email"
+              name={'email'}
+              control={form.control}
+              placeholder="user@mail.com"
+            />
+            <PasswordField
+              label="Password"
+              name={'password'}
+              control={form.control}
+              placeholder="********"
+            />
             <Field>
               <Button type="submit">{tr("form.login")}</Button>
             </Field>

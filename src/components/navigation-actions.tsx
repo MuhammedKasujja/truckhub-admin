@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { logout } from "@/server/auth";
 
 export function NavigationActions() {
   return (
@@ -25,6 +26,11 @@ export function NavigationActions() {
 
 function ProfileDropdown() {
   const router = useRouter();
+
+  async function logoutUser() {
+    await logout();
+    router.replace("/login");
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,10 +49,7 @@ function ProfileDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => router.replace("/login")}
-          >
+          <DropdownMenuItem variant="destructive" onClick={logoutUser}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuGroup>

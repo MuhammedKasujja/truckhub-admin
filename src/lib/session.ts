@@ -5,8 +5,8 @@ import { systemDateTime } from "./utils";
 import { SignJWT, jwtVerify } from "jose";
 import { redirect } from "next/navigation";
 
-const secretKey = process.env.SESSION_SECRET;
-const encodedKey = new TextEncoder().encode(secretKey);
+const secretKey = process.env.JWT_SECRET;
+const encodedSecret = new TextEncoder().encode(secretKey);
 const AUTH_ALGORITHM = "HS256";
 const SESSION_KEY = "session";
 
@@ -28,16 +28,19 @@ export async function encrypt(payload: SessionPayload) {
     .plus({ minutes: payload.sessionMinutes })
     .toJSDate();
 
-  return new SignJWT(payload)
+  return new SignJWT({
+    sub: `${payload.user.id}`,
+    ...payload,
+  })
     .setProtectedHeader({ alg: AUTH_ALGORITHM })
     .setIssuedAt()
     .setExpirationTime(sessionDuration)
-    .sign(encodedKey);
+    .sign(encodedSecret);
 }
 
 export async function decrypt(session: string | undefined = "") {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify(session, encodedSecret, {
       algorithms: [AUTH_ALGORITHM],
     });
     return payload;
@@ -86,9 +89,10 @@ export async function updateSession() {
   });
 }
 
-export async function deleteSession() {
+export async function deleteUserSession() {
   const cookieStore = await cookies();
   cookieStore.delete(SESSION_KEY);
+  redirect("/login");
 }
 
 /**
@@ -98,7 +102,7 @@ export const verifySession = cache(async () => {
   const cookie = (await cookies()).get(SESSION_KEY)?.value;
   const session = await decrypt(cookie);
 
-  if (!session?.userId) {
+  if (!session?.access_token) {
     redirect("/login");
   }
 
