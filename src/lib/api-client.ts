@@ -2,7 +2,7 @@ import { logout } from "@/server/auth";
 import { getAccessToken } from "./session";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
-const apiClient = axios.create({
+const api = axios.create({
   baseURL: `${process.env.BACKEND_URL}`,
   timeout: 15000, // ← prevents hanging forever after 15 secs
   headers: {
@@ -11,7 +11,7 @@ const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.request.use(
+api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     // Skip adding token to login / refresh endpoints
     // const noAuthEndpoints = ["/login", "/refresh-token"];
@@ -29,7 +29,7 @@ apiClient.interceptors.request.use(
   },
 );
 
-apiClient.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     console.error("ApiError.....", error);
@@ -60,4 +60,4 @@ apiClient.interceptors.response.use(
   },
 );
 
-export default apiClient;
+export default api;
