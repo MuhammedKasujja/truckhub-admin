@@ -1,5 +1,6 @@
-import axios from "axios";
+import { logout } from "@/server/auth";
 import { getAccessToken } from "./session";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const apiClient = axios.create({
   baseURL: `${process.env.BACKEND_URL}`,
@@ -11,7 +12,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(
-  async (config) => {
+  async (config: InternalAxiosRequestConfig) => {
     // Skip adding token to login / refresh endpoints
     // const noAuthEndpoints = ["/login", "/refresh-token"];
 
@@ -30,23 +31,30 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error: AxiosError) => {
     console.error("ApiError.....", error);
     if (
       error.code === "ECONNREFUSED" ||
       error.message.includes("Network Error")
     ) {
-      error.response = {
-        data: {
-          status: 503,
-          success: false,
-          error: {
-            code: "SERVICE_UNAVAILABLE",
-            message: "Could not connect to server",
+      return Promise.reject({
+        ...error,
+        response: {
+          data: {
+            status: 503,
+            success: false,
+            error: {
+              code: "SERVICE_UNAVAILABLE",
+              message: "Could not connect to server",
+            },
           },
         },
-      };
-      return Promise.reject(error);
+      });
+    }
+
+    if (error.response?.status === 401) {
+      // TODO: refresh auth token
+      await logout();
     }
     return Promise.reject(error);
   },

@@ -32,5 +32,5 @@ export async function login({
 }
 
 export async function logout() {
-  await deleteUserSession();
+  return deleteUserSession();
 }
