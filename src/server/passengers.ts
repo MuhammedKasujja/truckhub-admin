@@ -2,7 +2,28 @@
 
 import { apiClient } from "@/lib/api-client";
 
+type Passenger = {
+  id: number,
+  name: string,
+}
+
 export async function getPassengers() {
-  const { data, isSuccess } = await apiClient.get("/v1/passengers");
+  const { data, isSuccess } = await apiClient.get<Passenger[]>("/v1/passengers");
   return { data: isSuccess ? data! : [] };
+}
+
+export async function getPassengerById(passengerId: number | string) {
+  return await apiClient.get<Passenger>(`/v1/passengers/${passengerId}`);
+}
+
+export async function deletePassengerById(passengerId: number | string) {
+  return await apiClient.delete(`/v1/passengers/${passengerId}`);
+}
+
+export async function updatePassenger(passengerId: number | string) {
+  return await apiClient.put(`/v1/passengers/${passengerId}`);
+}
+
+export async function createPassenger(data: unknown) {
+  return await apiClient.post("/v1/passengers", data);
 }

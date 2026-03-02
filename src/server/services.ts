@@ -25,5 +25,17 @@ export async function getServices() {
 }
 
 export async function getServiceById(serviceId: number | string) {
-  return await apiClient.get<Service>(`/v1/services?${serviceId}`);
+  return await apiClient.get<Service>(`/v1/services/${serviceId}`);
+}
+
+export async function deleteServiceById(serviceId: number | string) {
+  return await apiClient.delete(`/v1/services/${serviceId}`);
+}
+
+export async function updateService(serviceId: number | string) {
+  return await apiClient.put(`/v1/services/${serviceId}`);
+}
+
+export async function createService(data: unknown) {
+  return await apiClient.post("/v1/services", data);
 }
