@@ -20,10 +20,10 @@ export type Service = {
 };
 
 export async function getServices() {
-  try {
-    const response = await apiClient.get("/v1/services");
-    return response.data.data;
-  } catch (error) {
-    return null;
-  }
+  const { data, isSuccess } = await apiClient.get<Service[]>("/v1/services");
+  return { data: isSuccess ? data! : [] };
+}
+
+export async function getServiceById(serviceId: number | string) {
+  return await apiClient.get<Service>(`/v1/services?${serviceId}`);
 }

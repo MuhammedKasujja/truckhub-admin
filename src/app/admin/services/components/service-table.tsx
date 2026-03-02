@@ -14,7 +14,7 @@ type ServiceTableProps = {
 };
 
 export function ServiceTable(props: ServiceTableProps) {
-  const [data] = React.use(props.promises);
+  const [{ data }] = React.use(props.promises);
 
   const { table } = useDataTable({
     data,

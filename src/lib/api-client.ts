@@ -56,13 +56,11 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // TODO: refresh auth token
       console.log("Logout user.....");
-      await logout();
+      // await logout();
     }
     return Promise.reject(error);
   },
 );
-
-export default api;
 
 class ApiClient {
   async get<T>(url: string): Promise<ApiResponse<T>> {
@@ -164,3 +162,5 @@ class ApiClient {
 const apiClient = new ApiClient();
 
 export { apiClient };
+
+export default apiClient

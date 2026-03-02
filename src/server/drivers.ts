@@ -3,10 +3,6 @@
 import apiClient from "@/lib/api-client";
 
 export async function getDrivers() {
-  try {
-    const response = await apiClient.get("/v1/drivers");
-    return response.data.data;
-  } catch (error) {
-    return null;
-  }
+  const { isSuccess, data } = await apiClient.get("/v1/drivers");
+  return { data: isSuccess ? data! : [] };
 }
