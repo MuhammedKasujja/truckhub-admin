@@ -29,7 +29,7 @@ export function LoginForm() {
     const { isSuccess, error } = await login(values);
     if (isSuccess) {
       toast.success("Login successfully");
-      router.replace("/admin/dashboard");
+      router.replace("/dashboard");
     } else {
       toast.error(error!.message);
     }

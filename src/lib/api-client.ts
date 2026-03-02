@@ -31,9 +31,17 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("\nApi **************", response.config.url)
+      console.log(response.data);
+    }
+    return response;
+  },
   async (error: AxiosError) => {
-    console.error("ApiError.....", error);
+    if (process.env.NODE_ENV === "development") {
+      console.error("ApiError.....", error);
+    }
     if (
       error.code === "ECONNREFUSED" ||
       error.message.includes("Network Error")
@@ -57,6 +65,10 @@ api.interceptors.response.use(
       // TODO: refresh auth token
       console.log("Logout user.....");
       // await logout();
+
+      // Redirect to login
+      // window.location.href = "/login";
+      // return null
     }
     return Promise.reject(error);
   },
@@ -163,4 +175,4 @@ const apiClient = new ApiClient();
 
 export { apiClient };
 
-export default apiClient
+export default apiClient;

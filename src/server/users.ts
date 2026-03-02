@@ -5,7 +5,8 @@ import apiClient from "@/lib/api-client";
 export type SystemUser = {
   id: number;
   name: string;
-  description: string | null;
+  email: string;
+  is_admin: boolean;
 };
 
 export async function getUsers() {

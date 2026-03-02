@@ -37,42 +37,42 @@ const data = {
   navMain: [
     {
       title: "routes.dashboard" as const,
-      url: "/admin/dashboard",
+      url: "/dashboard",
       icon: LayoutDashboard,
     },
     {
       title: "routes.trips" as const,
-      url: "/admin/trips",
+      url: "/trips",
       icon: DatabaseSearch,
     },
     {
       title: "routes.services" as const,
-      url: "/admin/services",
+      url: "/services",
       icon: MonitorCog,
     },
     {
       title: "routes.passengers" as const,
-      url: "/admin/passengers",
+      url: "/passengers",
       icon: Users,
     },
     {
       title: "routes.drivers" as const,
-      url: "/admin/drivers",
+      url: "/drivers",
       icon: ShieldUser,
     },
     {
       title: "routes.vehicles" as const,
-      url: "/admin/vehicles",
+      url: "/vehicles",
       icon: BusFront,
     },
     {
       title: "routes.reports" as const,
-      url: "/admin/reports",
+      url: "/reports",
       icon: ChartLine,
     },
     {
       title: "routes.settings" as const,
-      url: "/admin/settings",
+      url: "/settings",
       icon: Settings2,
     },
   ],
