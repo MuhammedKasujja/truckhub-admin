@@ -26,12 +26,12 @@ export function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { success, message } = await login(values);
-    if (success) {
+    const { isSuccess, error } = await login(values);
+    if (isSuccess) {
       toast.success("Login successfully");
       router.replace("/admin/dashboard");
     } else {
-      toast.error(message);
+      toast.error(error!.message);
     }
   }
 
@@ -48,13 +48,13 @@ export function LoginForm() {
             </div>
             <EmailField
               label="Email"
-              name={'email'}
+              name={"email"}
               control={form.control}
               placeholder="user@mail.com"
             />
             <PasswordField
               label="Password"
-              name={'password'}
+              name={"password"}
               control={form.control}
               placeholder="********"
             />

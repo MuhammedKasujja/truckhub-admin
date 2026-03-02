@@ -10,3 +10,42 @@ export type EmptyProps<T extends React.ElementType> = Omit<
 export interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
+
+export type AuthUser = {
+  id: number;
+  name: string;
+  email: string;
+  is_admin: boolean;
+};
+
+export type AuthResponse = {
+  access_token: string;
+  expires_in: number;
+  user: AuthUser;
+  permissions: string[];
+};
+
+export type ErrorResponse = {
+  success: false;
+  error: {
+    message: string;
+    code: string | undefined;
+  };
+};
+
+export type SuccessResponse<T> = {
+  success: true;
+  data: T;
+  message: string | null;
+};
+
+// export type ApiResponse<T = unknown> = SuccessResponse<T> & ErrorResponse;
+export type ApiResponse<T = unknown> = {
+  isSuccess: boolean;
+  data?: T;
+  message?: string | null;
+  error?: {
+    message: string;
+    code: string | undefined;
+  };
+};

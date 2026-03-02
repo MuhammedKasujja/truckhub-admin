@@ -4,29 +4,16 @@ import { cookies } from "next/headers";
 import { systemDateTime } from "./utils";
 import { SignJWT, jwtVerify } from "jose";
 import { redirect } from "next/navigation";
+import { AuthResponse, AuthUser } from "@/types";
 
 const secretKey = process.env.JWT_SECRET;
 const encodedSecret = new TextEncoder().encode(secretKey);
 const AUTH_ALGORITHM = "HS256";
 const SESSION_KEY = "session";
 
-type AuthUser = {
-  id: number;
-  name: string;
-  email: string;
-  is_admin: boolean;
-};
-
-type SessionPayload = {
-  access_token: string;
-  sessionMinutes: number;
-  user: AuthUser;
-  permissions: string[]
-};
-
-export async function encrypt(payload: SessionPayload) {
+export async function encrypt(payload: AuthResponse) {
   const sessionDuration = systemDateTime
-    .plus({ minutes: payload.sessionMinutes })
+    .plus({ minutes: payload.expires_in })
     .toJSDate();
 
   return new SignJWT({
@@ -50,13 +37,13 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(payload: SessionPayload) {
+export async function createSession(payload: AuthResponse) {
   const session = await encrypt(payload);
 
   const cookieStore = await cookies();
 
   const sessionDuration = systemDateTime
-    .plus({ minutes: payload.sessionMinutes })
+    .plus({ minutes: payload.expires_in })
     .toJSDate();
 
   cookieStore.set(SESSION_KEY, session, {
@@ -77,7 +64,7 @@ export async function updateSession() {
   }
 
   const expires = systemDateTime
-    .plus({ minutes: Number(payload.sessionMinutes) })
+    .plus({ minutes: Number(payload.expires_in) })
     .toJSDate();
 
   const cookieStore = await cookies();
