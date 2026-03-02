@@ -21,6 +21,7 @@ type SessionPayload = {
   access_token: string;
   sessionMinutes: number;
   user: AuthUser;
+  permissions: string[]
 };
 
 export async function encrypt(payload: SessionPayload) {

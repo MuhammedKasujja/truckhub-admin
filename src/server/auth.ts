@@ -1,5 +1,5 @@
 "use server";
-import axios from "axios";
+import apiClient from "@/lib/api-client";
 import { createSession, deleteUserSession } from "@/lib/session";
 
 export async function login({
@@ -10,20 +10,20 @@ export async function login({
   password: string;
 }) {
   try {
-    const response = await axios.post(
-      `${process.env.BACKEND_URL}/v1/auth/login`,
-      { email, password },
-    );
+    const response = await apiClient.post(`/v1/auth/login`, {
+      email,
+      password,
+    });
+
     const authData = response.data.data;
-    console.log("Auth Data",authData)
     await createSession({
       user: authData.user,
       access_token: authData.access_token,
       sessionMinutes: authData.expires_in,
+      permissions: authData.permissions,
     });
     return { success: true };
   } catch (error) {
-    console.error(error);
     return {
       success: false,
       message: (error as any).response.data.error.message,
