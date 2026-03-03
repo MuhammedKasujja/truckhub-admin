@@ -1,12 +1,7 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-
-export type Vehicle = {
-  name: string;
-  display_name: string;
-  seats: number;
-};
+import { Vehicle } from "@/types/vehicle";
 
 export async function getVehicles() {
   const { data, isSuccess } = await apiClient.get<Vehicle[]>("/v1/vehicles");

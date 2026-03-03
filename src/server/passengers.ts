@@ -1,14 +1,11 @@
 "use server";
 
 import { apiClient } from "@/lib/api-client";
-
-type Passenger = {
-  id: number,
-  name: string,
-}
+import { Passenger } from "@/types/passenger";
 
 export async function getPassengers() {
-  const { data, isSuccess } = await apiClient.get<Passenger[]>("/v1/passengers");
+  const { data, isSuccess } =
+    await apiClient.get<Passenger[]>("/v1/passengers");
   return { data: isSuccess ? data! : [] };
 }
 

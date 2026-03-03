@@ -1,14 +1,7 @@
 "use server";
 
+import { Review } from "@/types/review";
 import apiClient from "@/lib/api-client";
-
-export type Review = {
-  id: number;
-  driver_id: string;
-  passenger_id: string;
-  rating: number;
-  commemnt: string | null;
-};
 
 export async function getReviews() {
   const { data, isSuccess } = await apiClient.get<Review[]>("/v1/reviews");

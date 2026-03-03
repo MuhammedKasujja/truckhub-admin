@@ -19,7 +19,7 @@ const formSchema = z.object({
 export function LoginForm() {
   const router = useRouter();
 
-  const tr = useTranslation("common");
+  const tr = useTranslation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -28,7 +28,7 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { isSuccess, error } = await login(values);
     if (isSuccess) {
-      toast.success("Login successfully");
+      toast.success(`${tr("loginSuccessfully")}`);
       router.replace("/dashboard");
     } else {
       toast.error(error!.message);
@@ -41,31 +41,31 @@ export function LoginForm() {
         <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <div className="flex flex-col items-center gap-2 text-center">
-              <h1 className="text-2xl font-bold">Welcome back</h1>
+              <h1 className="text-2xl font-bold">{tr("welcomeBack")}</h1>
               <p className="text-muted-foreground text-balance">
-                Login into Truckhub
+                {tr("welcomeBackInfo")}
               </p>
             </div>
             <EmailField
-              label="Email"
+              label={tr("common.form.email")}
               name={"email"}
               control={form.control}
               placeholder="user@mail.com"
             />
             <PasswordField
-              label="Password"
+              label={tr("common.form.password")}
               name={"password"}
               control={form.control}
               placeholder="********"
             />
             <Field>
-              <Button type="submit">{tr("form.login")}</Button>
+              <Button type="submit">{tr("common.form.login")}</Button>
             </Field>
           </FieldGroup>
         </form>
         <div className="bg-muted relative hidden md:block">
           <img
-            src="/sacco_logo.png"
+            src="/global.svg"
             alt="logo"
             className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
           />

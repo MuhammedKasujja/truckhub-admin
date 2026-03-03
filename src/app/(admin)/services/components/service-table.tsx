@@ -5,7 +5,8 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getServices, Service } from "@/server/services";
+import { getServices } from "@/server/services";
+import { Service } from "@/types/service";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 

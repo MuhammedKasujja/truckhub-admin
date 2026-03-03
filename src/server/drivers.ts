@@ -1,11 +1,7 @@
 "use server";
 
+import { Driver } from "@/types/driver";
 import apiClient from "@/lib/api-client";
-
-type Driver = {
-  id: number;
-  name: string;
-};
 
 export async function getDrivers() {
   const { isSuccess, data } = await apiClient.get<Driver[]>("/v1/drivers");

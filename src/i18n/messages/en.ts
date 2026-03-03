@@ -1,5 +1,8 @@
 const en = {
   appName: "Truckhub",
+  welcomeBack: "Welcome back",
+  loginSuccessfully: "Login successfully",
+  welcomeBackInfo: "Login into {appName}",
   common: {
     locale: {
       header: "Locale",

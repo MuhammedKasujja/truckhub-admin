@@ -1,13 +1,7 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-
-export type SystemUser = {
-  id: number;
-  name: string;
-  email: string;
-  is_admin: boolean;
-};
+import { SystemUser } from "@/types/user";
 
 export async function getUsers() {
   const { data, isSuccess } = await apiClient.get<SystemUser[]>("/v1/users");

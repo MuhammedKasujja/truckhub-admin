@@ -1,5 +1,5 @@
 "use server";
-import { AuthResponse } from "@/types";
+import { AuthResponse } from "@/types/auth";
 import { apiClient } from "@/lib/api-client";
 import { createSession, deleteUserSession } from "@/lib/session";
 

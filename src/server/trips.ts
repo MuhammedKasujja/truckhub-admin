@@ -1,12 +1,7 @@
 "use server";
 
+import { Trip } from "@/types/trip";
 import apiClient from "@/lib/api-client";
-
-export type Trip = {
-  id: number;
-  pickup_location: string;
-  dropoff_location: string;
-};
 
 export async function getTrips() {
   const { data, isSuccess } = await apiClient.get<Trip[]>("/v1/trips");
