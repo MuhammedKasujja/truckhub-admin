@@ -2,6 +2,7 @@
 
 import apiClient from "@/lib/api-client";
 import { Service } from "@/types/service";
+import { ServiceCreateSchemaType } from "@/schemas/service";
 
 export async function getServices() {
   const { data, isSuccess } = await apiClient.get<Service[]>("/v1/services");
@@ -20,6 +21,6 @@ export async function updateService(serviceId: number | string) {
   return await apiClient.put(`/v1/services/${serviceId}`);
 }
 
-export async function createService(data: unknown) {
+export async function createService(data: ServiceCreateSchemaType) {
   return await apiClient.post("/v1/services", data);
 }
