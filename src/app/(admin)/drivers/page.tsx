@@ -1,7 +1,12 @@
 import { getDrivers } from "@/server/drivers";
+import { Suspense } from "react";
+import { DriverTable, DriverTableSkeleton } from "./components/driver-table";
 
 export default async function Page() {
-  const drivers = await getDrivers();
-  console.log(drivers);
-  return <div>Drivers</div>;
+  const promises = Promise.all([getDrivers()]);
+  return (
+    <Suspense fallback={<DriverTableSkeleton />}>
+      <DriverTable promises={promises} />
+    </Suspense>
+  );
 }

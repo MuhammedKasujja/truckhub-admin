@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/data-table";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { Button } from "@/components/ui/button";
@@ -76,3 +77,14 @@ const columns: ColumnDef<SystemUser>[] = [
     },
   },
 ];
+
+
+export function UserTableSkeleton() {
+  return (
+    <DataTableSkeleton
+      columnCount={columns.length}
+      filterCount={1}
+      shrinkZero
+    />
+  );
+}

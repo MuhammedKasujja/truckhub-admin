@@ -7,16 +7,16 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
 import { formatDateTime } from "@/lib/format";
-import { getVehicles } from "@/server/vehicles";
-import { Vehicle } from "@/types/vehicle";
+import { getReviews } from "@/server/reviews";
+import { Review } from "@/types/review";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
-type VehicleTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
+type ReviewTableProps = {
+  promises: Promise<[Awaited<ReturnType<typeof getReviews>>]>;
 };
 
-export function VehicleTable(props: VehicleTableProps) {
+export function ReviewTable(props: ReviewTableProps) {
   const [{ data }] = React.use(props.promises);
 
   const { table } = useDataTable({
@@ -41,48 +41,33 @@ export function VehicleTable(props: VehicleTableProps) {
   );
 }
 
-const columns: ColumnDef<Vehicle>[] = [
+const columns: ColumnDef<Review>[] = [
   {
-    accessorKey: "plate_number",
-    header: "License",
+    accessorKey: "passenger_id",
+    header: "Passenger",
     cell: ({ row }) => {
-      return <Button variant={"link"}>{row.original.plate_number}</Button>;
+      return <Button variant={"link"}>{row.original.passenger_id}</Button>;
     },
   },
   {
-    id: "engine_type",
-    header: "Engine",
-    cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.engine_type}/ {row.original.gearbox}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "color",
-    header: "Color",
-    cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.color}/ {row.original.interior_color}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "year",
-    header: "Year",
-    cell: ({ row }) => {
-      return <p>{row.original.year}</p>;
-    },
-  },
-  {
-    id: "driver",
+    id: "driver_id",
     header: "Driver",
     cell: ({ row }) => {
-      return <p>-</p>;
+      return <Button variant={"link"}>{row.original.driver_id}</Button>;
+    },
+  },
+  {
+    accessorKey: "rating",
+    header: "Rating",
+    cell: ({ row }) => {
+      return <p>{row.original.rating}</p>;
+    },
+  },
+  {
+    accessorKey: "comment",
+    header: "Comment",
+    cell: ({ row }) => {
+      return <p>{row.original.comment}</p>;
     },
   },
   {
@@ -100,8 +85,7 @@ const columns: ColumnDef<Vehicle>[] = [
   },
 ];
 
-
-export function VehicleTableSkeleton() {
+export function ReviewTableSkeleton() {
   return (
     <DataTableSkeleton
       columnCount={columns.length}

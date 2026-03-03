@@ -1,7 +1,12 @@
 import { getUsers } from "@/server/users";
-import { UserTable } from "./components/user-table";
+import { UserTable, UserTableSkeleton } from "./components/user-table";
+import { Suspense } from "react";
 
 export default async function UsersPage() {
   const promises = Promise.all([getUsers()]);
-  return <UserTable promises={promises} />;
+  return (
+    <Suspense fallback={<UserTableSkeleton />}>
+      <UserTable promises={promises} />
+    </Suspense>
+  );
 }

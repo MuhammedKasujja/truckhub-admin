@@ -1,7 +1,12 @@
 import { getServices } from "@/server/services";
-import { ServiceTable } from "./components/service-table";
+import { ServiceTable, ServiceTableSkeleton } from "./components/service-table";
+import { Suspense } from "react";
 
 export default async function ServicesPage() {
   const promises = Promise.all([getServices()]);
-  return <ServiceTable promises={promises} />;
+  return (
+    <Suspense fallback={<ServiceTableSkeleton />}>
+      <ServiceTable promises={promises} />
+    </Suspense>
+  );
 }

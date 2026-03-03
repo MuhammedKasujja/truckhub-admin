@@ -7,16 +7,16 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
 import { formatDateTime } from "@/lib/format";
-import { getVehicles } from "@/server/vehicles";
-import { Vehicle } from "@/types/vehicle";
+import { getTrips } from "@/server/trips";
+import { Trip } from "@/types/trip";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
-type VehicleTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
+type TripTableProps = {
+  promises: Promise<[Awaited<ReturnType<typeof getTrips>>]>;
 };
 
-export function VehicleTable(props: VehicleTableProps) {
+export function TripTable(props: TripTableProps) {
   const [{ data }] = React.use(props.promises);
 
   const { table } = useDataTable({
@@ -41,48 +41,26 @@ export function VehicleTable(props: VehicleTableProps) {
   );
 }
 
-const columns: ColumnDef<Vehicle>[] = [
+const columns: ColumnDef<Trip>[] = [
   {
-    accessorKey: "plate_number",
-    header: "License",
+    accessorKey: "id",
+    header: "Id",
     cell: ({ row }) => {
-      return <Button variant={"link"}>{row.original.plate_number}</Button>;
+      return <Button variant={"link"}>{row.original.id}</Button>;
     },
   },
   {
-    id: "engine_type",
-    header: "Engine",
+    accessorKey: "pickup_location",
+    header: "Origin",
     cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.engine_type}/ {row.original.gearbox}
-        </p>
-      );
+      return <p>{row.original.pickup_location}</p>;
     },
   },
   {
-    accessorKey: "color",
-    header: "Color",
+    accessorKey: "dropoff_location",
+    header: "Destination",
     cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.color}/ {row.original.interior_color}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "year",
-    header: "Year",
-    cell: ({ row }) => {
-      return <p>{row.original.year}</p>;
-    },
-  },
-  {
-    id: "driver",
-    header: "Driver",
-    cell: ({ row }) => {
-      return <p>-</p>;
+      return <p>{row.original.dropoff_location}</p>;
     },
   },
   {
@@ -101,7 +79,7 @@ const columns: ColumnDef<Vehicle>[] = [
 ];
 
 
-export function VehicleTableSkeleton() {
+export function TripTableSkeleton() {
   return (
     <DataTableSkeleton
       columnCount={columns.length}

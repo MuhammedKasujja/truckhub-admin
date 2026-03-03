@@ -7,16 +7,16 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
 import { formatDateTime } from "@/lib/format";
-import { getVehicles } from "@/server/vehicles";
-import { Vehicle } from "@/types/vehicle";
+import { getDrivers } from "@/server/drivers";
+import { Driver } from "@/types/driver";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
-type VehicleTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
+type DriverTableProps = {
+  promises: Promise<[Awaited<ReturnType<typeof getDrivers>>]>;
 };
 
-export function VehicleTable(props: VehicleTableProps) {
+export function DriverTable(props: DriverTableProps) {
   const [{ data }] = React.use(props.promises);
 
   const { table } = useDataTable({
@@ -41,48 +41,26 @@ export function VehicleTable(props: VehicleTableProps) {
   );
 }
 
-const columns: ColumnDef<Vehicle>[] = [
+const columns: ColumnDef<Driver>[] = [
   {
-    accessorKey: "plate_number",
-    header: "License",
+    accessorKey: "name",
+    header: "Name",
     cell: ({ row }) => {
-      return <Button variant={"link"}>{row.original.plate_number}</Button>;
+      return <Button variant={"link"}>{row.original.fullname}</Button>;
     },
   },
   {
-    id: "engine_type",
-    header: "Engine",
+    accessorKey: "email",
+    header: "Email",
     cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.engine_type}/ {row.original.gearbox}
-        </p>
-      );
+      return <p>{row.original.email}</p>;
     },
   },
   {
-    accessorKey: "color",
-    header: "Color",
+    accessorKey: "phone",
+    header: "Phone",
     cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.color}/ {row.original.interior_color}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "year",
-    header: "Year",
-    cell: ({ row }) => {
-      return <p>{row.original.year}</p>;
-    },
-  },
-  {
-    id: "driver",
-    header: "Driver",
-    cell: ({ row }) => {
-      return <p>-</p>;
+      return <p>{row.original.phone}</p>;
     },
   },
   {
@@ -100,8 +78,7 @@ const columns: ColumnDef<Vehicle>[] = [
   },
 ];
 
-
-export function VehicleTableSkeleton() {
+export function DriverTableSkeleton() {
   return (
     <DataTableSkeleton
       columnCount={columns.length}
