@@ -12,7 +12,7 @@ import {
 export const PassengerCreateSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  user_name: z.string().nullable(),
+  user_name: z.string().optional(),
   phone: z.string(),
   email: z.string(),
   password: z.string(),

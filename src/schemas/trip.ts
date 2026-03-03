@@ -10,18 +10,11 @@ import {
 } from "nuqs/server";
 
 export const TripCreateSchema = z.object({
-  name: z.string(),
-  display_name: z.string(),
-  seats: z.number().nullable(),
-  base_fare: z.number(),
-  min_fare: z.number(),
-  price_per_min: z.number(),
-  price_per_unit_distance: z.number(),
-  booking_fee: z.number().nullable(),
-  tax_fee: z.number().nullable(),
-  distance_unit: z.enum(["km", "miles"]).default("km"),
-  vehicle_type_id: z.number(),
-  description: z.string().nullable(),
+  service_id: z.number(),
+  passenger_id: z.string(),
+  driver_id: z.string().optional(),
+  pickup_location: z.string(),
+  dropoff_location: z.string(),
 });
 
 export const TripUpdateSchema = z.object({

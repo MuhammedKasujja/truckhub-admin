@@ -1,3 +1,51 @@
+const userModuleTranslations = {
+  new_user: "New User",
+  create_user_help: "Create new user that can access the system",
+  edit_user: "Edit User",
+  user_created_successfully: "User created successfully",
+  user_updated_successfully: "User updated successfully",
+} as const;
+
+const serviceModuleTranslations = {
+  new_service: "New Service",
+  edit_service: "Edit Service",
+  create_new_service: "Create new Service",
+  seats: "Seats",
+  base_fare: "Base fare",
+  min_fare: "Min fare",
+  price_per_min: "Price per minute",
+  price_per_unit_distance: "Price per unit distance",
+  booking_fee: "Booking fee",
+  tax_fee: "Tax fee",
+  distance_unit: "Distance unit",
+  service_created_successfully: "Service created successfully",
+  service_updated_successfully: "Service updated successfully",
+} as const;
+
+const vehicleModuleTranslations = {
+  new_vehicle: "New Vehicle",
+  edit_vehicle: "Edit Vehicle",
+  create_new_vehicle: "Create new vehicle",
+  vehicle_created_successfully: "Vehicle created successfully",
+  plate_number: "Plate number",
+  color: "Color",
+  interior_color: "Interior color",
+  cylinders: "Cylinders",
+  tank_capacity: "Tank capacity",
+  engine_type: "Engine type",
+  gearbox: "Gearbox",
+} as const;
+
+
+const tripModuleTranslations = {
+  new_trip: "New Trip request",
+  create_trip_help: "Create passenger trip request",
+  edit_trip: "Edit Trip Request",
+  trip_created_successfully: "Trip created successfully",
+  trip_updated_successfully: "Trip updated successfully",
+} as const;
+
+
 const en = {
   app_name: "Truckhub",
   welcome_back: "Welcome back",
@@ -13,10 +61,19 @@ const en = {
       en: "English",
       de: "Deutsch",
     },
+    year: "Year",
     driver: "Driver",
     passenger: "Passenger",
     service: "Service",
     services: "Services",
+    vehicle_type: "Vehicle type",
+    vehicle_types: "Vehicle types",
+    car_model: "Car model",
+    drive_train: "Drive train",
+    tonnage: "Tonnage",
+    display_name: "Display name",
+    pickup_location: "Pickup location",
+    dropoff_location: "Dropoff location",
     location: "Location",
     pickUp: "Pick up",
     trip: "Trip",
@@ -40,6 +97,7 @@ const en = {
       email: "Email",
       phone: "Phone",
       date: "Date",
+      description: "Description",
     },
     change_password: "Change Password",
     confirm_password: "Confirm Password",
@@ -58,6 +116,10 @@ const en = {
     reports: "Reports",
     users: "Users",
   },
+  ...vehicleModuleTranslations,
+  services: { ...serviceModuleTranslations },
+  trips: { ...tripModuleTranslations },
+  ...userModuleTranslations,
 } as const;
 
 export default en;

@@ -13,7 +13,7 @@ export const ReviewCreateSchema = z.object({
   passenger_id: z.string(),
   request_id: z.string(),
   rating: z.number(),
-  comment: z.string().nullable(),
+  comment: z.string().optional(),
 });
 
 export const ReviewUpdateSchema = z.object({
