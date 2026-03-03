@@ -1,8 +1,10 @@
 const en = {
-  appName: "Truckhub",
-  welcomeBack: "Welcome back",
-  loginSuccessfully: "Login successfully",
-  welcomeBackInfo: "Login into Truckhub",
+  app_name: "Truckhub",
+  welcome_back: "Welcome back",
+  login_successfully: "Login successfully",
+  welcome_back_info: "Login into Truckhub",
+  search: "Search",
+  search_system: "Search Truckhub",
   common: {
     locale: {
       header: "Locale",
@@ -20,8 +22,8 @@ const en = {
     trip: "Trip",
     form: {
       name: "Name",
-      firstName: "First name",
-      lastName: "Last name",
+      first_name: "First name",
+      last_name: "Last name",
       submit: "Submit",
       reset: "Reset",
       cancel: "Cancel",
@@ -39,10 +41,10 @@ const en = {
       phone: "Phone",
       date: "Date",
     },
-    changePassword: "Change Password",
-    confirmPassword: "Confirm Password",
-    newPassword: "New Password",
-    currentPassword: "Current Password",
+    change_password: "Change Password",
+    confirm_password: "Confirm Password",
+    new_password: "New Password",
+    current_password: "Current Password",
     logout: "Logout",
   },
   routes: {

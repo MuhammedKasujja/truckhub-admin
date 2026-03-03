@@ -28,7 +28,7 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { isSuccess, error } = await login(values);
     if (isSuccess) {
-      toast.success(`${tr("loginSuccessfully")}`);
+      toast.success(`${tr("login_successfully")}`);
       router.replace("/dashboard");
     } else {
       toast.error(error!.message);
@@ -41,9 +41,9 @@ export function LoginForm() {
         <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <div className="flex flex-col items-center gap-2 text-center">
-              <h1 className="text-2xl font-bold">{tr("welcomeBack")}</h1>
+              <h1 className="text-2xl font-bold">{tr("welcome_back")}</h1>
               <p className="text-muted-foreground text-balance">
-                {tr("welcomeBackInfo")}
+                {tr("welcome_back_info")}
               </p>
             </div>
             <EmailField

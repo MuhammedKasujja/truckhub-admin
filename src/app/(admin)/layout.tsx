@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { NavigationActions } from "@/components/navigation-actions";
 import { verifySession } from "@/lib/session";
+import { SearchForm } from "@/components/search-form";
 
 export default async function AdminLayout({
   children,
@@ -33,7 +34,8 @@ export default async function AdminLayout({
             className="mr-2 data-vertical:h-4 data-vertical:self-auto"
           />
           <div className="w-full flex justify-between gap-4 items-center">
-            <Breadcrumb>
+            <SearchForm />
+            {/* <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#">
@@ -45,7 +47,7 @@ export default async function AdminLayout({
                   <BreadcrumbPage>Data Fetching</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <NavigationActions />
           </div>
         </header>
