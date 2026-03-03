@@ -4,13 +4,10 @@ import { DataTable } from "@/components/data-table";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
-import { formatDateTime } from "@/lib/format";
 import { getDrivers } from "@/server/drivers";
-import { Driver } from "@/types/driver";
-import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+import { getDriverTableColumns } from "./driver-table-columns";
 
 type DriverTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getDrivers>>]>;
@@ -18,6 +15,7 @@ type DriverTableProps = {
 
 export function DriverTable(props: DriverTableProps) {
   const [{ data }] = React.use(props.promises);
+  const columns = React.useMemo(() => getDriverTableColumns(), []);
 
   const { table } = useDataTable({
     data,
@@ -41,47 +39,10 @@ export function DriverTable(props: DriverTableProps) {
   );
 }
 
-const columns: ColumnDef<Driver>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => {
-      return <Button variant={"link"}>{row.original.fullname}</Button>;
-    },
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => {
-      return <p>{row.original.email}</p>;
-    },
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone",
-    cell: ({ row }) => {
-      return <p>{row.original.phone}</p>;
-    },
-  },
-  {
-    accessorKey: "created_at",
-    header: "Date",
-    cell: ({ row }) => {
-      return <p>{formatDateTime(row.original.created_at)}</p>;
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return <Button variant={"outline"}>View</Button>;
-    },
-  },
-];
-
 export function DriverTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={columns.length}
+      columnCount={getDriverTableColumns().length}
       filterCount={1}
       shrinkZero
     />

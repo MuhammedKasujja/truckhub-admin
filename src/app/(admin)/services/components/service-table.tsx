@@ -1,15 +1,13 @@
 "use client";
 
+import React from "react";
 import { DataTable } from "@/components/data-table";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getServices } from "@/server/services";
-import { Service } from "@/types/service";
-import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import { getServiceTableColumns } from "./service-table-columns";
 
 type ServiceTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getServices>>]>;
@@ -17,6 +15,7 @@ type ServiceTableProps = {
 
 export function ServiceTable(props: ServiceTableProps) {
   const [{ data }] = React.use(props.promises);
+  const columns = React.useMemo(() => getServiceTableColumns(), []);
 
   const { table } = useDataTable({
     data,
@@ -40,41 +39,10 @@ export function ServiceTable(props: ServiceTableProps) {
   );
 }
 
-const columns: ColumnDef<Service>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => {
-      return <Button variant={"link"}>{row.original.name}</Button>;
-    },
-  },
-  {
-    accessorKey: "base_fare",
-    header: "Fee",
-    cell: ({ row }) => {
-      return <p>{row.original.base_fare}</p>;
-    },
-  },
-  {
-    accessorKey: "booking_fee",
-    header: "Booking Fee",
-    cell: ({ row }) => {
-      return <p>{row.original.booking_fee}</p>;
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return <Button variant={"outline"}>View</Button>;
-    },
-  },
-];
-
-
 export function ServiceTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={columns.length}
+      columnCount={getServiceTableColumns().length}
       filterCount={1}
       shrinkZero
     />

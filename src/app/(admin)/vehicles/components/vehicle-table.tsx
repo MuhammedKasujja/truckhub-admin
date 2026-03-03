@@ -4,13 +4,10 @@ import { DataTable } from "@/components/data-table";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
-import { formatDateTime } from "@/lib/format";
 import { getVehicles } from "@/server/vehicles";
-import { Vehicle } from "@/types/vehicle";
-import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+import { getVehicleTableColumns } from "./vehicle-table-columns";
 
 type VehicleTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
@@ -18,6 +15,7 @@ type VehicleTableProps = {
 
 export function VehicleTable(props: VehicleTableProps) {
   const [{ data }] = React.use(props.promises);
+  const columns = React.useMemo(() => getVehicleTableColumns(), []);
 
   const { table } = useDataTable({
     data,
@@ -41,70 +39,10 @@ export function VehicleTable(props: VehicleTableProps) {
   );
 }
 
-const columns: ColumnDef<Vehicle>[] = [
-  {
-    accessorKey: "plate_number",
-    header: "License",
-    cell: ({ row }) => {
-      return <Button variant={"link"}>{row.original.plate_number}</Button>;
-    },
-  },
-  {
-    id: "engine_type",
-    header: "Engine",
-    cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.engine_type}/ {row.original.gearbox}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "color",
-    header: "Color",
-    cell: ({ row }) => {
-      return (
-        <p>
-          {row.original.color}/ {row.original.interior_color}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "year",
-    header: "Year",
-    cell: ({ row }) => {
-      return <p>{row.original.year}</p>;
-    },
-  },
-  {
-    id: "driver",
-    header: "Driver",
-    cell: ({ row }) => {
-      return <p>-</p>;
-    },
-  },
-  {
-    accessorKey: "created_at",
-    header: "Date",
-    cell: ({ row }) => {
-      return <p>{formatDateTime(row.original.created_at)}</p>;
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return <Button variant={"outline"}>View</Button>;
-    },
-  },
-];
-
-
 export function VehicleTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={columns.length}
+      columnCount={getVehicleTableColumns().length}
       filterCount={1}
       shrinkZero
     />
