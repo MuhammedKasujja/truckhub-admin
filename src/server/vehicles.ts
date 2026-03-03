@@ -4,10 +4,12 @@ import apiClient from "@/lib/api-client";
 import { Vehicle } from "@/types/vehicle";
 import {
   VehicleCreateSchemaType,
+  VehicleListSearchParams,
   VehicleUpdateSchemaType,
 } from "@/schemas/vehicle";
 
-export async function getVehicles() {
+export async function getVehicles(input: VehicleListSearchParams) {
+  console.log("Vehicle Params", input)
   const { data, isSuccess } = await apiClient.get<Vehicle[]>("/v1/vehicles");
   return { data: isSuccess ? data! : [] };
 }

@@ -1,4 +1,13 @@
 import z from "zod";
+import {
+  parseAsString,
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsStringEnum,
+  createSearchParamsCache,
+} from "nuqs/server";
+import { Vehicle } from "@/types/vehicle";
+import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 
 export const VehicleCreateSchema = z.object({
   plate_number: z.string(),
@@ -24,3 +33,20 @@ export const VehicleUpdateSchema = z.object({
 export type VehicleCreateSchemaType = z.infer<typeof VehicleCreateSchema>;
 
 export type VehicleUpdateSchemaType = z.infer<typeof VehicleUpdateSchema>;
+
+export const VehicleSearchParamsCache = createSearchParamsCache({
+  page: parseAsInteger.withDefault(1),
+  perPage: parseAsInteger.withDefault(10),
+  sort: getSortingStateParser<Vehicle>().withDefault([
+    { id: "created_at", desc: true },
+  ]),
+  search: parseAsString.withDefault(""),
+  created_at: parseAsArrayOf(parseAsInteger).withDefault([]),
+  // advanced filter
+  filters: getFiltersStateParser().withDefault([]),
+  joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
+});
+
+export type VehicleListSearchParams = Awaited<
+  ReturnType<typeof VehicleSearchParamsCache.parse>
+>;
