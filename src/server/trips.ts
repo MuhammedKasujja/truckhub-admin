@@ -2,9 +2,13 @@
 
 import { Trip } from "@/types/trip";
 import apiClient from "@/lib/api-client";
-import { TripCreateSchemaType, TripUpdateSchemaType } from "@/schemas/trip";
+import {
+  TripCreateSchemaType,
+  TripListSearchParams,
+  TripUpdateSchemaType,
+} from "@/schemas/trip";
 
-export async function getTrips() {
+export async function getTrips(input: TripListSearchParams) {
   const { data, isSuccess } = await apiClient.get<Trip[]>("/v1/trips");
   return { data: isSuccess ? data! : [] };
 }

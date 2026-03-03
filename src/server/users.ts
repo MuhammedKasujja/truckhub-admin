@@ -2,10 +2,15 @@
 
 import apiClient from "@/lib/api-client";
 import { SystemUser, UserListResponse } from "@/types/user";
-import { UserCreateSchemaType, UserUpdateSchemaType } from "@/schemas/user";
+import {
+  UserCreateSchemaType,
+  UserListSearchParams,
+  UserUpdateSchemaType,
+} from "@/schemas/user";
 
-export async function getUsers() {
-  const { data, isSuccess } = await apiClient.get<UserListResponse>("/v1/users");
+export async function getUsers(input: UserListSearchParams) {
+  const { data, isSuccess } =
+    await apiClient.get<UserListResponse>("/v1/users");
   return { data: isSuccess ? data!.users : [] };
 }
 

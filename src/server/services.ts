@@ -4,10 +4,11 @@ import apiClient from "@/lib/api-client";
 import { Service } from "@/types/service";
 import {
   ServiceCreateSchemaType,
+  ServiceListSearchParams,
   ServiceUpdateSchemaType,
 } from "@/schemas/service";
 
-export async function getServices() {
+export async function getServices(input: ServiceListSearchParams) {
   const { data, isSuccess } = await apiClient.get<Service[]>("/v1/services");
   return { data: isSuccess ? data! : [] };
 }

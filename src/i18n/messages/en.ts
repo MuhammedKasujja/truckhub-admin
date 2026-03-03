@@ -2,7 +2,7 @@ const en = {
   appName: "Truckhub",
   welcomeBack: "Welcome back",
   loginSuccessfully: "Login successfully",
-  welcomeBackInfo: "Login into {appName}",
+  welcomeBackInfo: "Login into Truckhub",
   common: {
     locale: {
       header: "Locale",
@@ -36,6 +36,8 @@ const en = {
       login: "Login",
       password: "Password",
       email: "Email",
+      phone: "Phone",
+      date: "Date",
     },
     changePassword: "Change Password",
     confirmPassword: "Confirm Password",

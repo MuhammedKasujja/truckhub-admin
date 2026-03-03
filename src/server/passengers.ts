@@ -4,10 +4,11 @@ import { apiClient } from "@/lib/api-client";
 import { Passenger } from "@/types/passenger";
 import {
   PassengerCreateSchemaType,
+  PassengerListSearchParams,
   PassengerUpdateSchemaType,
 } from "@/schemas/passenger";
 
-export async function getPassengers() {
+export async function getPassengers(input: PassengerListSearchParams) {
   const { data, isSuccess } =
     await apiClient.get<Passenger[]>("/v1/passengers");
   return { data: isSuccess ? data! : [] };

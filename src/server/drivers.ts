@@ -4,10 +4,11 @@ import { Driver } from "@/types/driver";
 import apiClient from "@/lib/api-client";
 import {
   DriverCreateSchemaType,
+  DriverListSearchParams,
   DriverUpdateSchemaType,
 } from "@/schemas/driver";
 
-export async function getDrivers() {
+export async function getDrivers(input: DriverListSearchParams) {
   const { isSuccess, data } = await apiClient.get<Driver[]>("/v1/drivers");
   return { data: isSuccess ? data! : [] };
 }
