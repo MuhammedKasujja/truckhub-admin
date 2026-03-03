@@ -52,6 +52,7 @@ const en = {
     vehicles: "Vehicles",
     services: "Services",
     reports: "Reports",
+    users: "Users",
   },
 } as const;
 

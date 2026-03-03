@@ -66,6 +66,11 @@ const data = {
       icon: BusFront,
     },
     {
+      title: "routes.users" as const,
+      url: "/users",
+      icon: Users,
+    },
+    {
       title: "routes.reports" as const,
       url: "/reports",
       icon: ChartLine,
