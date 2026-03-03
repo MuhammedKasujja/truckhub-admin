@@ -2,6 +2,10 @@
 
 import apiClient from "@/lib/api-client";
 import { Vehicle } from "@/types/vehicle";
+import {
+  VehicleCreateSchemaType,
+  VehicleUpdateSchemaType,
+} from "@/schemas/vehicle";
 
 export async function getVehicles() {
   const { data, isSuccess } = await apiClient.get<Vehicle[]>("/v1/vehicles");
@@ -16,10 +20,11 @@ export async function deleteVehicleById(vehicleId: number | string) {
   return await apiClient.delete(`/v1/vehicles/${vehicleId}`);
 }
 
-export async function updateVehicle(vehicleId: number | string) {
-  return await apiClient.put(`/v1/vehicles/${vehicleId}`);
+export async function updateVehicle(data: VehicleUpdateSchemaType) {
+  const { id: vehicleId, ...rest } = data;
+  return await apiClient.put(`/v1/vehicles/${vehicleId}`, rest);
 }
 
-export async function createVehicle(data: unknown) {
+export async function createVehicle(data: VehicleCreateSchemaType) {
   return await apiClient.post("/v1/vehicles", data);
 }

@@ -2,6 +2,10 @@
 
 import { Review } from "@/types/review";
 import apiClient from "@/lib/api-client";
+import {
+  ReviewCreateSchemaType,
+  ReviewUpdateSchemaType,
+} from "@/schemas/review";
 
 export async function getReviews() {
   const { data, isSuccess } = await apiClient.get<Review[]>("/v1/reviews");
@@ -16,10 +20,11 @@ export async function deleteReviewById(reviewId: number | string) {
   return await apiClient.delete(`/v1/reviews/${reviewId}`);
 }
 
-export async function updateReview(reviewId: number | string) {
-  return await apiClient.put(`/v1/reviews/${reviewId}`);
+export async function updateReview(data: ReviewUpdateSchemaType) {
+  const { id: reviewId, ...rest } = data;
+  return await apiClient.put(`/v1/reviews/${reviewId}`, rest);
 }
 
-export async function createReview(data: unknown) {
+export async function createReview(data: ReviewCreateSchemaType) {
   return await apiClient.post("/v1/reviews", data);
 }

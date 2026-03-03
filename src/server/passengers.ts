@@ -2,6 +2,10 @@
 
 import { apiClient } from "@/lib/api-client";
 import { Passenger } from "@/types/passenger";
+import {
+  PassengerCreateSchemaType,
+  PassengerUpdateSchemaType,
+} from "@/schemas/passenger";
 
 export async function getPassengers() {
   const { data, isSuccess } =
@@ -17,10 +21,11 @@ export async function deletePassengerById(passengerId: number | string) {
   return await apiClient.delete(`/v1/passengers/${passengerId}`);
 }
 
-export async function updatePassenger(passengerId: number | string) {
-  return await apiClient.put(`/v1/passengers/${passengerId}`);
+export async function updatePassenger(data: PassengerUpdateSchemaType) {
+  const { id: passengerId, ...rest } = data;
+  return await apiClient.put(`/v1/passengers/${passengerId}`, rest);
 }
 
-export async function createPassenger(data: unknown) {
+export async function createPassenger(data: PassengerCreateSchemaType) {
   return await apiClient.post("/v1/passengers", data);
 }

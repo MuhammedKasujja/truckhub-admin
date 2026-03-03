@@ -2,6 +2,7 @@
 
 import { Trip } from "@/types/trip";
 import apiClient from "@/lib/api-client";
+import { TripCreateSchemaType, TripUpdateSchemaType } from "@/schemas/trip";
 
 export async function getTrips() {
   const { data, isSuccess } = await apiClient.get<Trip[]>("/v1/trips");
@@ -16,10 +17,11 @@ export async function deleteTripById(tripId: number | string) {
   return await apiClient.delete(`/v1/trips/${tripId}`);
 }
 
-export async function updateTrip(tripId: number | string) {
-  return await apiClient.put(`/v1/trips/${tripId}`);
+export async function updateTrip(data: TripUpdateSchemaType) {
+  const { id: tripId, ...rest } = data;
+  return await apiClient.put(`/v1/trips/${tripId}`, rest);
 }
 
-export async function createTrip(data: unknown) {
+export async function createTrip(data: TripCreateSchemaType) {
   return await apiClient.post("/v1/trips", data);
 }
