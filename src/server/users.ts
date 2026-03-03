@@ -1,12 +1,12 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { SystemUser } from "@/types/user";
+import { SystemUser, UserListResponse } from "@/types/user";
 import { UserCreateSchemaType, UserUpdateSchemaType } from "@/schemas/user";
 
 export async function getUsers() {
-  const { data, isSuccess } = await apiClient.get<SystemUser[]>("/v1/users");
-  return { data: isSuccess ? data! : [] };
+  const { data, isSuccess } = await apiClient.get<UserListResponse>("/v1/users");
+  return { data: isSuccess ? data!.users : [] };
 }
 
 export async function getUserById(userId: number | string) {
