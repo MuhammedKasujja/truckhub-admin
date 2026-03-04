@@ -30,6 +30,7 @@ const data = {
       route: "/settings/car-models" as const,
     },
     { name: "Tonnages", icon: Globe, route: "/settings/tonnages" as const },
+    { name: "Vehicle Types", icon: Globe, route: "/settings/vehicle-types" as const },
     { name: "Privacy & visibility", icon: Lock },
     {
       name: "Permissions",

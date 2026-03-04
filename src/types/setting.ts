@@ -25,6 +25,7 @@ export type VehicleConfigurations = {
   ];
   truck_tonnages: [
     {
+      id: number;
       tonnage: string;
       tonnage_min: number;
       tonnage_max: number;
