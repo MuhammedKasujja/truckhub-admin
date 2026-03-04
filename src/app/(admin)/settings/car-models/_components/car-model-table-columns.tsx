@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CarModel } from "@/types/car-model";
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, EyeIcon } from "lucide-react";
 
 export function getCarModelColumns(): ColumnDef<CarModel>[] {
   return [
@@ -21,7 +22,16 @@ export function getCarModelColumns(): ColumnDef<CarModel>[] {
     {
       id: "actions",
       cell: ({ row }) => {
-        return <Button variant={"outline"}>View</Button>;
+        return (
+          <div className="flex gap-2">
+            <Button variant={"outline"} size={"icon"}>
+              <EyeIcon />
+            </Button>
+            <Button variant={"outline"} size={"icon"}>
+              <EditIcon />
+            </Button>
+          </div>
+        );
       },
     },
   ];
