@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const data = {
   nav: [
@@ -40,6 +41,7 @@ const data = {
 };
 
 export function SettingsSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar collapsible="none" className="hidden md:flex">
       <SidebarContent>
@@ -50,7 +52,7 @@ export function SettingsSidebar() {
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton
                     asChild
-                    isActive={item.name === "Notifications"}
+                    isActive={item.route == pathname}
                   >
                     {item.route ? (
                       <Link href={item.route}>

@@ -1,0 +1,30 @@
+"use server";
+
+import apiClient from "@/lib/api-client";
+import { Tonnage } from "@/types/tonnage";
+import {
+  TonnageCreateSchemaType,
+  TonnageUpdateSchemaType,
+} from "@/schemas/tonnage";
+
+export async function getTonnages() {
+  const { data, isSuccess } = await apiClient.get<Tonnage[]>("/v1/tonnages");
+  return { data: isSuccess ? data! : [] };
+}
+
+// export async function getTonnageById(tonnageId: number | string) {
+//   return await apiClient.get<Tonnage>(`/v1/tonnages/${tonnageId}`);
+// }
+
+export async function deleteTonnageById(tonnageId: number | string) {
+  return await apiClient.delete(`/v1/tonnages/${tonnageId}`);
+}
+
+export async function updateTonnage(data: TonnageUpdateSchemaType) {
+  const { id: tonnageId, ...rest } = data;
+  return await apiClient.put(`/v1/tonnages/${tonnageId}`, rest);
+}
+
+export async function createTonnage(data: TonnageCreateSchemaType) {
+  return await apiClient.post("/v1/tonnages", data);
+}
