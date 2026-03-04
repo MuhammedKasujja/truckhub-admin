@@ -8,6 +8,7 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getCarBrandColumns } from "./car-brand-table-columns";
 import { getCarBrands } from "@/server/car-brands";
+import { CarBrandForm } from "./car-brand-form";
 
 type CarBrandTableProps = {
   carBrandListPromise: Promise<Awaited<ReturnType<typeof getCarBrands>>>;
@@ -33,6 +34,7 @@ export function CarBrandTable(props: CarBrandTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <CarBrandForm />
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
