@@ -20,6 +20,7 @@ import { createService } from "@/server/services";
 import { getVehicleSettings } from "@/server/settings";
 import { DistanceUnitList } from "@/types/service";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -141,7 +142,14 @@ export function ServiceForm({ vehicleConfigPromise }: ServiceFormProps) {
               required={false}
             />
             <CardFooter>
-              <Button type="submit">{tr("common.form.submit")}</Button>
+              <Button type="submit">
+                {form.formState.isSubmitting && (
+                  <Loader2 className="size-4 animate-spin" />
+                )}
+                {form.formState.isSubmitting
+                  ? "Submitting..."
+                  : `${tr("common.form.submit")}`}
+              </Button>
             </CardFooter>
           </FieldGroup>
         </form>

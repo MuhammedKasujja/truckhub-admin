@@ -1,7 +1,3 @@
-/**
- * @see https://github.com/radix-ui/primitives/blob/main/packages/react/compose-refs/src/compose-refs.tsx
- */
-
 import * as React from "react";
 
 type PossibleRef<T> = React.Ref<T> | undefined;
@@ -59,7 +55,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
  * Accepts callback refs and RefObject(s)
  */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we don't want to re-run this callback when the refs change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we want to memoize by all values
   return React.useCallback(composeRefs(...refs), refs);
 }
 
