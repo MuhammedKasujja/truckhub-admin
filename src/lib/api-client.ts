@@ -33,7 +33,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     if (process.env.NODE_ENV === "development") {
-      console.log("\nApi **************", response.config.url)
+      console.log("\nApi **************", response.config.url);
       console.log(response.data);
     }
     return response;
@@ -55,6 +55,21 @@ api.interceptors.response.use(
             error: {
               code: "SERVICE_UNAVAILABLE",
               message: "Could not connect to server",
+            },
+          },
+        },
+      });
+    }
+    if (error.status === 404) {
+      return Promise.reject({
+        ...error,
+        response: {
+          data: {
+            status: 404,
+            success: false,
+            error: {
+              code: "NOT_FOUND",
+              message: "Api Endpoint not available",
             },
           },
         },
