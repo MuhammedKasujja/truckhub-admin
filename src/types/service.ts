@@ -1,3 +1,7 @@
+export const DistanceUnitList = ["km", "miles"] as const;
+
+export type DistanceUnit = (typeof DistanceUnitList)[number];
+
 export type Service = {
   name: string;
   display_name: string;
@@ -8,7 +12,7 @@ export type Service = {
   price_per_unit_distance: number;
   booking_fee: number;
   tax_fee: number;
-  distance_unit: "km" | "miles";
+  distance_unit: DistanceUnit;
   vehicle_type_id: number;
   description: string | null;
   id: number;

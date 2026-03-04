@@ -1,3 +1,9 @@
+export const EngineTypes = ["petrol", "desel"] as const;
+export const Gearboxes = ["manual", "automatic"] as const;
+
+export type Engine = (typeof EngineTypes)[number];
+export type Gearbox = (typeof Gearboxes)[number];
+
 export type Vehicle = {
   id: number;
   plate_number: string;
@@ -5,8 +11,8 @@ export type Vehicle = {
   interior_color: string;
   cylinders: number;
   tank_capacity: number;
-  engine_type: "petrol" | "desel";
-  gearbox: "manual" | "automatic";
+  engine_type: Engine;
+  gearbox: Gearbox;
   year: string;
   seats: number;
   vehicle_type_id: number;

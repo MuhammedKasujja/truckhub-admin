@@ -18,6 +18,7 @@ import { useTranslation } from "@/i18n";
 import { VehicleCreateSchema } from "@/schemas/vehicle";
 import { getVehicleSettings } from "@/server/settings";
 import { createVehicle } from "@/server/vehicles";
+import { EngineTypes, Gearboxes } from "@/types/vehicle";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -85,15 +86,25 @@ export function VehicleForm({ configPromises }: VehicleFormProps) {
                 name={"tank_capacity"}
                 control={form.control}
               />
-              <NumberField
+              <AutoCompleteField
                 label={tr("engine_type")}
+                control={form.control}
                 name={"engine_type"}
-                control={form.control}
+                placeholder="Select engine type"
+                options={EngineTypes.map((opt) => ({
+                  label: tr(`common.${opt}`),
+                  value: opt,
+                }))}
               />
-              <NumberField
+              <AutoCompleteField
                 label={tr("gearbox")}
-                name={"gearbox"}
                 control={form.control}
+                name={"gearbox"}
+                placeholder="Select gearbox"
+                options={Gearboxes.map((opt) => ({
+                  label: tr(`common.${opt}`),
+                  value: opt,
+                }))}
               />
               <NumberField
                 label={tr("common.year")}

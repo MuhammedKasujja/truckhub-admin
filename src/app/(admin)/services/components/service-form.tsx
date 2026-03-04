@@ -18,6 +18,7 @@ import { useTranslation } from "@/i18n";
 import { ServiceCreateSchema } from "@/schemas/service";
 import { createService } from "@/server/services";
 import { getVehicleSettings } from "@/server/settings";
+import { DistanceUnitList } from "@/types/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -123,11 +124,15 @@ export function ServiceForm({ vehicleConfigPromise }: ServiceFormProps) {
               control={form.control}
               required={false}
             />
-            <NumberField
+            <AutoCompleteField
               label={tr("services.distance_unit")}
-              name={"distance_unit"}
               control={form.control}
-              required={false}
+              name={"distance_unit"}
+              placeholder="Select distance unit"
+              options={DistanceUnitList.map((opt) => ({
+                label: tr(`common.${opt}`),
+                value: opt,
+              }))}
             />
             <TextField
               label={tr("common.form.description")}

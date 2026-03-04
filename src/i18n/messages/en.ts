@@ -36,7 +36,6 @@ const vehicleModuleTranslations = {
   gearbox: "Gearbox",
 } as const;
 
-
 const tripModuleTranslations = {
   new_trip: "New Trip request",
   create_trip_help: "Create passenger trip request",
@@ -44,7 +43,6 @@ const tripModuleTranslations = {
   trip_created_successfully: "Trip created successfully",
   trip_updated_successfully: "Trip updated successfully",
 } as const;
-
 
 const en = {
   app_name: "Truckhub",
@@ -78,6 +76,13 @@ const en = {
     location: "Location",
     pickUp: "Pick up",
     trip: "Trip",
+    manual: "Manual",
+    automatic: "Automatic",
+    petrol: "Petrol",
+    desel: "Desel",
+    km: "KM",
+    kilo_meters: "kilometers",
+    miles: "Miles",
     form: {
       name: "Name",
       first_name: "First name",
