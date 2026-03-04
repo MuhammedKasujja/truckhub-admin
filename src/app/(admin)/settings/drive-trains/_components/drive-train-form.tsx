@@ -17,7 +17,7 @@ import { PlusIcon } from "lucide-react";
 import z from "zod";
 import { DriveTrainCreateSchema } from "@/schemas/drive-train";
 import { createDriveTrain } from "@/server/drive-trains";
-import { TextField } from "@/components/ui/form-fields";
+import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 
 export function DriveTrainForm({ trigger }: { trigger?: React.ReactNode }) {
@@ -55,6 +55,12 @@ export function DriveTrainForm({ trigger }: { trigger?: React.ReactNode }) {
           <div className="flex items-center gap-2">
             <div className="grid flex-1 gap-4">
               <TextField label="Name" control={form.control} name={"name"} />
+              <SwitchField
+                label="Truck"
+                control={form.control}
+                name={"type"}
+                description="When checked it means the drive train is for trucks"
+              />
             </div>
           </div>
           <DialogFooter className="sm:justify-end">

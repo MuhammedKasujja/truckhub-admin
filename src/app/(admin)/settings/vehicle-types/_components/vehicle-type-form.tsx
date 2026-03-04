@@ -17,11 +17,11 @@ import { PlusIcon } from "lucide-react";
 import z from "zod";
 import { VehicleTypeCreateSchema } from "@/schemas/vehicle-type";
 import { createVehicleType } from "@/server/vehicle-types";
-import { TextField } from "@/components/ui/form-fields";
+import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 
 export function VehicleTypeForm({ trigger }: { trigger?: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
   const form = useForm<z.infer<typeof VehicleTypeCreateSchema>>({
     resolver: zodResolver(VehicleTypeCreateSchema),
   });
@@ -30,7 +30,7 @@ export function VehicleTypeForm({ trigger }: { trigger?: React.ReactNode }) {
     const { isSuccess, error } = await createVehicleType(values);
     if (isSuccess) {
       toast.success("Vehicle type added successfully");
-      setOpen(false)
+      setOpen(false);
     } else {
       toast.error(error?.message);
     }
@@ -55,6 +55,12 @@ export function VehicleTypeForm({ trigger }: { trigger?: React.ReactNode }) {
           <div className="flex items-center gap-2">
             <div className="grid flex-1 gap-4">
               <TextField label="Name" control={form.control} name={"name"} />
+              <SwitchField
+                label="Truck"
+                control={form.control}
+                name={"is_truck"}
+                description="When checked indicates this is a truck vehicle"
+              />
             </div>
           </div>
           <DialogFooter className="sm:justify-end">

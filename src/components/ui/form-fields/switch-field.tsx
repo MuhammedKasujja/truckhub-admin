@@ -1,12 +1,13 @@
 import {
   Field,
+  FieldContent,
   FieldDescription,
-  FieldError,
   FieldLabel,
 } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 import { AsteriskIcon } from "lucide-react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
+import { Switch } from "@/components/ui/switch";
 
 type SwitchFieldProps<T extends FieldValues> = {
   label?: string;
@@ -23,32 +24,31 @@ export function SwitchField<T extends FieldValues>({
   required = true,
   description,
 }: Readonly<SwitchFieldProps<T>>) {
- return (
+  return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={field.name}>
-            {label}
-            {required && (
-              <AsteriskIcon
-                className={cn('text-destructive inline size-2.5 align-top')}
-              />
-            )}
-          </FieldLabel>
-          {/* <Switch
+        <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+          <FieldContent>
+            <FieldLabel htmlFor={field.name}>
+              {label}
+              {/* {required && (
+                <AsteriskIcon
+                  className={cn("text-destructive inline size-2.5 align-top")}
+                />
+              )} */}
+            </FieldLabel>
+            {description && <FieldDescription>{description}</FieldDescription>}
+          </FieldContent>
+          <Switch
             {...field}
-            type={type}
             id={field.name}
             aria-invalid={fieldState.invalid}
-            placeholder={placeholder}
-            autoComplete="off"
-          /> */}
-          {description && <FieldDescription>{description}</FieldDescription>}
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          />
+          {/* {fieldState.invalid && <FieldError errors={[fieldState.error]} />} */}
         </Field>
       )}
     />
-  )
+  );
 }
