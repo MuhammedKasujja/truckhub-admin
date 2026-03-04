@@ -1,6 +1,5 @@
 import { ApiResponse } from "@/types";
-import { logout } from "@/server/auth";
-import { getAccessToken } from "./session";
+import { deleteUserSession, getAccessToken } from "./session";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const api = axios.create({
@@ -84,10 +83,11 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401) {
       // TODO: refresh auth token
+      // TODO: clear user session from cookies as this is not allowed to call server actions
       console.log("Logout user.....");
-      // await logout();
 
-      // Redirect to login
+      //  deleteUserSession();
+
       // window.location.href = "/login";
       // return null
     }

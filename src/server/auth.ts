@@ -1,4 +1,5 @@
 "use server";
+import { redirect } from "next/navigation";
 import { AuthResponse } from "@/types/auth";
 import { apiClient } from "@/lib/api-client";
 import { LoginSchemaType } from "@/schemas/auth";
@@ -16,5 +17,6 @@ export async function login({ email, password }: LoginSchemaType) {
 }
 
 export async function logout() {
-  return deleteUserSession();
+  await deleteUserSession();
+  redirect("/login");
 }

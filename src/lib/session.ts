@@ -80,7 +80,6 @@ export async function updateSession() {
 export async function deleteUserSession() {
   const cookieStore = await cookies();
   cookieStore.delete(SESSION_KEY);
-  redirect("/login");
 }
 
 /**
