@@ -3,8 +3,6 @@
 import React from "react";
 import { DataTable } from "@/components/data-table";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getTonnages } from "@/server/tonnages";
 import { getTonnageColumns } from "./tonnage-table-columns";
@@ -30,13 +28,7 @@ export function TonnageTable(props: TonnageTableProps) {
     clearOnDefault: true,
   });
 
-  return (
-    <DataTable table={table}>
-      <DataTableToolbar table={table}>
-        <DataTableSortList table={table} align="end" />
-      </DataTableToolbar>
-    </DataTable>
-  );
+  return <DataTable table={table} showPagination={false} />;
 }
 
 export function TonnageTableSkeleton() {
