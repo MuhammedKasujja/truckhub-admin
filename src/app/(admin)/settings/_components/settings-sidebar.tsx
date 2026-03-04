@@ -23,12 +23,12 @@ import { usePathname } from "next/navigation";
 const data = {
   nav: [
     { name: "Notifications", icon: Bell },
+    { name: "Car Brands", icon: Home, route: "/settings/car-brands" as const },
     {
       name: "Car Models",
       icon: Paintbrush,
       route: "/settings/car-models" as const,
     },
-    { name: "Car Brands", icon: Home, route: "/settings/car-brands" as const },
     { name: "Tonnages", icon: Globe, route: "/settings/tonnages" as const },
     { name: "Privacy & visibility", icon: Lock },
     {
