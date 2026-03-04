@@ -8,6 +8,9 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getVehicles } from "@/server/vehicles";
 import React from "react";
 import { getVehicleTableColumns } from "./vehicle-table-columns";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
 type VehicleTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
@@ -33,6 +36,12 @@ export function VehicleTable(props: VehicleTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <Button asChild>
+          <Link href={"/vehicles/new"}>
+            <PlusIcon />
+            New Vehicle
+          </Link>
+        </Button>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

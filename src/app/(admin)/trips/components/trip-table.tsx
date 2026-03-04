@@ -8,6 +8,9 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getTrips } from "@/server/trips";
 import React from "react";
 import { getTripTableColumns } from "./trip-table-columns";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
 type TripTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getTrips>>]>;
@@ -34,6 +37,12 @@ export function TripTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <Button asChild>
+          <Link href={"/trips/new"}>
+            <PlusIcon />
+            New Trip Request
+          </Link>
+        </Button>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

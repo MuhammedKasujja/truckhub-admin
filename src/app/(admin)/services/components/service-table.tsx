@@ -8,6 +8,9 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getServices } from "@/server/services";
 import { getServiceTableColumns } from "./service-table-columns";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
 
 type ServiceTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getServices>>]>;
@@ -33,6 +36,12 @@ export function ServiceTable(props: ServiceTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <Button asChild>
+          <Link href={"/services/new"}>
+            <PlusIcon />
+            New Service
+          </Link>
+        </Button>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

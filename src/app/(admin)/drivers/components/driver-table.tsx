@@ -8,6 +8,9 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getDrivers } from "@/server/drivers";
 import React from "react";
 import { getDriverTableColumns } from "./driver-table-columns";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
 type DriverTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getDrivers>>]>;
@@ -33,6 +36,12 @@ export function DriverTable(props: DriverTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <Button asChild>
+          <Link href={"/drivers/new"}>
+            <PlusIcon />
+            New Driver
+          </Link>
+        </Button>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

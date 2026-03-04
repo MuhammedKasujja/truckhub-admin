@@ -8,6 +8,9 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getPassengers } from "@/server/passengers";
 import React from "react";
 import { getPassengerTableColumns } from "./passenger-table-columns";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
 type PassengerTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getPassengers>>]>;
@@ -33,6 +36,12 @@ export function PassengerTable(props: PassengerTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <Button asChild>
+          <Link href={"/passengers/new"}>
+            <PlusIcon />
+            New Passenger
+          </Link>
+        </Button>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
