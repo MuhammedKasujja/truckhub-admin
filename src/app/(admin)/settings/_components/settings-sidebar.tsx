@@ -1,0 +1,75 @@
+"use client";
+import {
+  Bell,
+  Globe,
+  Home,
+  Keyboard,
+  Lock,
+  Paintbrush,
+  Settings,
+} from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import Link from "next/link";
+
+const data = {
+  nav: [
+    { name: "Notifications", icon: Bell },
+    {
+      name: "Car Models",
+      icon: Paintbrush,
+      route: "/settings/car-models" as const,
+    },
+    { name: "Car Brands", icon: Home, route: "/settings/car-brands" as const },
+    { name: "Tonnages", icon: Globe, route: "/settings/tonnages" as const },
+    { name: "Privacy & visibility", icon: Lock },
+    {
+      name: "Permissions",
+      icon: Keyboard,
+      route: "/settings/permissions" as const,
+    },
+    { name: "Advanced", icon: Settings },
+  ],
+};
+
+export function SettingsSidebar() {
+  return (
+    <Sidebar collapsible="none" className="hidden md:flex">
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {data.nav.map((item) => (
+                <SidebarMenuItem key={item.name}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={item.name === "Notifications"}
+                  >
+                    {item.route ? (
+                      <Link href={item.route}>
+                        <item.icon />
+                        <span>{item.name}</span>
+                      </Link>
+                    ) : (
+                      <a href="#">
+                        <item.icon />
+                        <span>{item.name}</span>
+                      </a>
+                    )}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  );
+}
