@@ -8,17 +8,26 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getCarModelColumns } from "./car-model-table-columns";
 import { getCarModels } from "@/server/car-models";
+import { CarModelForm } from "./car-brand-form";
+import { getVehicleSettings } from "@/server/settings";
 
 type CarModelTableProps = {
-  carModelListPromise: Promise<Awaited<ReturnType<typeof getCarModels>>>;
+  promises: Promise<
+    [
+      Awaited<ReturnType<typeof getCarModels>>,
+      Awaited<ReturnType<typeof getVehicleSettings>>,
+    ]
+  >;
 };
 
 export function CarModelTable(props: CarModelTableProps) {
-  const { data } = React.use(props.carModelListPromise);
+  const [{ data: carModels }, { data: vehicleConfigurations }] = React.use(
+    props.promises,
+  );
   const columns = React.useMemo(() => getCarModelColumns(), []);
 
   const { table } = useDataTable({
-    data,
+    data: carModels,
     columns,
     pageCount: 1,
     initialState: {
@@ -33,6 +42,7 @@ export function CarModelTable(props: CarModelTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <CarModelForm vehicleConfigurations={vehicleConfigurations} />
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
