@@ -61,6 +61,12 @@ api.interceptors.response.use(
       });
     }
     if (error.status === 404) {
+      if (process.env.NODE_ENV === "development") {
+        console.error({
+          "`ENDPOINT_NOT_FOUND`": error.request.path,
+          Method: error.request.method,
+        });
+      }
       return Promise.reject({
         ...error,
         response: {

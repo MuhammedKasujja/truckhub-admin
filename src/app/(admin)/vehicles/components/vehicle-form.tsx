@@ -9,17 +9,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { NumberField, TextField } from "@/components/ui/form-fields";
+import {
+  AutoCompleteField,
+  NumberField,
+  TextField,
+} from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
 import { VehicleCreateSchema } from "@/schemas/vehicle";
+import { getVehicleSettings } from "@/server/settings";
 import { createVehicle } from "@/server/vehicles";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-export function VehicleForm() {
+type VehicleFormProps = {
+  configPromises: Promise<[Awaited<ReturnType<typeof getVehicleSettings>>]>;
+};
+
+export function VehicleForm({ configPromises }: VehicleFormProps) {
   const tr = useTranslation();
+  const [{ data: vehicleCofig }] = React.use(configPromises);
   const form = useForm<z.infer<typeof VehicleCreateSchema>>({
     resolver: zodResolver(VehicleCreateSchema),
   });
@@ -94,26 +105,70 @@ export function VehicleForm() {
               control={form.control}
               required={false}
             />
-            <NumberField
+            <AutoCompleteField
               label={tr("common.vehicle_type")}
+              control={form.control}
               name={"vehicle_type_id"}
-              control={form.control}
+              placeholder="Select Vehicle"
+              emptyPlaceholder="No vehicles found"
+              options={
+                vehicleCofig?.vehicle_types.map((opt) => ({
+                  label: opt.name,
+                  value: opt.id,
+                })) ?? []
+              }
             />
-            <NumberField
+            <AutoCompleteField
+              label={tr("common.car_brand")}
+              control={form.control}
+              name={"car_brand_id"}
+              placeholder="Select Car Brand"
+              emptyPlaceholder="No Car Brand found"
+              options={
+                vehicleCofig?.car_brands.map((opt) => ({
+                  label: opt.name,
+                  value: opt.id,
+                })) ?? []
+              }
+            />
+            <AutoCompleteField
               label={tr("common.car_model")}
+              control={form.control}
               name={"car_model_id"}
-              control={form.control}
+              placeholder="Select Car Mode"
+              emptyPlaceholder="No Car Model found"
+              options={
+                vehicleCofig?.car_models.map((opt) => ({
+                  label: opt.name,
+                  value: opt.id,
+                })) ?? []
+              }
             />
-            <NumberField
+            <AutoCompleteField
               label={tr("common.drive_train")}
+              control={form.control}
               name={"drive_train_id"}
-              control={form.control}
+              placeholder="Select Car Drive Train"
+              emptyPlaceholder="No Car Drive Train found"
+              options={
+                vehicleCofig?.drive_trains.map((opt) => ({
+                  label: opt.name,
+                  value: opt.id,
+                })) ?? []
+              }
             />
-            <NumberField
+            <AutoCompleteField
               label={tr("common.tonnage")}
-              name={"tonnage_id"}
               control={form.control}
-              required={false}
+              name={"tonnage_id"}
+              placeholder="Select Truck tonnage"
+              emptyPlaceholder="No Truck tonnage found"
+              options={
+                vehicleCofig?.truck_tonnages.map((opt) => ({
+                  label: `${opt.tonnage_min} - ${opt.tonnage_max}`,
+                  value: opt.tonnage,
+                })) ?? []
+              }
             />
             <CardFooter>
               <Button type="submit">{tr("common.form.submit")}</Button>

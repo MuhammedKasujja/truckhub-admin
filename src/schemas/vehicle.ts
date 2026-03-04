@@ -20,6 +20,7 @@ export const VehicleCreateSchema = z.object({
   year: z.string(),
   seats: z.number().optional(),
   vehicle_type_id: z.number(),
+  car_brand_id: z.number(),
   car_model_id: z.number(),
   drive_train_id: z.number(),
   tonnage_id: z.number().optional(),

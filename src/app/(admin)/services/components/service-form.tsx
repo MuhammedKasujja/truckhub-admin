@@ -9,17 +9,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { NumberField, TextField } from "@/components/ui/form-fields";
+import {
+  AutoCompleteField,
+  NumberField,
+  TextField,
+} from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
 import { ServiceCreateSchema } from "@/schemas/service";
 import { createService } from "@/server/services";
+import { getVehicleSettings } from "@/server/settings";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-export function ServiceForm() {
+type ServiceFormProps = {
+  serviceId?: number;
+  vehicleConfigPromise: Promise<Awaited<ReturnType<typeof getVehicleSettings>>>;
+};
+
+export function ServiceForm({ vehicleConfigPromise }: ServiceFormProps) {
   const tr = useTranslation();
+  const { data } = React.use(vehicleConfigPromise);
+
   const form = useForm<z.infer<typeof ServiceCreateSchema>>({
     resolver: zodResolver(ServiceCreateSchema),
   });
@@ -47,6 +60,19 @@ export function ServiceForm() {
           })}
         >
           <FieldGroup>
+            <AutoCompleteField
+              label={tr("common.vehicle_type")}
+              control={form.control}
+              name={"vehicle_type_id"}
+              placeholder="Select Vehicle"
+              emptyPlaceholder="No vehicles found"
+              options={
+                data?.vehicle_types.map((opt) => ({
+                  label: opt.name,
+                  value: opt.id,
+                })) ?? []
+              }
+            />
             <TextField
               label={tr("common.form.name")}
               name={"name"}
@@ -102,11 +128,6 @@ export function ServiceForm() {
               name={"distance_unit"}
               control={form.control}
               required={false}
-            />
-            <NumberField
-              label={tr("common.vehicle_type")}
-              name={"vehicle_type_id"}
-              control={form.control}
             />
             <TextField
               label={tr("common.form.description")}

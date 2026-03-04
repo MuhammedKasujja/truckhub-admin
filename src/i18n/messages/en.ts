@@ -69,6 +69,7 @@ const en = {
     vehicle_type: "Vehicle type",
     vehicle_types: "Vehicle types",
     car_model: "Car model",
+    car_brand: "Car brand",
     drive_train: "Drive train",
     tonnage: "Tonnage",
     display_name: "Display name",
