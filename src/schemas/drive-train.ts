@@ -11,8 +11,8 @@ import {
 
 export const DriveTrainCreateSchema = z.object({
   name: z.string(),
-  tonnage_id: z.number(),
-  type: z.enum(["truck", "small"]).default("truck").optional(),
+  tonnage_id: z.number().optional(),
+  type: z.enum(["truck", "small"]).default("small").optional(),
 });
 
 export const DriveTrainUpdateSchema = z.object({

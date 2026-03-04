@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DriveTrain } from "@/types/drive-train";
 import { ColumnDef } from "@tanstack/react-table";
@@ -17,6 +18,13 @@ export function getDriveTrainColumns(): ColumnDef<DriveTrain>[] {
       header: "Name",
       cell: ({ row }) => {
         return <p>{row.original.name}</p>;
+      },
+    },
+    {
+      accessorKey: "is_truck",
+      header: "Truck",
+      cell: ({ row }) => {
+        return <p>{row.original.is_truck && <Badge variant={"secondary"}/>}</p>;
       },
     },
     {
