@@ -4,6 +4,7 @@ import { deleteServiceById } from "@/server/services";
 import { Service } from "@/types/service";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon, EditIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 export function getServiceTableColumns(): ColumnDef<Service>[] {
@@ -37,8 +38,10 @@ export function getServiceTableColumns(): ColumnDef<Service>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <EditIcon />
+            <Button variant={"outline"} size={"icon"} asChild>
+              <Link href={`/services/${row.original.id}/edit`}>
+                <EditIcon />
+              </Link>
             </Button>
             <ActionButton
               variant={"destructive"}

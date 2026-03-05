@@ -1,5 +1,5 @@
 import { getServices } from "@/server/services";
-import { ServiceTable, ServiceTableSkeleton } from "./components/service-table";
+import { ServiceTable, ServiceTableSkeleton } from "./_components/service-table";
 import { Suspense } from "react";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { ServiceSearchParamsCache } from "@/schemas/service";

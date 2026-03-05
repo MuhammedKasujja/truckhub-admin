@@ -18,11 +18,11 @@ import z from "zod";
 import {
   VehicleTypeCreateSchema,
   VehicleTypeUpdateSchemaType,
+  VehicleTypeUpdateSchema,
 } from "@/schemas/vehicle-type";
 import { createVehicleType, updateVehicleType } from "@/server/vehicle-types";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
-import { VehicleUpdateSchema } from "@/schemas/vehicle";
 
 type Props = {
   trigger?: React.ReactNode;
@@ -31,10 +31,11 @@ type Props = {
 
 export function VehicleTypeForm({ trigger, initialData }: Props) {
   const [open, setOpen] = React.useState(false);
+  console.table(initialData)
 
   const isEdit = !!initialData;
 
-  const formSchema = isEdit ? VehicleUpdateSchema : VehicleTypeCreateSchema;
+  const formSchema = isEdit ? VehicleTypeUpdateSchema : VehicleTypeCreateSchema;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,7 +67,9 @@ export function VehicleTypeForm({ trigger, initialData }: Props) {
       <DialogContent className="sm:max-w-md">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>Add Vehicle Type</DialogTitle>
+            <DialogTitle>
+              {isEdit ? "Edit Vehicle Type" : "Add Vehicle Type"}
+            </DialogTitle>
             <DialogDescription>Create new vehicle type</DialogDescription>
           </DialogHeader>
           <div className="flex items-center gap-2">

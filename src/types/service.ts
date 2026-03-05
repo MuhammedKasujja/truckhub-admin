@@ -14,7 +14,7 @@ export type Service = {
   tax_fee: number;
   distance_unit: DistanceUnit;
   vehicle_type_id: number;
-  description: string | null;
+  description: string | undefined;
   id: number;
   is_truck: boolean;
   created_at: Date;

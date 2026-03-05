@@ -45,6 +45,7 @@ export function SwitchField<T extends FieldValues>({
             <Switch
               {...field}
               id={field.name}
+              value={field.value}
               aria-invalid={fieldState.invalid}
             />
           </Field>

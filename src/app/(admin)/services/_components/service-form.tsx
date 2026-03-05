@@ -15,8 +15,8 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { ServiceCreateSchema } from "@/schemas/service";
-import { createService } from "@/server/services";
+import { ServiceCreateSchema, ServiceUpdateSchema } from "@/schemas/service";
+import { createService, updateService } from "@/server/services";
 import { getVehicleSettings } from "@/server/settings";
 import { DistanceUnitList } from "@/types/service";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,31 +27,44 @@ import { toast } from "sonner";
 import z from "zod";
 
 type ServiceFormProps = {
-  serviceId?: number;
   vehicleConfigPromise: Promise<Awaited<ReturnType<typeof getVehicleSettings>>>;
+  initialData?: z.infer<typeof ServiceUpdateSchema>;
 };
 
-export function ServiceForm({ vehicleConfigPromise }: ServiceFormProps) {
+export function ServiceForm({
+  vehicleConfigPromise,
+  initialData,
+}: ServiceFormProps) {
   const tr = useTranslation();
   const { data } = React.use(vehicleConfigPromise);
 
-  const form = useForm<z.infer<typeof ServiceCreateSchema>>({
-    resolver: zodResolver(ServiceCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? ServiceUpdateSchema : ServiceCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof ServiceCreateSchema>) {
-    const { isSuccess, error } = await createService(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateService(values) : createService(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success(`${tr("services.service_created_successfully")}`);
+      toast.success(message);
     } else {
-      toast.error(error!.message);
+      toast.error(error?.message);
     }
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{tr("services.new_service")}</CardTitle>
+        <CardTitle>
+          {isEdit ? tr("services.edit_service") : tr("services.new_service")}
+        </CardTitle>
         <CardDescription>{tr("services.create_new_service")}</CardDescription>
       </CardHeader>
       <CardContent>
