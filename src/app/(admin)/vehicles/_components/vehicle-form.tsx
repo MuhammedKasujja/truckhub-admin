@@ -57,7 +57,7 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{tr("new_vehicle")}</CardTitle>
+        <CardTitle>{isEdit ? tr("edit_vehicle") : tr("new_vehicle")}</CardTitle>
         <CardDescription>{tr("create_new_vehicle")}</CardDescription>
       </CardHeader>
       <CardContent>
