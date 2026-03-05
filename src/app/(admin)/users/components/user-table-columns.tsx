@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
+import { deleteUserById } from "@/server/users";
 import { SystemUser } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 export function getUserTableColumns(): ColumnDef<SystemUser>[] {
   return [
@@ -36,7 +39,32 @@ export function getUserTableColumns(): ColumnDef<SystemUser>[] {
     {
       id: "actions",
       cell: ({ row }) => {
-        return <Button variant={"outline"}>View</Button>;
+        return (
+          <div className="flex gap-2">
+            <Button variant={"outline"} size={"icon"}>
+              <EyeIcon />
+            </Button>
+            <Button variant={"outline"} size={"icon"}>
+              <EditIcon />
+            </Button>
+            <Button
+              variant={"destructive"}
+              size={"icon"}
+              onClick={async () => {
+                const { isSuccess, error, message } = await deleteUserById(
+                  row.original.id,
+                );
+                if (isSuccess) {
+                  toast.success(message);
+                } else {
+                  toast.error(error?.message);
+                }
+              }}
+            >
+              <Trash2Icon />
+            </Button>
+          </div>
+        );
       },
     },
   ];
