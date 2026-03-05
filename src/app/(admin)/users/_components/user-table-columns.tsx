@@ -5,6 +5,7 @@ import { deleteUserById } from "@/server/users";
 import { SystemUser } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 export function getUserTableColumns(): ColumnDef<SystemUser>[] {
@@ -45,8 +46,10 @@ export function getUserTableColumns(): ColumnDef<SystemUser>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <EditIcon />
+            <Button variant={"outline"} size={"icon"} asChild>
+              <Link href={`/users/${row.original.id}/edit`}>
+                <EditIcon />
+              </Link>
             </Button>
             <ActionButton
               variant={"destructive"}

@@ -15,23 +15,41 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { UserCreateSchema } from "@/schemas/user";
-import { createUser } from "@/server/users";
+import {
+  UserCreateSchema,
+  UserUpdateSchema,
+  UserUpdateSchemaType,
+} from "@/schemas/user";
+import { createUser, updateUser } from "@/server/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-export function UserForm() {
+type UserFormProps = {
+  initialData?: Partial<UserUpdateSchemaType>;
+};
+
+export function UserForm({ initialData }: UserFormProps) {
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? UserUpdateSchema : UserCreateSchema;
+
   const tr = useTranslation();
-  const form = useForm<z.infer<typeof UserCreateSchema>>({
-    resolver: zodResolver(UserCreateSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof UserCreateSchema>) {
-    const { isSuccess, error } = await createUser(values);
+  async function handleSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values
+        ? updateUser(initialData!.id!, values)
+        : createUser(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success(`${tr("user_created_successfully")}`);
+      toast.success(message);
     } else {
       toast.error(error!.message);
     }
@@ -40,13 +58,13 @@ export function UserForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{tr("new_user")}</CardTitle>
+        <CardTitle>{isEdit ? tr("edit_user") : tr("new_user")}</CardTitle>
         <CardDescription>{tr("create_user_help")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form
           className="p-6 md:p-8"
-          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          onSubmit={form.handleSubmit(handleSubmit, (errors) => {
             console.log(errors);
           })}
         >
@@ -73,11 +91,13 @@ export function UserForm() {
               control={form.control}
               placeholder="user@mail.com"
             />
-            <PasswordField
-              label={tr("common.form.password")}
-              name={"password"}
-              control={form.control}
-            />
+            {!isEdit && (
+              <PasswordField
+                label={tr("common.form.password")}
+                name={"password"}
+                control={form.control}
+              />
+            )}
             <CardFooter>
               <Button type="submit">{tr("common.form.submit")}</Button>
             </CardFooter>

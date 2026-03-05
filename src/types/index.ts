@@ -35,3 +35,6 @@ export type ApiResponse<T = unknown> = {
     code: string | undefined;
   };
 };
+
+
+export type EntityId = string | number
