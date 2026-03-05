@@ -1,3 +1,4 @@
+import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
 import { deleteUserById } from "@/server/users";
@@ -47,22 +48,24 @@ export function getUserTableColumns(): ColumnDef<SystemUser>[] {
             <Button variant={"outline"} size={"icon"}>
               <EditIcon />
             </Button>
-            <Button
+            <ActionButton
               variant={"destructive"}
               size={"icon"}
-              onClick={async () => {
+              requireAreYouSure
+              action={async () => {
                 const { isSuccess, error, message } = await deleteUserById(
                   row.original.id,
                 );
                 if (isSuccess) {
                   toast.success(message);
+                  return { error: false };
                 } else {
-                  toast.error(error?.message);
+                  return { error: true, message: error?.message };
                 }
               }}
             >
               <Trash2Icon />
-            </Button>
+            </ActionButton>
           </div>
         );
       },
