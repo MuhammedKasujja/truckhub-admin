@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/field'
 import React from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../input-group'
+import { RequiredLabelIcon } from '@/components/required-label-icon'
 
 type PasswordFieldProps<F extends FieldValues> = {
   label?: string
@@ -38,11 +39,7 @@ export function PasswordField<T extends FieldValues>({
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name}>
             {label}
-            {required && (
-              <AsteriskIcon
-                className={cn('text-destructive inline size-2.5 align-top')}
-              />
-            )}
+            {required && <RequiredLabelIcon />}
           </FieldLabel>
           <InputGroup>
             <InputGroupInput

@@ -8,6 +8,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field'
 import { Textarea } from '../textarea'
+import { RequiredLabelIcon } from '@/components/required-label-icon'
 
 type TextareaFieldProps<F extends FieldValues> = {
   label?: string
@@ -34,11 +35,7 @@ export function TextareaField<T extends FieldValues>({
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name}>
             {label}
-            {required && (
-              <AsteriskIcon
-                className={cn('text-destructive inline size-2.5 align-top')}
-              />
-            )}
+            {required && <RequiredLabelIcon />}
           </FieldLabel>
           <Textarea
             {...field}

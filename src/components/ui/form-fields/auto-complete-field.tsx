@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/popover'
 import { Field, FieldDescription, FieldError, FieldLabel } from '../field'
 import React from 'react'
+import { RequiredLabelIcon } from '@/components/required-label-icon'
 
 type Option = { label: string; value: string | number }
 
@@ -56,11 +57,8 @@ export function AutoCompleteField<T extends FieldValues>({
           <Field data-invalid={fieldState.invalid} className={className}>
             <FieldLabel htmlFor={field.name}>
               {label}
-              {required && (
-                <AsteriskIcon className="text-destructive inline size-2.5 align-top ml-0.5" />
-              )}
+              {required && <RequiredLabelIcon />}
             </FieldLabel>
-
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button

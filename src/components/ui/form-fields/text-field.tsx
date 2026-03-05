@@ -8,6 +8,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { RequiredLabelIcon } from '@/components/required-label-icon'
 
 export type InputType = 'text' | 'number' | 'email' | 'url' | 'phone'
 
@@ -38,11 +39,7 @@ export function TextField<T extends FieldValues>({
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name}>
             {label}
-            {required && (
-              <AsteriskIcon
-                className={cn('text-destructive inline size-2.5 align-top')}
-              />
-            )}
+            {required && <RequiredLabelIcon />}
           </FieldLabel>
           <Input
             {...field}
