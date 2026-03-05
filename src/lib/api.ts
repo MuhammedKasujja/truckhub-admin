@@ -71,7 +71,8 @@ api.interceptors.response.use(
         },
       });
     }
-    if (error.status === 404) {
+    // This handles when the API endpoint is Not Found
+    if (error.status === 404 && !(error.response?.data as any).error) {
       if (process.env.NODE_ENV === "development") {
         console.error({
           "`ENDPOINT_NOT_FOUND`": error.request.path,
