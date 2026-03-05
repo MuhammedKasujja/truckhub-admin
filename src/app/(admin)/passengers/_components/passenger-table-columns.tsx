@@ -5,6 +5,7 @@ import { deletePassengerById } from "@/server/passengers";
 import { Passenger } from "@/types/passenger";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 export function getPassengerTableColumns(): ColumnDef<Passenger>[] {
@@ -45,8 +46,10 @@ export function getPassengerTableColumns(): ColumnDef<Passenger>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <EditIcon />
+            <Button variant={"outline"} size={"icon"} asChild>
+              <Link href={`/passengers/${row.original.id}/edit`}>
+                <EditIcon />
+              </Link>
             </Button>
             <ActionButton
               variant={"destructive"}

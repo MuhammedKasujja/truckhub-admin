@@ -1,6 +1,8 @@
 export type Passenger = {
   id: number;
   fullname: string;
+  first_name: string
+  last_name: string
   user_name: string | undefined;
   phone: string;
   email: string;

@@ -1,5 +1,5 @@
-import { PassengerForm } from "../components/passenger-form";
+import { PassengerForm } from "../_components/passenger-form";
 
 export default function CreatePassengerPage() {
-    return <PassengerForm/>
+  return <PassengerForm />;
 }

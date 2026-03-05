@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import {
   PassengerTable,
   PassengerTableSkeleton,
-} from "./components/passenger-table";
+} from "./_components/passenger-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { PassengerSearchParamsCache } from "@/schemas/passenger";
 

@@ -15,35 +15,48 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { PassengerCreateSchema } from "@/schemas/passenger";
-import { createPassenger } from "@/server/passengers";
+import {
+  PassengerCreateSchema,
+  PassengerUpdateSchema,
+} from "@/schemas/passenger";
+import { createPassenger, updatePassenger } from "@/server/passengers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-export function PassengerForm() {
+type ClientFormProps = {
+  initialData?: z.infer<typeof PassengerUpdateSchema>;
+};
+
+export function PassengerForm({ initialData }: ClientFormProps) {
   const tr = useTranslation();
-  const form = useForm<z.infer<typeof PassengerCreateSchema>>({
-    resolver: zodResolver(PassengerCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? PassengerUpdateSchema : PassengerCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof PassengerCreateSchema>) {
-    const { isSuccess, error } = await createPassenger(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updatePassenger(values) : createPassenger(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Passenger created successfully");
+      toast.success(message);
     } else {
-      toast.error(error!.message);
+      toast.error(error?.message);
     }
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New Passenger</CardTitle>
-        <CardDescription>
-          Create new passenger
-        </CardDescription>
+        <CardTitle>{isEdit ? "Edit Client details" : "New Client"}</CardTitle>
+        <CardDescription>Create new client</CardDescription>
       </CardHeader>
       <CardContent>
         <form
@@ -75,15 +88,15 @@ export function PassengerForm() {
               control={form.control}
               placeholder="user@mail.com"
             />
-            <PasswordField
-              label={tr("common.form.password")}
-              name={"password"}
-              control={form.control}
-            />
+            {!isEdit && (
+              <PasswordField
+                label={tr("common.form.password")}
+                name={"password"}
+                control={form.control}
+              />
+            )}
             <CardFooter>
-              <Button type="submit">
-                {tr("common.form.submit")}
-              </Button>
+              <Button type="submit">{tr("common.form.submit")}</Button>
             </CardFooter>
           </FieldGroup>
         </form>
