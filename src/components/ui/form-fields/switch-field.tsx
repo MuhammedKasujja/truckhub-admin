@@ -3,9 +3,8 @@ import {
   FieldContent,
   FieldDescription,
   FieldLabel,
+  FieldTitle,
 } from "@/components/ui/field";
-import { cn } from "@/lib/utils";
-import { AsteriskIcon } from "lucide-react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 import { Switch } from "@/components/ui/switch";
 
@@ -29,25 +28,27 @@ export function SwitchField<T extends FieldValues>({
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field orientation="horizontal" data-invalid={fieldState.invalid}>
-          <FieldContent>
-            <FieldLabel htmlFor={field.name}>
-              {label}
+        <FieldLabel htmlFor={field.name}>
+          <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+            <FieldContent>
+              <FieldTitle>{label}</FieldTitle>
               {/* {required && (
                 <AsteriskIcon
                   className={cn("text-destructive inline size-2.5 align-top")}
                 />
               )} */}
-            </FieldLabel>
-            {description && <FieldDescription>{description}</FieldDescription>}
-          </FieldContent>
-          <Switch
-            {...field}
-            id={field.name}
-            aria-invalid={fieldState.invalid}
-          />
-          {/* {fieldState.invalid && <FieldError errors={[fieldState.error]} />} */}
-        </Field>
+              {description && (
+                <FieldDescription>{description}</FieldDescription>
+              )}
+              {/* {fieldState.invalid && <FieldError errors={[fieldState.error]} />} */}
+            </FieldContent>
+            <Switch
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+            />
+          </Field>
+        </FieldLabel>
       )}
     />
   );

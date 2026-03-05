@@ -10,7 +10,7 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
   return (
     <form {...props} className="flex w-full max-w-xs flex-col gap-6">
       <InputGroup>
-        <InputGroupInput placeholder="Search..."/>
+        <InputGroupInput placeholder={`${tr("search")}...`} />
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
