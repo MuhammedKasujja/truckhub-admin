@@ -15,9 +15,9 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { VehicleCreateSchema } from "@/schemas/vehicle";
+import { VehicleCreateSchema, VehicleUpdateSchema } from "@/schemas/vehicle";
 import { getVehicleSettings } from "@/server/settings";
-import { createVehicle } from "@/server/vehicles";
+import { createVehicle, updateVehicle } from "@/server/vehicles";
 import { EngineTypes, Gearboxes } from "@/types/vehicle";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
@@ -27,21 +27,30 @@ import z from "zod";
 
 type VehicleFormProps = {
   configPromises: Promise<[Awaited<ReturnType<typeof getVehicleSettings>>]>;
+  initialData?: z.infer<typeof VehicleUpdateSchema>;
 };
 
-export function VehicleForm({ configPromises }: VehicleFormProps) {
+export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
   const tr = useTranslation();
   const [{ data: vehicleCofig }] = React.use(configPromises);
-  const form = useForm<z.infer<typeof VehicleCreateSchema>>({
-    resolver: zodResolver(VehicleCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? VehicleUpdateSchema : VehicleCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof VehicleCreateSchema>) {
-    const { isSuccess, error } = await createVehicle(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateVehicle(values) : createVehicle(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success(`${tr("vehicle_created_successfully")}`);
+      toast.success(message);
     } else {
-      toast.error(error!.message);
+      toast.error(error?.message);
     }
   }
 

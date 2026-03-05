@@ -1,5 +1,5 @@
 import { getVehicles } from "@/server/vehicles";
-import { VehicleTable, VehicleTableSkeleton } from "./components/vehicle-table";
+import { VehicleTable, VehicleTableSkeleton } from "./_components/vehicle-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { VehicleSearchParamsCache } from "@/schemas/vehicle";
 import { Suspense } from "react";
