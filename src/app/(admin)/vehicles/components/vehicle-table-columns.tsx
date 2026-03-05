@@ -1,7 +1,11 @@
+import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
+import { deleteVehicleById } from "@/server/vehicles";
 import { Vehicle } from "@/types/vehicle";
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
   return [
@@ -58,7 +62,34 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
     {
       id: "actions",
       cell: ({ row }) => {
-        return <Button variant={"outline"}>View</Button>;
+        return (
+          <div className="flex gap-2">
+            <Button variant={"outline"} size={"icon"}>
+              <EyeIcon />
+            </Button>
+            <Button variant={"outline"} size={"icon"}>
+              <EditIcon />
+            </Button>
+            <ActionButton
+              variant={"destructive"}
+              size={"icon"}
+              requireAreYouSure
+              action={async () => {
+                const { isSuccess, error, message } = await deleteVehicleById(
+                  row.original.id,
+                );
+                if (isSuccess) {
+                  toast.success(message);
+                  return { error: false };
+                } else {
+                  return { error: true, message: error?.message };
+                }
+              }}
+            >
+              <Trash2Icon />
+            </ActionButton>
+          </div>
+        );
       },
     },
   ];

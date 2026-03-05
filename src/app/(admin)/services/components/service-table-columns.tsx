@@ -1,6 +1,10 @@
+import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
+import { deleteServiceById } from "@/server/services";
 import { Service } from "@/types/service";
 import { ColumnDef } from "@tanstack/react-table";
+import { EyeIcon, EditIcon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 export function getServiceTableColumns(): ColumnDef<Service>[] {
   return [
@@ -28,7 +32,34 @@ export function getServiceTableColumns(): ColumnDef<Service>[] {
     {
       id: "actions",
       cell: ({ row }) => {
-        return <Button variant={"outline"}>View</Button>;
+        return (
+          <div className="flex gap-2">
+            <Button variant={"outline"} size={"icon"}>
+              <EyeIcon />
+            </Button>
+            <Button variant={"outline"} size={"icon"}>
+              <EditIcon />
+            </Button>
+            <ActionButton
+              variant={"destructive"}
+              size={"icon"}
+              requireAreYouSure
+              action={async () => {
+                const { isSuccess, error, message } = await deleteServiceById(
+                  row.original.id,
+                );
+                if (isSuccess) {
+                  toast.success(message);
+                  return { error: false };
+                } else {
+                  return { error: true, message: error?.message };
+                }
+              }}
+            >
+              <Trash2Icon />
+            </ActionButton>
+          </div>
+        );
       },
     },
   ];
