@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Tonnage } from "@/types/tonnage";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
+import { TonnageForm } from "./tonnage-form";
 
 export function getTonnageColumns(): ColumnDef<Tonnage>[] {
   return [
@@ -34,9 +35,14 @@ export function getTonnageColumns(): ColumnDef<Tonnage>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <EditIcon />
-            </Button>
+            <TonnageForm
+              initialData={{ ...row.original }}
+              trigger={
+                <Button variant={"outline"} size={"icon"}>
+                  <EditIcon />
+                </Button>
+              }
+            />
           </div>
         );
       },

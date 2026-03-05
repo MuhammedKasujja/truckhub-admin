@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { DriveTrain } from "@/types/drive-train";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
+import { DriveTrainForm } from "./drive-train-form";
 
 export function getDriveTrainColumns(): ColumnDef<DriveTrain>[] {
   return [
@@ -24,7 +25,9 @@ export function getDriveTrainColumns(): ColumnDef<DriveTrain>[] {
       accessorKey: "is_truck",
       header: "Truck",
       cell: ({ row }) => {
-        return <p>{row.original.is_truck && <Badge variant={"secondary"}/>}</p>;
+        return (
+          <p>{row.original.is_truck && <Badge variant={"secondary"} />}</p>
+        );
       },
     },
     {
@@ -35,9 +38,14 @@ export function getDriveTrainColumns(): ColumnDef<DriveTrain>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <EditIcon />
-            </Button>
+            <DriveTrainForm
+              initialData={{ ...row.original }}
+              trigger={
+                <Button variant={"outline"} size={"icon"}>
+                  <EditIcon />
+                </Button>
+              }
+            />
           </div>
         );
       },

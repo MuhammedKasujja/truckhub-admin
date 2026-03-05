@@ -15,22 +15,37 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { DriveTrainCreateSchema } from "@/schemas/drive-train";
-import { createDriveTrain } from "@/server/drive-trains";
+import {
+  DriveTrainCreateSchema,
+  DriveTrainUpdateSchema,
+} from "@/schemas/drive-train";
+import { createDriveTrain, updateDriveTrain } from "@/server/drive-trains";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 
-export function DriveTrainForm({ trigger }: { trigger?: React.ReactNode }) {
+type Props = {
+  trigger?: React.ReactNode;
+  initialData?: z.infer<typeof DriveTrainUpdateSchema>;
+};
+
+export function DriveTrainForm({ trigger, initialData }: Props) {
   const [open, setOpen] = React.useState(false);
-  const form = useForm<z.infer<typeof DriveTrainCreateSchema>>({
-    resolver: zodResolver(DriveTrainCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? DriveTrainUpdateSchema : DriveTrainCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof DriveTrainCreateSchema>) {
-    const { isSuccess, error } = await createDriveTrain(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateDriveTrain(values) : createDriveTrain(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Drive train added successfully");
-      setOpen(false);
+      toast.success(message);
     } else {
       toast.error(error?.message);
     }

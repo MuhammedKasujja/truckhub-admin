@@ -15,8 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { TonnageCreateSchema } from "@/schemas/tonnage";
-import { createTonnage } from "@/server/tonnages";
+import { TonnageCreateSchema, TonnageUpdateSchema } from "@/schemas/tonnage";
+import { createTonnage, updateTonnage } from "@/server/tonnages";
 import { NumberField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 import { FieldGroup } from "@/components/ui/field";
@@ -24,20 +24,28 @@ import { useTranslation } from "@/i18n";
 
 type TonnageFormProps = {
   trigger?: React.ReactNode;
+  initialData?: z.infer<typeof TonnageUpdateSchema>;
 };
 
-export function TonnageForm({ trigger }: TonnageFormProps) {
+export function TonnageForm({ trigger, initialData }: TonnageFormProps) {
   const tr = useTranslation();
   const [open, setOpen] = React.useState(false);
-  const form = useForm<z.infer<typeof TonnageCreateSchema>>({
-    resolver: zodResolver(TonnageCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? TonnageUpdateSchema : TonnageCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof TonnageCreateSchema>) {
-    const { isSuccess, error } = await createTonnage(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateTonnage(values) : createTonnage(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Tonnage added successfully");
-      setOpen(false);
+      toast.success(message);
     } else {
       toast.error(error?.message);
     }
@@ -60,7 +68,7 @@ export function TonnageForm({ trigger }: TonnageFormProps) {
               <Button variant={"outline"} size={"icon"} type="button">
                 <PlusIcon />
               </Button>
-              Tonnage
+              {isEdit ? "Edit Tonnage" : "Tonnage"}
             </DialogTitle>
             <DialogDescription>Create new truck tonnage</DialogDescription>
           </DialogHeader>

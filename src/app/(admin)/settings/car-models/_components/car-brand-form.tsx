@@ -15,8 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { CarModelCreateSchema } from "@/schemas/car-model";
-import { createCarModel } from "@/server/car-models";
+import { CarModelCreateSchema, CarModelUpdateSchemaType, CarModelUpdateSchema } from "@/schemas/car-model";
+import { createCarModel, updateCarModel } from "@/server/car-models";
 import { AutoCompleteField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 import { FieldGroup } from "@/components/ui/field";
@@ -26,23 +26,32 @@ import { VehicleConfigurations } from "@/types/setting";
 type CarModelFormProps = {
   vehicleConfigurations: VehicleConfigurations | undefined;
   trigger?: React.ReactNode;
+  initialData?: CarModelUpdateSchemaType;
 };
 
 export function CarModelForm({
   trigger,
   vehicleConfigurations,
+  initialData,
 }: CarModelFormProps) {
   const tr = useTranslation();
   const [open, setOpen] = React.useState(false);
-  const form = useForm<z.infer<typeof CarModelCreateSchema>>({
-    resolver: zodResolver(CarModelCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? CarModelUpdateSchema : CarModelCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof CarModelCreateSchema>) {
-    const { isSuccess, error } = await createCarModel(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateCarModel(values) : createCarModel(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Car model added successfully");
-      setOpen(false);
+      toast.success(message);
     } else {
       toast.error(error?.message);
     }

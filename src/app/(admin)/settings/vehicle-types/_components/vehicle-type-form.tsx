@@ -15,22 +15,39 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { VehicleTypeCreateSchema } from "@/schemas/vehicle-type";
-import { createVehicleType } from "@/server/vehicle-types";
+import {
+  VehicleTypeCreateSchema,
+  VehicleTypeUpdateSchemaType,
+} from "@/schemas/vehicle-type";
+import { createVehicleType, updateVehicleType } from "@/server/vehicle-types";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
+import { VehicleUpdateSchema } from "@/schemas/vehicle";
 
-export function VehicleTypeForm({ trigger }: { trigger?: React.ReactNode }) {
+type Props = {
+  trigger?: React.ReactNode;
+  initialData?: VehicleTypeUpdateSchemaType;
+};
+
+export function VehicleTypeForm({ trigger, initialData }: Props) {
   const [open, setOpen] = React.useState(false);
-  const form = useForm<z.infer<typeof VehicleTypeCreateSchema>>({
-    resolver: zodResolver(VehicleTypeCreateSchema),
+
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? VehicleUpdateSchema : VehicleTypeCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof VehicleTypeCreateSchema>) {
-    const { isSuccess, error } = await createVehicleType(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateVehicleType(values) : createVehicleType(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Vehicle type added successfully");
-      setOpen(false);
+      toast.success(message);
     } else {
       toast.error(error?.message);
     }

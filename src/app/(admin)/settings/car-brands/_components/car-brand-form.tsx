@@ -15,22 +15,38 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { CarBrandCreateSchema } from "@/schemas/car-brand";
-import { createCarBrand } from "@/server/car-brands";
+import {
+  CarBrandCreateSchema,
+  CarBrandUpdateSchema,
+  CarBrandUpdateSchemaType,
+} from "@/schemas/car-brand";
+import { createCarBrand, updateCarBrand } from "@/server/car-brands";
 import { TextField } from "@/components/ui/form-fields";
 import React from "react";
 
-export function CarBrandForm({ trigger }: { trigger?: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false)
-  const form = useForm<z.infer<typeof CarBrandCreateSchema>>({
-    resolver: zodResolver(CarBrandCreateSchema),
+type Props = {
+  trigger?: React.ReactNode;
+  initialData?: CarBrandUpdateSchemaType;
+};
+
+export function CarBrandForm({ trigger, initialData }: Props) {
+  const [open, setOpen] = React.useState(false);
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? CarBrandUpdateSchema : CarBrandCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof CarBrandCreateSchema>) {
-    const { isSuccess, error } = await createCarBrand(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateCarBrand(values) : createCarBrand(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Car brand added successfully");
-      setOpen(false)
+      toast.success(message);
     } else {
       toast.error(error?.message);
     }
@@ -49,7 +65,9 @@ export function CarBrandForm({ trigger }: { trigger?: React.ReactNode }) {
       <DialogContent className="sm:max-w-md">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>Add Car Brand</DialogTitle>
+            <DialogTitle>
+              {isEdit ? "Edit Car Brand" : "Add Car Brand"}
+            </DialogTitle>
             <DialogDescription>Create new car brand</DialogDescription>
           </DialogHeader>
           <div className="flex items-center gap-2">

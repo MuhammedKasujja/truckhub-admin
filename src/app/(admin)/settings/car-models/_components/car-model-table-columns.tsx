@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { CarModel } from "@/types/car-model";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
+import { CarModelForm } from "./car-brand-form";
 
 export function getCarModelColumns(): ColumnDef<CarModel>[] {
   return [
@@ -27,9 +28,14 @@ export function getCarModelColumns(): ColumnDef<CarModel>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
+            {/* <CarModelForm
+              initialData={{ ...row.original }}
+              trigger={ */}
             <Button variant={"outline"} size={"icon"}>
               <EditIcon />
             </Button>
+            {/* }
+            /> */}
           </div>
         );
       },
