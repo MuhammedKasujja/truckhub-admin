@@ -106,7 +106,7 @@ export function VehicleForm({ configPromises }: VehicleFormProps) {
                   value: opt,
                 }))}
               />
-              <NumberField
+              <TextField
                 label={tr("common.year")}
                 name={"year"}
                 control={form.control}
@@ -180,7 +180,7 @@ export function VehicleForm({ configPromises }: VehicleFormProps) {
                 options={
                   vehicleCofig?.truck_tonnages.map((opt) => ({
                     label: `${opt.tonnage_min} - ${opt.tonnage_max}`,
-                    value: opt.tonnage,
+                    value: opt.id,
                   })) ?? []
                 }
               />

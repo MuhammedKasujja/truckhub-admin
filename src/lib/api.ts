@@ -32,13 +32,26 @@ api.interceptors.response.use(
   (response) => {
     if (process.env.NODE_ENV === "development") {
       console.log("\nApi **************", response.config.url);
-      console.log(response.data);
+      console.dir(response.data, { depth: null, colors: true });
     }
     return response;
   },
   async (error: AxiosError) => {
     if (process.env.NODE_ENV === "development") {
-      console.error("ApiError.....", error);
+      console.log(
+        `\nApiError **************************************** ${(error as any).request.path} [ ${(error as any).request.method} ]\n`,
+      );
+      console.dir(
+        {
+          ErrorCode: error.code,
+          Response: error.response?.data,
+          Status: error.response?.status,
+        },
+        { depth: null, colors: true },
+      );
+      console.log(
+        "\n*******************************************************************************",
+      );
     }
     if (
       error.code === "ECONNREFUSED" ||

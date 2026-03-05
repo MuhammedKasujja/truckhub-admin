@@ -17,6 +17,7 @@ export const VehicleCreateSchema = z.object({
   tank_capacity: z.number(),
   engine_type: z.enum(EngineTypes),
   gearbox: z.enum(Gearboxes),
+  // year: z.number().min(2010).max((new Date()).getFullYear()),
   year: z.string(),
   seats: z.number().optional(),
   vehicle_type_id: z.number(),
