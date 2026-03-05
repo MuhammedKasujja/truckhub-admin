@@ -15,35 +15,45 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { DriverCreateSchema } from "@/schemas/driver";
-import { createDriver } from "@/server/drivers";
+import { DriverCreateSchema, DriverUpdateSchema } from "@/schemas/driver";
+import { createDriver, updateDriver } from "@/server/drivers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-export function DriverForm() {
+type DriverFormProps = {
+  initialData?: z.infer<typeof DriverUpdateSchema>;
+};
+
+export function DriverForm({ initialData }: DriverFormProps) {
   const tr = useTranslation();
-  const form = useForm<z.infer<typeof DriverCreateSchema>>({
-    resolver: zodResolver(DriverCreateSchema),
+  const isEdit = !!initialData;
+
+  const formSchema = isEdit ? DriverUpdateSchema : DriverCreateSchema;
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof DriverCreateSchema>) {
-    const { isSuccess, error } = await createDriver(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const promise =
+      "id" in values ? updateDriver(values) : createDriver(values);
+
+    const { isSuccess, error, message } = await promise;
     if (isSuccess) {
-      toast.success("Driver created successfully");
+      toast.success(message);
     } else {
-      toast.error(error!.message);
+      toast.error(error?.message);
     }
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New Driver</CardTitle>
-        <CardDescription>
-          Create new driver
-        </CardDescription>
+        <CardTitle>{isEdit ? "Edit Driver details" : "New Driver"}</CardTitle>
+        <CardDescription>Create new driver</CardDescription>
       </CardHeader>
       <CardContent>
         <form
@@ -75,15 +85,15 @@ export function DriverForm() {
               control={form.control}
               placeholder="user@mail.com"
             />
-            <PasswordField
-              label={tr("common.form.password")}
-              name={"password"}
-              control={form.control}
-            />
+            {!isEdit && (
+              <PasswordField
+                label={tr("common.form.password")}
+                name={"password"}
+                control={form.control}
+              />
+            )}
             <CardFooter>
-              <Button type="submit">
-                {tr("common.form.submit")}
-              </Button>
+              <Button type="submit">{tr("common.form.submit")}</Button>
             </CardFooter>
           </FieldGroup>
         </form>

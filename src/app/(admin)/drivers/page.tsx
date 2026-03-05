@@ -1,6 +1,6 @@
 import { getDrivers } from "@/server/drivers";
 import { Suspense } from "react";
-import { DriverTable, DriverTableSkeleton } from "./components/driver-table";
+import { DriverTable, DriverTableSkeleton } from "./_components/driver-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { DriverSearchParamsCache } from "@/schemas/driver";
 

@@ -1,4 +1,4 @@
-import { DriverForm } from "../components/driver-form";
+import { DriverForm } from "../_components/driver-form";
 
 export default function CreateDriverPage() {
   return <DriverForm />;

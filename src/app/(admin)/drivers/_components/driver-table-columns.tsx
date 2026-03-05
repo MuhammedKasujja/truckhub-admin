@@ -5,6 +5,7 @@ import { deleteDriverById } from "@/server/drivers";
 import { Driver } from "@/types/driver";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 export function getDriverTableColumns(): ColumnDef<Driver>[] {
@@ -45,8 +46,10 @@ export function getDriverTableColumns(): ColumnDef<Driver>[] {
             <Button variant={"outline"} size={"icon"}>
               <EyeIcon />
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <EditIcon />
+            <Button variant={"outline"} size={"icon"} asChild>
+              <Link href={`/drivers/${row.original.id}/edit`}>
+                <EditIcon />
+              </Link>
             </Button>
             <ActionButton
               variant={"destructive"}
