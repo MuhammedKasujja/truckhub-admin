@@ -1,4 +1,5 @@
 import pino from "pino";
+import { color, colorize } from "json-colorizer";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -11,11 +12,11 @@ export const logger = pino({
         options: {
           colorize: true,
           colorizeObjects: true,
-          translateTime: 'SYS:yyyy-mm-dd HH:MM:ss',
-          ignore: 'pid,hostname',
-          singleLine: false,             // keep objects multi-line
-          levelFirst: true,              // [ERROR] instead of level number
-          messageFormat: true
+          translateTime: "SYS:yyyy-mm-dd HH:MM:ss",
+          ignore: "pid,hostname",
+          singleLine: false, // keep objects multi-line
+          levelFirst: true, // [ERROR] instead of level number
+          messageFormat: true,
           // Optional but nice for errors
           // errorProps: '*,err,ErrorCode,Response,Status',
         },
@@ -30,3 +31,19 @@ export const logger = pino({
     "refreshToken",
   ],
 });
+
+export const jsonFormatter = (json: string | object) =>
+  colorize(json, {
+    colors: {
+      StringLiteral: color.green,
+      BooleanLiteral: color.yellow,
+      StringKey: color.bold,
+      NullLiteral: color.gray,
+      NumberLiteral: color.yellow,
+      Comma: color.gray,
+      Brace: color.gray,
+      Colon: color.gray,
+      Bracket: color.gray,
+      Whitespace: color.gray,
+    },
+  });

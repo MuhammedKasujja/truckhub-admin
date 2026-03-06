@@ -1,6 +1,5 @@
-import { logger } from "@/lib/logger";
-import { colorize } from "json-colorizer";
 import { getAccessToken } from "@/lib/session";
+import { jsonFormatter, logger } from "@/lib/logger";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const api = axios.create({
@@ -25,7 +24,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    // console.error("Error.....", error);
+    // logger.error(error);
     return Promise.reject(error);
   },
 );
@@ -34,7 +33,7 @@ api.interceptors.response.use(
   (response) => {
     if (process.env.NODE_ENV === "development") {
       logger.info(`Api ************** ${response.config.url}`);
-      logger.debug(colorize(response.data));
+      logger.debug(jsonFormatter(response.data));
     }
     return response;
   },
@@ -44,7 +43,7 @@ api.interceptors.response.use(
         `Endpoint  ${(error as any).request.path} [ ${(error as any).request.method} ]\n`,
       );
       logger.error(
-        colorize({
+        jsonFormatter({
           ErrorCode: error.code,
           Response: error.response?.data,
           Status: error.response?.status,
@@ -72,10 +71,12 @@ api.interceptors.response.use(
     // This handles when the API endpoint is Not Found
     if (error.status === 404 && !(error.response?.data as any).error) {
       if (process.env.NODE_ENV === "development") {
-        console.error({
-          "`ENDPOINT_NOT_FOUND`": error.request.path,
-          Method: error.request.method,
-        });
+        logger.error(
+          jsonFormatter({
+            "`ENDPOINT_NOT_FOUND`": error.request.path,
+            Method: error.request.method,
+          }),
+        );
       }
       return Promise.reject({
         ...error,
@@ -107,7 +108,7 @@ api.interceptors.response.use(
 
       //   window.location.href = "/login?session=expired";
       // } catch (error) {
-      //   console.log("LOGOUT FAILED", error);
+      //   logger.info("LOGOUT FAILED", error);
       // }
     }
     return Promise.reject(error);
