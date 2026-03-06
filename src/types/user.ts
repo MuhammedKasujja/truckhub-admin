@@ -10,6 +10,3 @@ export type SystemUser = {
   updated_at: string;
 };
 
-export type UserListResponse = {
-  users: SystemUser[];
-};

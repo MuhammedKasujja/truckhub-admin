@@ -1,3 +1,4 @@
+import qs from "qs";
 import type { ParserMap } from "nuqs/server";
 import { getValidFilters } from "@/lib/data-table";
 import { createSearchParamsCache } from "nuqs/server";
@@ -25,3 +26,12 @@ export async function generatePageSearchParams<Parsers extends ParserMap>(
     filters,
   };
 }
+
+export const generateApiSearchParams = (input: Record<string, unknown>) => {
+  return qs.stringify(input, {
+    arrayFormat: "repeat", // or 'comma' / 'brackets'
+    skipNulls: true,
+    encode: true,
+    allowDots: true, // uncomment if your API prefers dots
+  });
+};

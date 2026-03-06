@@ -1,27 +1,29 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { SystemUser, UserListResponse } from "@/types/user";
+import { SystemUser } from "@/types/user";
 import {
   UserCreateSchemaType,
   UserListSearchParams,
   UserUpdateSchemaType,
 } from "@/schemas/user";
 import { EntityId } from "@/types";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getUsers(input: UserListSearchParams) {
-  const { page, perPage, search } = input;
-  const query = `?page=${page}&perPage=${perPage}&search=${search}`;
+  const { page, perPage } = input;
+
+  const params = generateApiSearchParams(input);
 
   const {
     data,
     isSuccess,
     pagination: paginator,
-  } = await apiClient.get<UserListResponse>(`/v1/users/${query}`);
+  } = await apiClient.get<SystemUser[]>(`/v1/users/?${params}`);
 
   const pagination = paginator ?? { page, perPage, pages: 0, total: 0 };
 
-  return { data: isSuccess ? data : [], pagination };
+  return { data: isSuccess ? data! : [], pagination };
 }
 
 export async function getUserById(userId: EntityId) {
