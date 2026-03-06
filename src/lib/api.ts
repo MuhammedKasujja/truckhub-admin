@@ -71,12 +71,7 @@ api.interceptors.response.use(
     // This handles when the API endpoint is Not Found
     if (error.status === 404 && !(error.response?.data as any).error) {
       if (process.env.NODE_ENV === "development") {
-        logger.error(
-          jsonFormatter({
-            "`ENDPOINT_NOT_FOUND`": error.request.path,
-            Method: error.request.method,
-          }),
-        );
+        logger.error(`${error.request.method} ${error.request.path} 404 - NOT FOUND`);
       }
       return Promise.reject({
         ...error,

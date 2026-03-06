@@ -1,34 +1,34 @@
 import {
-  type ColumnFiltersState,
-  getCoreRowModel,
-  getFacetedMinMaxValues,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type PaginationState,
-  type RowSelectionState,
-  type SortingState,
-  type TableOptions,
-  type TableState,
   type Updater,
   useReactTable,
+  getCoreRowModel,
+  type TableState,
+  getSortedRowModel,
+  type SortingState,
+  type TableOptions,
+  getFacetedRowModel,
+  getFilteredRowModel,
+  type PaginationState,
   type VisibilityState,
+  getPaginationRowModel,
+  getFacetedMinMaxValues,
+  getFacetedUniqueValues,
+  type RowSelectionState,
+  type ColumnFiltersState,
 } from "@tanstack/react-table";
 import {
+  parseAsString,
+  useQueryState,
   parseAsArrayOf,
   parseAsInteger,
-  parseAsString,
+  useQueryStates,
   type SingleParser,
   type UseQueryStateOptions,
-  useQueryState,
-  useQueryStates,
 } from "nuqs";
 import * as React from "react";
 
-import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { getSortingStateParser } from "@/lib/parsers";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import type { ExtendedColumnSort, QueryKeys } from "@/types/data-table";
 
 const PAGE_KEY = "page";

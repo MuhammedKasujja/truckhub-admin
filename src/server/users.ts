@@ -10,9 +10,18 @@ import {
 import { EntityId } from "@/types";
 
 export async function getUsers(input: UserListSearchParams) {
-  const { data, isSuccess } =
-    await apiClient.get<UserListResponse>("/v1/users");
-  return { data: isSuccess ? data!.users : [] };
+  const { page, perPage, search } = input;
+  const query = `?page=${page}&perPage=${perPage}&search=${search}`;
+
+  const {
+    data,
+    isSuccess,
+    pagination: paginator,
+  } = await apiClient.get<UserListResponse>(`/v1/users/${query}`);
+
+  const pagination = paginator ?? { page, perPage, pages: 0, total: 0 };
+
+  return { data: isSuccess ? data : [], pagination };
 }
 
 export async function getUserById(userId: EntityId) {
@@ -23,7 +32,10 @@ export async function deleteUserById(userId: EntityId) {
   return await apiClient.delete(`/v1/users/${userId}`);
 }
 
-export async function updateUser(userId: EntityId, data: Partial<UserUpdateSchemaType>) {
+export async function updateUser(
+  userId: EntityId,
+  data: Partial<UserUpdateSchemaType>,
+) {
   return await apiClient.patch(`/v1/users/${userId}`, data);
 }
 

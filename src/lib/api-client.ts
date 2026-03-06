@@ -11,6 +11,7 @@ class ApiClient {
         isSuccess: true,
         data: response.data.data,
         message: response.data.message,
+        pagination: response.data.meta,
       };
     } catch (error) {
       if (error instanceof AxiosError && error.status == 401) {

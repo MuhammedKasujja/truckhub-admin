@@ -8,7 +8,7 @@ export const logger = pino({
   timestamp: pino.stdTimeFunctions.isoTime,
   transport: !isProd
     ? {
-        target: "pino-pretty",
+        target: "pino-pretty", // package for formatting logs
         options: {
           colorize: true,
           colorizeObjects: true,
@@ -37,7 +37,7 @@ export const jsonFormatter = (json: string | object) =>
     colors: {
       StringLiteral: color.green,
       BooleanLiteral: color.yellow,
-      StringKey: color.bold,
+      StringKey: color.white,
       NullLiteral: color.gray,
       NumberLiteral: color.yellow,
       Comma: color.gray,

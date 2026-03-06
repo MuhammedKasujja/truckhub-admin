@@ -26,6 +26,13 @@ export type SuccessResponse<T> = {
 };
 
 // export type ApiResponse<T = unknown> = SuccessResponse<T> & ErrorResponse;
+export type Pagination = {
+  total: number;
+  page: number;
+  perPage: number;
+  pages: number;
+};
+
 export type ApiResponse<T = unknown> = {
   isSuccess: boolean;
   data?: T;
@@ -34,7 +41,7 @@ export type ApiResponse<T = unknown> = {
     message: string;
     code: string | undefined;
   };
+  pagination?: Pagination;
 };
 
-
-export type EntityId = string | number
+export type EntityId = string | number;
