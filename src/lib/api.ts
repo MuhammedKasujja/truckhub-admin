@@ -1,4 +1,6 @@
-import { getAccessToken } from "./session";
+import { logger } from "@/lib/logger";
+import { colorize } from "json-colorizer";
+import { getAccessToken } from "@/lib/session";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const api = axios.create({
@@ -31,26 +33,22 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     if (process.env.NODE_ENV === "development") {
-      console.log("\nApi **************", response.config.url);
-      console.dir(response.data, { depth: null, colors: true });
+      logger.info(`Api ************** ${response.config.url}`);
+      logger.debug(colorize(response.data));
     }
     return response;
   },
   async (error: AxiosError) => {
     if (process.env.NODE_ENV === "development") {
-      console.log(
-        `\nApiError **************************************** ${(error as any).request.path} [ ${(error as any).request.method} ]\n`,
+      logger.info(
+        `Endpoint  ${(error as any).request.path} [ ${(error as any).request.method} ]\n`,
       );
-      console.dir(
-        {
+      logger.error(
+        colorize({
           ErrorCode: error.code,
           Response: error.response?.data,
           Status: error.response?.status,
-        },
-        { depth: null, colors: true },
-      );
-      console.log(
-        "\n*******************************************************************************",
+        }),
       );
     }
     if (
@@ -97,7 +95,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // TODO: refresh auth token
       // TODO: clear user session from cookies as this is not allowed to call server actions
-      console.log("Logout user.....");
+      logger.debug("Logging out user.....");
       // const base = typeof window !== 'undefined'
       //   ? window.location.origin
       //   : '';  // fallback – won't be used on server anyway
