@@ -7,9 +7,14 @@ import {
   DriverListSearchParams,
   DriverUpdateSchemaType,
 } from "@/schemas/driver";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getDrivers(input: DriverListSearchParams) {
-  const { isSuccess, data } = await apiClient.get<Driver[]>("/v1/drivers");
+  const params = generateApiSearchParams(input);
+
+  const { data, isSuccess } = await apiClient.get<Driver[]>(
+    `/v1/drivers/?${params}`,
+  );
   return { data: isSuccess ? data! : [] };
 }
 

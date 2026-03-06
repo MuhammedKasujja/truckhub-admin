@@ -7,9 +7,14 @@ import {
   TripListSearchParams,
   TripUpdateSchemaType,
 } from "@/schemas/trip";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getTrips(input: TripListSearchParams) {
-  const { data, isSuccess } = await apiClient.get<Trip[]>("/v1/trips");
+  const params = generateApiSearchParams(input);
+
+  const { data, isSuccess } = await apiClient.get<Trip[]>(
+    `/v1/trips/?${params}`,
+  );
   return { data: isSuccess ? data! : [] };
 }
 

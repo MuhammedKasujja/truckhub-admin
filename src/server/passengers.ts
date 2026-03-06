@@ -7,10 +7,14 @@ import {
   PassengerListSearchParams,
   PassengerUpdateSchemaType,
 } from "@/schemas/passenger";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getPassengers(input: PassengerListSearchParams) {
-  const { data, isSuccess } =
-    await apiClient.get<Passenger[]>("/v1/passengers");
+  const params = generateApiSearchParams(input);
+
+  const { data, isSuccess } = await apiClient.get<Passenger[]>(
+    `/v1/passengers/?${params}`,
+  );
   return { data: isSuccess ? data! : [] };
 }
 

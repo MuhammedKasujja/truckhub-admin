@@ -7,10 +7,14 @@ import {
   VehicleListSearchParams,
   VehicleUpdateSchemaType,
 } from "@/schemas/vehicle";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getVehicles(input: VehicleListSearchParams) {
-  console.log("Vehicle Params", input)
-  const { data, isSuccess } = await apiClient.get<Vehicle[]>("/v1/vehicles");
+  const params = generateApiSearchParams(input);
+  
+  const { data, isSuccess } = await apiClient.get<Vehicle[]>(
+    `/v1/vehicles/?${params}`,
+  );
   return { data: isSuccess ? data! : [] };
 }
 

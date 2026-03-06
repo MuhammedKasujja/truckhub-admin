@@ -7,9 +7,14 @@ import {
   ReviewListSearchParams,
   ReviewUpdateSchemaType,
 } from "@/schemas/review";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getReviews(input: ReviewListSearchParams) {
-  const { data, isSuccess } = await apiClient.get<Review[]>("/v1/reviews");
+  const params = generateApiSearchParams(input);
+
+  const { data, isSuccess } = await apiClient.get<Review[]>(
+    `/v1/reviews/?${params}`,
+  );
   return { data: isSuccess ? data! : [] };
 }
 
