@@ -40,8 +40,9 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     if (process.env.NODE_ENV === "development") {
       logger.info(
-        `Endpoint  ${(error as any).request.path} [ ${(error as any).request.method} ]\n`,
+        `Endpoint  ${(error as any).request.path} [ ${(error as any).request.method} ] ${error.code}\n`,
       );
+      // logger.error(error)
       logger.error(
         jsonFormatter({
           ErrorCode: error.code,
@@ -49,6 +50,23 @@ api.interceptors.response.use(
           Status: error.response?.status,
         }),
       );
+    }
+    if (
+      error.code === "ECONNABORTED" 
+    ) {
+      return Promise.reject({
+        ...error,
+        response: {
+          data: {
+            status: 503,
+            success: false,
+            error: {
+              code: "CONNECTION_TIMEOUT",
+              message: "Connection timedout. Please try again",
+            },
+          },
+        },
+      });
     }
     if (
       error.code === "ECONNREFUSED" ||

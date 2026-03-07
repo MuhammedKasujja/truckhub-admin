@@ -28,10 +28,28 @@ export async function generatePageSearchParams<Parsers extends ParserMap>(
 }
 
 export const generateApiSearchParams = (input: Record<string, unknown>) => {
-  return qs.stringify(input, {
-    arrayFormat: "repeat", // or 'comma' / 'brackets'
+  const { sort, ...rest } = input;
+  let normalized = { ...rest };
+
+  if (sort && sort instanceof Array) {
+    normalized = {
+      ...normalized,
+      // make sort of structure sortBy=-created_at&sortBy=name where - means desc
+      sortBy: generateParams(sort),
+    };
+  }
+
+  return qs.stringify(normalized, {
+    arrayFormat: "repeat",
     skipNulls: true,
     encode: true,
-    allowDots: true, // uncomment if your API prefers dots
+    allowDots: false, // API prefers dots
   });
+};
+
+const generateParams = (sortArray: Array<{ id: string; desc: boolean }>) => {
+  if (sortArray.length > 0) {
+    return sortArray.map((s) => (s.desc ? `-${s.id}` : s.id));
+  }
+  return undefined;
 };
