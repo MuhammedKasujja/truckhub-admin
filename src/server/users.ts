@@ -19,11 +19,12 @@ export async function getUsers(input: UserListSearchParams) {
     data,
     isSuccess,
     pagination: paginator,
+    error,
   } = await apiClient.get<SystemUser[]>(`/v1/users/?${params}`);
 
   const pagination = paginator ?? { page, perPage, pages: 0, total: 0 };
 
-  return { data: isSuccess ? data! : [], pagination };
+  return { data: isSuccess ? data! : [], pagination, error };
 }
 
 export async function getUserById(userId: EntityId) {

@@ -11,14 +11,21 @@ import { getPassengerTableColumns } from "./passenger-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 type PassengerTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getPassengers>>]>;
 };
 
 export function PassengerTable(props: PassengerTableProps) {
-  const [{ data }] = React.use(props.promises);
+  const [{ data, error }] = React.use(props.promises);
   const columns = React.useMemo(() => getPassengerTableColumns(), []);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
 
   const { table } = useDataTable({
     data,

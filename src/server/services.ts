@@ -9,8 +9,8 @@ import {
 } from "@/schemas/service";
 
 export async function getServices(input: ServiceListSearchParams) {
-  const { data, isSuccess } = await apiClient.get<Service[]>("/v1/services");
-  return { data: isSuccess ? data! : [] };
+  const { data, isSuccess, error } = await apiClient.get<Service[]>("/v1/services");
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getServiceById(serviceId: number | string) {

@@ -9,9 +9,9 @@ import {
 } from "@/schemas/drive-train";
 
 export async function getDriveTrains(input: DriveTrainListSearchParams) {
-  const { data, isSuccess } =
+  const { data, isSuccess, error } =
     await apiClient.get<DriveTrain[]>("/v1/drive-trains");
-  return { data: isSuccess ? data! : [] };
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getDriveTrainById(driveTrainId: number | string) {

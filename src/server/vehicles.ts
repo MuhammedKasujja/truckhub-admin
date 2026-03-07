@@ -12,10 +12,10 @@ import { generateApiSearchParams } from "@/lib/search-params";
 export async function getVehicles(input: VehicleListSearchParams) {
   const params = generateApiSearchParams(input);
   
-  const { data, isSuccess } = await apiClient.get<Vehicle[]>(
+  const { data, isSuccess, error } = await apiClient.get<Vehicle[]>(
     `/v1/vehicles/?${params}`,
   );
-  return { data: isSuccess ? data! : [] };
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getVehicleById(vehicleId: number | string) {

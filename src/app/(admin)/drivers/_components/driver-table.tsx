@@ -6,19 +6,26 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getDrivers } from "@/server/drivers";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { getDriverTableColumns } from "./driver-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 type DriverTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getDrivers>>]>;
 };
 
 export function DriverTable(props: DriverTableProps) {
-  const [{ data }] = React.use(props.promises);
-  const columns = React.useMemo(() => getDriverTableColumns(), []);
+  const [{ data, error }] = React.use(props.promises);
+  const columns = useMemo(() => getDriverTableColumns(), []);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
 
   const { table } = useDataTable({
     data,

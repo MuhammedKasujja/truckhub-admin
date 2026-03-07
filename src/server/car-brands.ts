@@ -9,8 +9,8 @@ import {
 } from "@/schemas/car-brand";
 
 export async function getCarBrands(input: CarBrandListSearchParams) {
-  const { data, isSuccess } = await apiClient.get<CarBrand[]>("/v1/car-brands");
-  return { data: isSuccess ? data! : [] };
+  const { data, isSuccess, error } = await apiClient.get<CarBrand[]>("/v1/car-brands");
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getCarBrandById(carBrandId: number | string) {

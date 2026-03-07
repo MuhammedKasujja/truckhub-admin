@@ -11,15 +11,22 @@ import { getUserTableColumns } from "./user-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 type UserTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getUsers>>]>;
 };
 
 export function UserTable(props: UserTableProps) {
-  const [{ data }] = React.use(props.promises);
+  const [{ data, error }] = React.use(props.promises);
 
   const columns = React.useMemo(() => getUserTableColumns(), []);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
 
   const { table } = useDataTable({
     data,

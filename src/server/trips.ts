@@ -12,10 +12,10 @@ import { generateApiSearchParams } from "@/lib/search-params";
 export async function getTrips(input: TripListSearchParams) {
   const params = generateApiSearchParams(input);
 
-  const { data, isSuccess } = await apiClient.get<Trip[]>(
+  const { data, isSuccess, error } = await apiClient.get<Trip[]>(
     `/v1/trips/?${params}`,
   );
-  return { data: isSuccess ? data! : [] };
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getTripById(tripId: number | string) {

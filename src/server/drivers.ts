@@ -12,10 +12,10 @@ import { generateApiSearchParams } from "@/lib/search-params";
 export async function getDrivers(input: DriverListSearchParams) {
   const params = generateApiSearchParams(input);
 
-  const { data, isSuccess } = await apiClient.get<Driver[]>(
+  const { data, isSuccess, error } = await apiClient.get<Driver[]>(
     `/v1/drivers/?${params}`,
   );
-  return { data: isSuccess ? data! : [] };
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getDriverById(driverId: number | string) {

@@ -11,14 +11,21 @@ import { getServiceTableColumns } from "./service-table-columns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 type ServiceTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getServices>>]>;
 };
 
 export function ServiceTable(props: ServiceTableProps) {
-  const [{ data }] = React.use(props.promises);
+  const [{ data, error }] = React.use(props.promises);
   const columns = React.useMemo(() => getServiceTableColumns(), []);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
 
   const { table } = useDataTable({
     data,

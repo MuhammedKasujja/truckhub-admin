@@ -12,10 +12,10 @@ import { generateApiSearchParams } from "@/lib/search-params";
 export async function getReviews(input: ReviewListSearchParams) {
   const params = generateApiSearchParams(input);
 
-  const { data, isSuccess } = await apiClient.get<Review[]>(
+  const { data, isSuccess, error } = await apiClient.get<Review[]>(
     `/v1/reviews/?${params}`,
   );
-  return { data: isSuccess ? data! : [] };
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getReviewById(reviewId: number | string) {

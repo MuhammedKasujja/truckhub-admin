@@ -8,8 +8,8 @@ import {
 } from "@/schemas/tonnage";
 
 export async function getTonnages() {
-  const { data, isSuccess } = await apiClient.get<Tonnage[]>("/v1/tonnages");
-  return { data: isSuccess ? data! : [] };
+  const { data, isSuccess, error } = await apiClient.get<Tonnage[]>("/v1/tonnages");
+  return { data: isSuccess ? data! : [], error };
 }
 
 // export async function getTonnageById(tonnageId: number | string) {

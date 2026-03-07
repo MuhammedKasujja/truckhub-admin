@@ -9,9 +9,9 @@ import {
 } from "@/schemas/vehicle-type";
 
 export async function getVehicleTypes(input: VehicleTypeListSearchParams) {
-  const { data, isSuccess } =
+  const { data, isSuccess, error } =
     await apiClient.get<VehicleType[]>("/v1/vehicle-types");
-  return { data: isSuccess ? data! : [] };
+  return { data: isSuccess ? data! : [], error };
 }
 
 export async function getVehicleTypeById(vehicleTypeId: number | string) {

@@ -8,14 +8,21 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getReviews } from "@/server/reviews";
 import { getReviewTableColumns } from "./review-table-columns";
+import { toast } from "sonner";
 
 type ReviewTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getReviews>>]>;
 };
 
 export function ReviewTable(props: ReviewTableProps) {
-  const [{ data }] = React.use(props.promises);
+  const [{ data, error }] = React.use(props.promises);
   const columns = React.useMemo(() => getReviewTableColumns(), []);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
 
   const { table } = useDataTable({
     data,

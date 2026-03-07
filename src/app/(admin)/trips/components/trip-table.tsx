@@ -11,15 +11,22 @@ import { getTripTableColumns } from "./trip-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 type TripTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getTrips>>]>;
 };
 
 export function TripTable(props: TripTableProps) {
-  const [{ data }] = React.use(props.promises);
+  const [{ data, error }] = React.use(props.promises);
 
   const columns = React.useMemo(() => getTripTableColumns(), []);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
 
   const { table } = useDataTable({
     data,
