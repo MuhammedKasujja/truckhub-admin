@@ -18,7 +18,7 @@ type PassengerTableProps = {
 };
 
 export function PassengerTable(props: PassengerTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+  const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getPassengerTableColumns(), []);
 
   React.useEffect(() => {
@@ -30,7 +30,7 @@ export function PassengerTable(props: PassengerTableProps) {
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: 1,
+    pageCount: pagination.totalPages,
     initialState: {
       sorting: [{ id: "id", desc: true }],
       //   columnPinning: { right: ["actions"] },

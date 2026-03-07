@@ -18,7 +18,7 @@ type VehicleTableProps = {
 };
 
 export function VehicleTable(props: VehicleTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+  const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getVehicleTableColumns(), []);
 
   React.useEffect(() => {
@@ -30,7 +30,7 @@ export function VehicleTable(props: VehicleTableProps) {
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: 1,
+    pageCount: pagination.totalPages,
     initialState: {
       sorting: [{ id: "id", desc: true }],
       //   columnPinning: { right: ["actions"] },

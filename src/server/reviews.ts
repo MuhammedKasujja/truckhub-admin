@@ -10,12 +10,18 @@ import {
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getReviews(input: ReviewListSearchParams) {
+  const { page, perPage } = input;
   const params = generateApiSearchParams(input);
 
-  const { data, isSuccess, error } = await apiClient.get<Review[]>(
-    `/v1/reviews/?${params}`,
-  );
-  return { data: isSuccess ? data! : [], error };
+  const {
+    data,
+    isSuccess,
+    error,
+    pagination: paginator,
+  } = await apiClient.get<Review[]>(`/v1/reviews/?${params}`);
+
+  const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
+  return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getReviewById(reviewId: number | string) {

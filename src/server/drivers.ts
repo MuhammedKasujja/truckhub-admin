@@ -10,12 +10,18 @@ import {
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getDrivers(input: DriverListSearchParams) {
+  const { page, perPage } = input;
   const params = generateApiSearchParams(input);
 
-  const { data, isSuccess, error } = await apiClient.get<Driver[]>(
-    `/v1/drivers/?${params}`,
-  );
-  return { data: isSuccess ? data! : [], error };
+  const {
+    data,
+    isSuccess,
+    error,
+    pagination: paginator,
+  } = await apiClient.get<Driver[]>(`/v1/drivers/?${params}`);
+
+  const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
+  return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getDriverById(driverId: number | string) {

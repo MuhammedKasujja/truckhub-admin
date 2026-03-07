@@ -18,7 +18,7 @@ type DriverTableProps = {
 };
 
 export function DriverTable(props: DriverTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+  const [{ data, error, pagination }] = React.use(props.promises);
   const columns = useMemo(() => getDriverTableColumns(), []);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export function DriverTable(props: DriverTableProps) {
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: 1,
+    pageCount: pagination.totalPages,
     initialState: {
       sorting: [{ id: "id", desc: true }],
       //   columnPinning: { right: ["actions"] },

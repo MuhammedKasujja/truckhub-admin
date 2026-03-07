@@ -30,7 +30,7 @@ export type Pagination = {
   total: number;
   page: number;
   perPage: number;
-  pages: number;
+  totalPages: number;
 };
 
 export type ApiResponse<T = unknown> = {

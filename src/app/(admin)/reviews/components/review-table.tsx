@@ -15,7 +15,7 @@ type ReviewTableProps = {
 };
 
 export function ReviewTable(props: ReviewTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+  const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getReviewTableColumns(), []);
 
   React.useEffect(() => {
@@ -27,7 +27,7 @@ export function ReviewTable(props: ReviewTableProps) {
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: 1,
+    pageCount: pagination.totalPages,
     initialState: {
       sorting: [{ id: "id", desc: true }],
       //   columnPinning: { right: ["actions"] },

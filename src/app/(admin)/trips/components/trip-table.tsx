@@ -18,7 +18,7 @@ type TripTableProps = {
 };
 
 export function TripTable(props: TripTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+  const [{ data, error, pagination }] = React.use(props.promises);
 
   const columns = React.useMemo(() => getTripTableColumns(), []);
 
@@ -31,7 +31,7 @@ export function TripTable(props: TripTableProps) {
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: 1,
+    pageCount: pagination.totalPages,
     initialState: {
       sorting: [{ id: "id", desc: true }],
       //   columnPinning: { right: ["actions"] },

@@ -10,12 +10,19 @@ import {
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getPassengers(input: PassengerListSearchParams) {
+  const { page, perPage } = input;
+
   const params = generateApiSearchParams(input);
 
-  const { data, isSuccess, error } = await apiClient.get<Passenger[]>(
-    `/v1/passengers/?${params}`,
-  );
-  return { data: isSuccess ? data! : [], error };
+  const {
+    data,
+    isSuccess,
+    error,
+    pagination: paginator,
+  } = await apiClient.get<Passenger[]>(`/v1/passengers/?${params}`);
+
+  const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
+  return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getPassengerById(passengerId: number | string) {
