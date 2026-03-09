@@ -5,7 +5,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getDrivers } from "@/features/drivers/types";
+import { getDrivers } from "@/features/drivers/service";
 import React, { useEffect, useMemo } from "react";
 import { getDriverTableColumns } from "./driver-table-columns";
 import { Button } from "@/components/ui/button";

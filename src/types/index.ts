@@ -41,6 +41,9 @@ export type ApiResponse<T = unknown> = {
     message: string;
     code: string | undefined;
   };
+};
+
+export type ApiPaginatedResponse<T = unknown> = ApiResponse<T> & {
   pagination?: Pagination;
 };
 

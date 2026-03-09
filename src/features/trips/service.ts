@@ -18,7 +18,7 @@ export async function getTrips(input: TripListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.get<Trip[]>(`/v1/trips/?${params}`);
+  } = await apiClient.getPaginated<Trip[]>(`/v1/trips/?${params}`);
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
 
   return { data: isSuccess ? data! : [], error, pagination };

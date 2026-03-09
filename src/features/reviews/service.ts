@@ -18,7 +18,7 @@ export async function getReviews(input: ReviewListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.get<Review[]>(`/v1/reviews/?${params}`);
+  } = await apiClient.getPaginated<Review[]>(`/v1/reviews/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };

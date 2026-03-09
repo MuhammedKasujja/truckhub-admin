@@ -1,4 +1,4 @@
-import { getDrivers } from "@/features/drivers/types";
+import { getDrivers } from "@/features/drivers/service";
 import { Suspense } from "react";
 import { DriverTable, DriverTableSkeleton } from "./_components/driver-table";
 import { generatePageSearchParams } from "@/lib/search-params";

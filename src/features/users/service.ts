@@ -20,7 +20,7 @@ export async function getUsers(input: UserListSearchParams) {
     isSuccess,
     pagination: paginator,
     error,
-  } = await apiClient.get<SystemUser[]>(`/v1/users/?${params}`);
+  } = await apiClient.getPaginated<SystemUser[]>(`/v1/users/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
 

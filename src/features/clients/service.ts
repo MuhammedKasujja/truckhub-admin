@@ -19,7 +19,7 @@ export async function getPassengers(input: PassengerListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.get<Passenger[]>(`/v1/passengers/?${params}`);
+  } = await apiClient.getPaginated<Passenger[]>(`/v1/passengers/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };

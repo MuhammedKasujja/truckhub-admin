@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { systemDateTime } from "./utils";
 import { SignJWT, jwtVerify } from "jose";
 import { redirect } from "next/navigation";
-import { AuthResponse, AuthUser } from "@/features/auth/types";import { AuthResponse, AuthUser } from "@/features/auth/types";import { AuthResponse, AuthUser } from "@/features/auth/types";import { AuthResponse, AuthUser } from "@/features/auth/types";
+import { AuthResponse, AuthUser } from "@/features/auth/types";
 
 const secretKey = process.env.JWT_SECRET;
 const encodedSecret = new TextEncoder().encode(secretKey);

@@ -18,7 +18,7 @@ export async function getVehicles(input: VehicleListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.get<Vehicle[]>(`/v1/vehicles/?${params}`);
+  } = await apiClient.getPaginated<Vehicle[]>(`/v1/vehicles/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };
