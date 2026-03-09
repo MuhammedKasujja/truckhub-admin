@@ -1,13 +1,13 @@
 "use server";
 
-import apiClient from "@/lib/api-client";
 import { redirect } from "next/navigation";
+import * as apiClient from "@/lib/api-client";
 import { AuthResponse } from "@/features/auth/types";
 import { LoginSchemaType } from "@/features/auth/schemas";
 import { createSession, deleteUserSession } from "@/lib/session";
 
 export async function login({ email, password }: LoginSchemaType) {
-  const response = await apiClient.post<AuthResponse>(`/v1/auth/login`, {
+  const response = await apiClient.postFn<AuthResponse>(`/v1/auth/login`, {
     email,
     password,
   });

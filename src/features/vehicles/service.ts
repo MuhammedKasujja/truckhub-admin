@@ -1,6 +1,6 @@
 "use server";
 
-import apiClient from "@/lib/api-client";
+import  * as apiClient from "@/lib/api-client";
 import { Vehicle } from "@/features/vehicles/types";
 import {
   VehicleCreateSchemaType,
@@ -18,14 +18,14 @@ export async function getVehicles(input: VehicleListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.getPaginated<Vehicle[]>(`/v1/vehicles/?${params}`);
+  } = await apiClient.getPaginatedFn<Vehicle[]>(`/v1/vehicles/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getVehicleById(vehicleId: number | string) {
-  return await apiClient.get<Vehicle>(`/v1/vehicles/${vehicleId}`);
+  return await apiClient.getFn<Vehicle>(`/v1/vehicles/${vehicleId}`);
 }
 
 export async function deleteVehicleById(vehicleId: number | string) {
@@ -34,9 +34,9 @@ export async function deleteVehicleById(vehicleId: number | string) {
 
 export async function updateVehicle(data: VehicleUpdateSchemaType) {
   const { id: vehicleId, ...rest } = data;
-  return await apiClient.put(`/v1/vehicles/${vehicleId}`, rest);
+  return await apiClient.putFn(`/v1/vehicles/${vehicleId}`, rest);
 }
 
 export async function createVehicle(data: VehicleCreateSchemaType) {
-  return await apiClient.post("/v1/vehicles", data);
+  return await apiClient.postFn("/v1/vehicles", data);
 }

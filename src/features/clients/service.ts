@@ -1,6 +1,6 @@
 "use server";
 
-import apiClient from "@/lib/api-client";
+import * as apiClient from "@/lib/api-client";
 import { Passenger } from "@/features/clients/types";
 import {
   PassengerCreateSchemaType,
@@ -19,14 +19,14 @@ export async function getPassengers(input: PassengerListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.getPaginated<Passenger[]>(`/v1/passengers/?${params}`);
+  } = await apiClient.getPaginatedFn<Passenger[]>(`/v1/passengers/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getPassengerById(passengerId: number | string) {
-  return await apiClient.get<Passenger>(`/v1/passengers/${passengerId}`);
+  return await apiClient.getFn<Passenger>(`/v1/passengers/${passengerId}`);
 }
 
 export async function deletePassengerById(passengerId: number | string) {
@@ -35,9 +35,9 @@ export async function deletePassengerById(passengerId: number | string) {
 
 export async function updatePassenger(data: PassengerUpdateSchemaType) {
   const { id: passengerId, ...rest } = data;
-  return await apiClient.put(`/v1/passengers/${passengerId}`, rest);
+  return await apiClient.putFn(`/v1/passengers/${passengerId}`, rest);
 }
 
 export async function createPassenger(data: PassengerCreateSchemaType) {
-  return await apiClient.post("/v1/passengers", data);
+  return await apiClient.postFn("/v1/passengers", data);
 }

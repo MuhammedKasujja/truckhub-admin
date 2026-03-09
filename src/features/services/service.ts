@@ -1,6 +1,6 @@
 "use server";
 
-import apiClient from "@/lib/api-client";
+import  * as apiClient from "@/lib/api-client";
 import { Service } from "@/features/services/types";
 import {
   ServiceListSearchParams,
@@ -10,12 +10,12 @@ import {
 
 export async function getServices(input: ServiceListSearchParams) {
   const { data, isSuccess, error } =
-    await apiClient.get<Service[]>("/v1/services");
+    await apiClient.getFn<Service[]>("/v1/services");
   return { data: isSuccess ? data! : [], error };
 }
 
 export async function getServiceById(serviceId: number | string) {
-  return await apiClient.get<Service>(`/v1/services/${serviceId}`);
+  return await apiClient.getFn<Service>(`/v1/services/${serviceId}`);
 }
 
 export async function deleteServiceById(serviceId: number | string) {
@@ -24,9 +24,9 @@ export async function deleteServiceById(serviceId: number | string) {
 
 export async function updateService(data: ServiceUpdateSchemaType) {
   const { id: serviceId, ...rest } = data;
-  return await apiClient.put(`/v1/services/${serviceId}`, rest);
+  return await apiClient.putFn(`/v1/services/${serviceId}`, rest);
 }
 
 export async function createService(data: ServiceCreateSchemaType) {
-  return await apiClient.post("/v1/services", data);
+  return await apiClient.postFn("/v1/services", data);
 }

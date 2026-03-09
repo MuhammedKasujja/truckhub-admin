@@ -1,6 +1,6 @@
 "use server";
 
-import apiClient from "@/lib/api-client";
+import  * as apiClient from "@/lib/api-client";
 import { Review } from "@/features/reviews/types";
 import {
   ReviewCreateSchemaType,
@@ -18,14 +18,14 @@ export async function getReviews(input: ReviewListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.getPaginated<Review[]>(`/v1/reviews/?${params}`);
+  } = await apiClient.getPaginatedFn<Review[]>(`/v1/reviews/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getReviewById(reviewId: number | string) {
-  return await apiClient.get<Review>(`/v1/reviews/${reviewId}`);
+  return await apiClient.getFn<Review>(`/v1/reviews/${reviewId}`);
 }
 
 export async function deleteReviewById(reviewId: number | string) {
@@ -34,9 +34,9 @@ export async function deleteReviewById(reviewId: number | string) {
 
 export async function updateReview(data: ReviewUpdateSchemaType) {
   const { id: reviewId, ...rest } = data;
-  return await apiClient.put(`/v1/reviews/${reviewId}`, rest);
+  return await apiClient.putFn(`/v1/reviews/${reviewId}`, rest);
 }
 
 export async function createReview(data: ReviewCreateSchemaType) {
-  return await apiClient.post("/v1/reviews", data);
+  return await apiClient.postFn("/v1/reviews", data);
 }

@@ -1,12 +1,12 @@
-import apiClient from "@/lib/api-client";
+import * as apiClient from "@/lib/api-client";
 import { Setting, VehicleConfigurations } from "@/types/setting";
 
 export async function getSettings() {
-  return await apiClient.get<Setting[]>("/v1/settings");
+  return await apiClient.getFn<Setting[]>("/v1/settings");
 }
 
 export async function getVehicleSettings() {
-  return await apiClient.get<VehicleConfigurations>(
+  return await apiClient.getFn<VehicleConfigurations>(
     "/v1/settings/vehicle-config",
   );
 }

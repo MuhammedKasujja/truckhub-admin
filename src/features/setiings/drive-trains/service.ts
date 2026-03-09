@@ -1,6 +1,6 @@
 "use server";
 
-import apiClient from "@/lib/api-client";
+import * as apiClient from "@/lib/api-client";
 import { DriveTrain } from "@/features/setiings/drive-trains/types";
 import {
   DriveTrainCreateSchemaType,
@@ -10,12 +10,12 @@ import {
 
 export async function getDriveTrains(input: DriveTrainListSearchParams) {
   const { data, isSuccess, error } =
-    await apiClient.get<DriveTrain[]>("/v1/drive-trains");
+    await apiClient.getFn<DriveTrain[]>("/v1/drive-trains");
   return { data: isSuccess ? data! : [], error };
 }
 
 export async function getDriveTrainById(driveTrainId: number | string) {
-  return await apiClient.get<DriveTrain>(`/v1/drive-trains/${driveTrainId}`);
+  return await apiClient.getFn<DriveTrain>(`/v1/drive-trains/${driveTrainId}`);
 }
 
 export async function deleteDriveTrainById(driveTrainId: number | string) {
@@ -24,9 +24,9 @@ export async function deleteDriveTrainById(driveTrainId: number | string) {
 
 export async function updateDriveTrain(data: DriveTrainUpdateSchemaType) {
   const { id: driveTrainId, ...rest } = data;
-  return await apiClient.put(`/v1/drive-trains/${driveTrainId}`, rest);
+  return await apiClient.putFn(`/v1/drive-trains/${driveTrainId}`, rest);
 }
 
 export async function createDriveTrain(data: DriveTrainCreateSchemaType) {
-  return await apiClient.post("/v1/drive-trains", data);
+  return await apiClient.postFn("/v1/drive-trains", data);
 }

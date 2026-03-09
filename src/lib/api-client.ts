@@ -1,9 +1,12 @@
+"use server"
+
 import { api } from "./api";
+import { logger } from "./logger";
 import { AxiosError } from "axios";
 import { logout } from "@/features/auth/service";
 import { ApiResponse, ApiPaginatedResponse } from "@/types";
 
-async function get<T>(url: string): Promise<ApiResponse<T>> {
+export async function getFn<T>(url: string): Promise<ApiResponse<T>> {
   try {
     const response = await api.get(url);
     return {
@@ -16,7 +19,9 @@ async function get<T>(url: string): Promise<ApiResponse<T>> {
   }
 }
 
-async function getPaginated<T>(url: string): Promise<ApiPaginatedResponse<T>> {
+export async function getPaginatedFn<T>(
+  url: string,
+): Promise<ApiPaginatedResponse<T>> {
   try {
     const response = await api.get(url);
     return {
@@ -30,7 +35,10 @@ async function getPaginated<T>(url: string): Promise<ApiPaginatedResponse<T>> {
   }
 }
 
-async function post<T>(url: string, data: unknown): Promise<ApiResponse<T>> {
+export async function postFn<T>(
+  url: string,
+  data: unknown,
+): Promise<ApiResponse<T>> {
   try {
     const response = await api.post(url, data);
     return {
@@ -43,7 +51,7 @@ async function post<T>(url: string, data: unknown): Promise<ApiResponse<T>> {
   }
 }
 
-async function put<T>(
+export async function putFn<T>(
   url: string,
   data: unknown = {},
 ): Promise<ApiResponse<T>> {
@@ -59,7 +67,7 @@ async function put<T>(
   }
 }
 
-async function patch<T>(
+export async function patchFn<T>(
   url: string,
   data: unknown = {},
 ): Promise<ApiResponse<T>> {
@@ -75,7 +83,7 @@ async function patch<T>(
   }
 }
 
-async function deleteFn(url: string): Promise<ApiResponse> {
+export async function deleteFn(url: string): Promise<ApiResponse> {
   try {
     const response = await api.delete(url);
     return {
@@ -88,15 +96,10 @@ async function deleteFn(url: string): Promise<ApiResponse> {
   }
 }
 
-const apiClient = { get, post, deleteFn, put, patch, getPaginated };
-
-export { apiClient };
-
-export default apiClient;
-
 function _handleApiException<T>(error: unknown): ApiResponse<T> {
   if (error instanceof AxiosError && error.status == 401) {
     // await logout();
+    logger.info("Now logging out.....")
   }
   return {
     isSuccess: false,
