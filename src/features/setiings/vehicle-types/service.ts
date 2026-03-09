@@ -19,7 +19,7 @@ export async function getVehicleTypeById(vehicleTypeId: number | string) {
 }
 
 export async function deleteVehicleTypeById(vehicleTypeId: number | string) {
-  return await apiClient.delete(`/v1/vehicle-types/${vehicleTypeId}`);
+  return await apiClient.deleteFn(`/v1/vehicle-types/${vehicleTypeId}`);
 }
 
 export async function updateVehicleType(data: VehicleTypeUpdateSchemaType) {

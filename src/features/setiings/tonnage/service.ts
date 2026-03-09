@@ -17,7 +17,7 @@ export async function getTonnages() {
 // }
 
 export async function deleteTonnageById(tonnageId: number | string) {
-  return await apiClient.delete(`/v1/tonnages/${tonnageId}`);
+  return await apiClient.deleteFn(`/v1/tonnages/${tonnageId}`);
 }
 
 export async function updateTonnage(data: TonnageUpdateSchemaType) {

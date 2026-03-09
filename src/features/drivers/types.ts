@@ -29,7 +29,7 @@ export async function getDriverById(driverId: number | string) {
 }
 
 export async function deleteDriverById(driverId: number | string) {
-  return await apiClient.delete(`/v1/drivers/${driverId}`);
+  return await apiClient.deleteFn(`/v1/drivers/${driverId}`);
 }
 
 export async function updateDriver(data: DriverUpdateSchemaType) {

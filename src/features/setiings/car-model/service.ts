@@ -18,7 +18,7 @@ export async function getCarModelById(carModelId: number | string) {
 }
 
 export async function deleteCarModelById(carModelId: number | string) {
-  return await apiClient.delete(`/v1/car-models/${carModelId}`);
+  return await apiClient.deleteFn(`/v1/car-models/${carModelId}`);
 }
 
 export async function updateCarModel(data: CarModelUpdateSchemaType) {

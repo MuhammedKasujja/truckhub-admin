@@ -18,7 +18,7 @@ export async function getCarBrandById(carBrandId: number | string) {
 }
 
 export async function deleteCarBrandById(carBrandId: number | string) {
-  return await apiClient.delete(`/v1/car-brands/${carBrandId}`);
+  return await apiClient.deleteFn(`/v1/car-brands/${carBrandId}`);
 }
 
 export async function updateCarBrand(data: CarBrandUpdateSchemaType) {

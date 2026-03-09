@@ -19,7 +19,7 @@ export async function getServiceById(serviceId: number | string) {
 }
 
 export async function deleteServiceById(serviceId: number | string) {
-  return await apiClient.delete(`/v1/services/${serviceId}`);
+  return await apiClient.deleteFn(`/v1/services/${serviceId}`);
 }
 
 export async function updateService(data: ServiceUpdateSchemaType) {

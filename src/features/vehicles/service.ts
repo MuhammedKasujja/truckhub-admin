@@ -6,7 +6,7 @@ import {
   VehicleCreateSchemaType,
   VehicleListSearchParams,
   VehicleUpdateSchemaType,
-} from "@/features/vehicles/schemas";
+} from "@/features/vehicles/schemas";;
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getVehicles(input: VehicleListSearchParams) {
@@ -29,7 +29,7 @@ export async function getVehicleById(vehicleId: number | string) {
 }
 
 export async function deleteVehicleById(vehicleId: number | string) {
-  return await apiClient.delete(`/v1/vehicles/${vehicleId}`);
+  return await apiClient.deleteFn(`/v1/vehicles/${vehicleId}`);
 }
 
 export async function updateVehicle(data: VehicleUpdateSchemaType) {

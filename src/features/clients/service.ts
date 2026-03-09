@@ -1,6 +1,6 @@
 "use server";
 
-import { apiClient } from "@/lib/api-client";
+import apiClient from "@/lib/api-client";
 import { Passenger } from "@/features/clients/types";
 import {
   PassengerCreateSchemaType,
@@ -30,7 +30,7 @@ export async function getPassengerById(passengerId: number | string) {
 }
 
 export async function deletePassengerById(passengerId: number | string) {
-  return await apiClient.delete(`/v1/passengers/${passengerId}`);
+  return await apiClient.deleteFn(`/v1/passengers/${passengerId}`);
 }
 
 export async function updatePassenger(data: PassengerUpdateSchemaType) {

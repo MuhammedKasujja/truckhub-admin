@@ -32,7 +32,7 @@ export async function getUserById(userId: EntityId) {
 }
 
 export async function deleteUserById(userId: EntityId) {
-  return await apiClient.delete(`/v1/users/${userId}`);
+  return await apiClient.deleteFn(`/v1/users/${userId}`);
 }
 
 export async function updateUser(

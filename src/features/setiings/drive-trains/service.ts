@@ -19,7 +19,7 @@ export async function getDriveTrainById(driveTrainId: number | string) {
 }
 
 export async function deleteDriveTrainById(driveTrainId: number | string) {
-  return await apiClient.delete(`/v1/drive-trains/${driveTrainId}`);
+  return await apiClient.deleteFn(`/v1/drive-trains/${driveTrainId}`);
 }
 
 export async function updateDriveTrain(data: DriveTrainUpdateSchemaType) {

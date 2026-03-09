@@ -29,7 +29,7 @@ export async function getReviewById(reviewId: number | string) {
 }
 
 export async function deleteReviewById(reviewId: number | string) {
-  return await apiClient.delete(`/v1/reviews/${reviewId}`);
+  return await apiClient.deleteFn(`/v1/reviews/${reviewId}`);
 }
 
 export async function updateReview(data: ReviewUpdateSchemaType) {

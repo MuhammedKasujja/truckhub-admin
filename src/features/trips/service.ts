@@ -29,7 +29,7 @@ export async function getTripById(tripId: number | string) {
 }
 
 export async function deleteTripById(tripId: number | string) {
-  return await apiClient.delete(`/v1/trips/${tripId}`);
+  return await apiClient.deleteFn(`/v1/trips/${tripId}`);
 }
 
 export async function updateTrip(data: TripUpdateSchemaType) {
