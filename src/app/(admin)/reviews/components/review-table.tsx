@@ -6,7 +6,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getReviews } from "@/server/reviews";
+import { getReviews } from "@/features/reviews/service";
 import { getReviewTableColumns } from "./review-table-columns";
 import { toast } from "sonner";
 

@@ -7,7 +7,7 @@ import {
   parseAsStringEnum,
   createSearchParamsCache,
 } from "nuqs/server";
-import { Driver } from "@/types/driver";
+import { Driver } from "@/features/drivers/driver";
 
 export const DriverCreateSchema = z.object({
   first_name: z.string(),

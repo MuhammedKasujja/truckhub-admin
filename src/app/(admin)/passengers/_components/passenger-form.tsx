@@ -18,8 +18,8 @@ import { useTranslation } from "@/i18n";
 import {
   PassengerCreateSchema,
   PassengerUpdateSchema,
-} from "@/schemas/passenger";
-import { createPassenger, updatePassenger } from "@/server/passengers";
+} from "@/features/clients/schemas";
+import { createPassenger, updatePassenger } from "@/features/clients/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

@@ -19,8 +19,8 @@ import {
   VehicleTypeCreateSchema,
   VehicleTypeUpdateSchemaType,
   VehicleTypeUpdateSchema,
-} from "@/schemas/vehicle-type";
-import { createVehicleType, updateVehicleType } from "@/server/vehicle-types";
+} from "@/features/setiings/vehicle-types/schemas";
+import { createVehicleType, updateVehicleType } from "@/features/setiings/vehicle-types/service";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 

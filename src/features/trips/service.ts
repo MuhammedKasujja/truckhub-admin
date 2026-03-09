@@ -1,12 +1,12 @@
 "use server";
 
-import { Trip } from "@/types/trip";
 import apiClient from "@/lib/api-client";
+import { Trip } from "@/features/trips/types";
 import {
   TripCreateSchemaType,
   TripListSearchParams,
   TripUpdateSchemaType,
-} from "@/schemas/trip";
+} from "@/features/trips/schemas";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getTrips(input: TripListSearchParams) {

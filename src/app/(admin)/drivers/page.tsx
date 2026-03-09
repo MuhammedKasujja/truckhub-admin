@@ -1,8 +1,8 @@
-import { getDrivers } from "@/server/drivers";
+import { getDrivers } from "@/features/drivers/types";
 import { Suspense } from "react";
 import { DriverTable, DriverTableSkeleton } from "./_components/driver-table";
 import { generatePageSearchParams } from "@/lib/search-params";
-import { DriverSearchParamsCache } from "@/schemas/driver";
+import { DriverSearchParamsCache } from "@/features/drivers/schemas";
 
 export default async function Page(props: PageProps<"/drivers">) {
   const searchParams = await generatePageSearchParams(

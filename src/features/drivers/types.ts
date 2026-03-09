@@ -1,12 +1,12 @@
 "use server";
 
-import { Driver } from "@/types/driver";
 import apiClient from "@/lib/api-client";
+import { Driver } from "@/features/drivers/driver";
 import {
   DriverCreateSchemaType,
   DriverListSearchParams,
   DriverUpdateSchemaType,
-} from "@/schemas/driver";
+} from "@/features/drivers/schemas";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getDrivers(input: DriverListSearchParams) {

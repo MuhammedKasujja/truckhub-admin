@@ -7,7 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getVehicleTypeColumns } from "./vehicle-table-columns";
-import { getVehicleTypes } from "@/server/vehicle-types";
+import { getVehicleTypes } from "@/features/setiings/vehicle-types/service";
 import { VehicleTypeForm } from "./vehicle-type-form";
 
 type VehicleTypeTableProps = {

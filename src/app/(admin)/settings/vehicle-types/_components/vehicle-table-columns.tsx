@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { VehicleType } from "@/types/vehicle-type";
+import { VehicleType } from "@/features/setiings/vehicle-types/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { VehicleTypeForm } from "./vehicle-type-form";

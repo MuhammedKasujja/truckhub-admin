@@ -1,5 +1,5 @@
 import { getVehicleSettings } from "@/server/settings";
-import { getVehicleById } from "@/server/vehicles";
+import { getVehicleById } from "@/features/vehicles/service";
 import { VehicleForm } from "../../_components/vehicle-form";
 
 export default async function Page(props: PageProps<"/vehicles/[id]/edit">) {

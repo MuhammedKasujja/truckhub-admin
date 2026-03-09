@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DriveTrain } from "@/types/drive-train";
+import { DriveTrain } from "@/features/setiings/drive-trains/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { DriveTrainForm } from "./drive-train-form";

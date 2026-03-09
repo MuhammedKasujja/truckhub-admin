@@ -1,5 +1,5 @@
 import z from "zod";
-import { Passenger } from "@/types/passenger";
+import { Passenger } from "@/features/clients/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,

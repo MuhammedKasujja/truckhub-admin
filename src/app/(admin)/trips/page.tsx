@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { TripTable, TripTableSkeleton } from "./components/trip-table";
-import { getTrips } from "@/server/trips";
-import { TripSearchParamsCache } from "@/schemas/trip";
+import { getTrips } from "@/features/trips/service";
+import { TripSearchParamsCache } from "@/features/trips/schemas";
 import { generatePageSearchParams } from "@/lib/search-params";
 
 export default async function Page(props: PageProps<"/trips">) {

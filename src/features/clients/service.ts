@@ -1,12 +1,12 @@
 "use server";
 
 import { apiClient } from "@/lib/api-client";
-import { Passenger } from "@/types/passenger";
+import { Passenger } from "@/features/clients/types";
 import {
   PassengerCreateSchemaType,
   PassengerListSearchParams,
   PassengerUpdateSchemaType,
-} from "@/schemas/passenger";
+} from "@/features/clients/schemas";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getPassengers(input: PassengerListSearchParams) {

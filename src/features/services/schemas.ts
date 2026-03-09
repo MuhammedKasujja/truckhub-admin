@@ -1,5 +1,5 @@
 import z from "zod";
-import { Service } from "@/types/service";
+import { Service } from "@/features/services/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,

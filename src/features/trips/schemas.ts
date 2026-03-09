@@ -1,5 +1,5 @@
 import z from "zod";
-import { Review } from "@/types/review";
+import { Trip } from "@/features/trips/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,
@@ -9,26 +9,27 @@ import {
   createSearchParamsCache,
 } from "nuqs/server";
 
-export const ReviewCreateSchema = z.object({
+export const TripCreateSchema = z.object({
+  service_id: z.number(),
   passenger_id: z.string(),
-  request_id: z.string(),
-  rating: z.number(),
-  comment: z.string().optional(),
+  driver_id: z.string().optional(),
+  pickup_location: z.string(),
+  dropoff_location: z.string(),
 });
 
-export const ReviewUpdateSchema = z.object({
+export const TripUpdateSchema = z.object({
   id: z.number(),
-  ...ReviewCreateSchema.partial().shape,
+  ...TripCreateSchema.partial().shape,
 });
 
-export type ReviewCreateSchemaType = z.infer<typeof ReviewCreateSchema>;
+export type TripCreateSchemaType = z.infer<typeof TripCreateSchema>;
 
-export type ReviewUpdateSchemaType = z.infer<typeof ReviewUpdateSchema>;
+export type TripUpdateSchemaType = z.infer<typeof TripUpdateSchema>;
 
-export const ReviewSearchParamsCache = createSearchParamsCache({
+export const TripSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
-  sort: getSortingStateParser<Review>().withDefault([
+  sort: getSortingStateParser<Trip>().withDefault([
     { id: "created_at", desc: true },
   ]),
   search: parseAsString.withDefault(""),
@@ -38,6 +39,6 @@ export const ReviewSearchParamsCache = createSearchParamsCache({
   joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
 });
 
-export type ReviewListSearchParams = Awaited<
-  ReturnType<typeof ReviewSearchParamsCache.parse>
+export type TripListSearchParams = Awaited<
+  ReturnType<typeof TripSearchParamsCache.parse>
 >;

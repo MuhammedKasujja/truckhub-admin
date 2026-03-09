@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { logout } from "@/server/auth";
+import { logout } from "@/features/auth/service";
 
 export function NavigationActions() {
   return (

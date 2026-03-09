@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CarModel } from "@/types/car-model";
+import { CarModel } from "@/features/setiings/car-model/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { CarModelForm } from "./car-brand-form";

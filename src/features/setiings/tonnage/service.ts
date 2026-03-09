@@ -1,11 +1,11 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { Tonnage } from "@/types/tonnage";
+import { Tonnage } from "@/features/setiings/tonnage/types";
 import {
   TonnageCreateSchemaType,
   TonnageUpdateSchemaType,
-} from "@/schemas/tonnage";
+} from "@/features/setiings/tonnage/schemas";
 
 export async function getTonnages() {
   const { data, isSuccess, error } = await apiClient.get<Tonnage[]>("/v1/tonnages");

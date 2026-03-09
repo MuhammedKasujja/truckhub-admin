@@ -19,8 +19,8 @@ import {
   UserCreateSchema,
   UserUpdateSchema,
   UserUpdateSchemaType,
-} from "@/schemas/user";
-import { createUser, updateUser } from "@/server/users";
+} from "@/features/users/schemas";
+import { createUser, updateUser } from "@/features/users/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

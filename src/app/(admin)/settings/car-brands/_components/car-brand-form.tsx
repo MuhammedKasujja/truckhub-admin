@@ -19,8 +19,8 @@ import {
   CarBrandCreateSchema,
   CarBrandUpdateSchema,
   CarBrandUpdateSchemaType,
-} from "@/schemas/car-brand";
-import { createCarBrand, updateCarBrand } from "@/server/car-brands";
+} from "@/features/setiings/car-brand/schemas";
+import { createCarBrand, updateCarBrand } from "@/features/setiings/car-brand/service";
 import { TextField } from "@/components/ui/form-fields";
 import React from "react";
 

@@ -1,7 +1,7 @@
 import { api } from "./api";
 import { AxiosError } from "axios";
 import { ApiResponse } from "@/types";
-import { logout } from "@/server/auth";
+import { logout } from "@/features/auth/service";
 
 class ApiClient {
   async get<T>(url: string): Promise<ApiResponse<T>> {

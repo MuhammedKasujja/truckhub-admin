@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
-import { Trip } from "@/types/trip";
+import { Trip } from "@/features/trips/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export function getTripTableColumns(): ColumnDef<Trip>[] {

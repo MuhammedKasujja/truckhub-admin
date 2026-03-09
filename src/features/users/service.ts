@@ -1,12 +1,12 @@
 "use server";
 
+import { SystemUser } from "./types";
 import apiClient from "@/lib/api-client";
-import { SystemUser } from "@/types/user";
 import {
   UserCreateSchemaType,
   UserListSearchParams,
   UserUpdateSchemaType,
-} from "@/schemas/user";
+} from "@/features/users/schemas";
 import { EntityId } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 

@@ -1,5 +1,5 @@
 import z from "zod";
-import { VehicleType } from "@/types/vehicle-type";
+import { VehicleType } from "@/features/setiings/vehicle-types/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,
@@ -19,9 +19,13 @@ export const VehicleTypeUpdateSchema = z.object({
   ...VehicleTypeCreateSchema.partial().shape,
 });
 
-export type VehicleTypeCreateSchemaType = z.infer<typeof VehicleTypeCreateSchema>;
+export type VehicleTypeCreateSchemaType = z.infer<
+  typeof VehicleTypeCreateSchema
+>;
 
-export type VehicleTypeUpdateSchemaType = z.infer<typeof VehicleTypeUpdateSchema>;
+export type VehicleTypeUpdateSchemaType = z.infer<
+  typeof VehicleTypeUpdateSchema
+>;
 
 export const VehicleTypeSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

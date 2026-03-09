@@ -1,4 +1,4 @@
-import { getUserById } from "@/server/users";
+import { getUserById } from "@/features/users/service";
 import { UserForm } from "../../_components/user-form";
 
 export default async function Page(props: PageProps<"/users/[id]/edit">) {

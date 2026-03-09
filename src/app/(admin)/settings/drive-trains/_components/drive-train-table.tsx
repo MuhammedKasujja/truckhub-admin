@@ -7,7 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getDriveTrainColumns } from "./drive-train-table-columns";
-import { getDriveTrains } from "@/server/drive-trains";
+import { getDriveTrains } from "@/features/setiings/drive-trains/service";
 import { DriveTrainForm } from "./drive-train-form";
 
 type DriveTrainTableProps = {

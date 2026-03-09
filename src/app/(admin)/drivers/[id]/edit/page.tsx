@@ -1,5 +1,5 @@
 import { DriverForm } from "../../_components/driver-form";
-import { getDriverById } from "@/server/drivers";
+import { getDriverById } from "@/features/drivers/types";
 
 export default async function Page(props: PageProps<"/drivers/[id]/edit">) {
   const { data } = await getDriverById((await props.params).id);

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
-import { Review } from "@/types/review";
+import { Review } from "@/features/reviews/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export function getReviewTableColumns(): ColumnDef<Review>[] {

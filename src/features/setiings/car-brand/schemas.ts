@@ -1,5 +1,5 @@
 import z from "zod";
-import { CarBrand } from "@/types/car-brand";
+import { CarBrand } from "@/features/setiings/car-brand/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,

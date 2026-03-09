@@ -15,10 +15,10 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { VehicleCreateSchema, VehicleUpdateSchema } from "@/schemas/vehicle";
+import { VehicleCreateSchema, VehicleUpdateSchema } from "@/features/vehicles/schemas";
 import { getVehicleSettings } from "@/server/settings";
-import { createVehicle, updateVehicle } from "@/server/vehicles";
-import { EngineTypes, Gearboxes } from "@/types/vehicle";
+import { createVehicle, updateVehicle } from "@/features/vehicles/service";
+import { EngineTypes, Gearboxes } from "@/features/vehicles/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";

@@ -1,12 +1,12 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { CarModel } from "@/types/car-model";
+import { CarModel } from "@/features/setiings/car-model/types";
 import {
   CarModelCreateSchemaType,
   CarModelListSearchParams,
   CarModelUpdateSchemaType,
-} from "@/schemas/car-model";
+} from "@/features/setiings/car-model/schemas";
 
 export async function getCarModels(input: CarModelListSearchParams) {
   const { data, isSuccess, error } = await apiClient.get<CarModel[]>("/v1/car-models");

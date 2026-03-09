@@ -1,12 +1,12 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { VehicleType } from "@/types/vehicle-type";
+import { VehicleType } from "@/features/setiings/vehicle-types/types";
 import {
   VehicleTypeCreateSchemaType,
   VehicleTypeListSearchParams,
   VehicleTypeUpdateSchemaType,
-} from "@/schemas/vehicle-type";
+} from "@/features/setiings/vehicle-types/schemas";
 
 export async function getVehicleTypes(input: VehicleTypeListSearchParams) {
   const { data, isSuccess, error } =

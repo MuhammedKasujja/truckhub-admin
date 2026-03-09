@@ -4,7 +4,7 @@ import React from "react";
 import { DataTable } from "@/components/data-table";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getTonnages } from "@/server/tonnages";
+import { getTonnages } from "@/features/setiings/tonnage/service";
 import { getTonnageColumns } from "./tonnage-table-columns";
 
 type TonnageTableProps = {

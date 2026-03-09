@@ -1,12 +1,12 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { DriveTrain } from "@/types/drive-train";
+import { DriveTrain } from "@/features/setiings/drive-trains/types";
 import {
   DriveTrainCreateSchemaType,
   DriveTrainListSearchParams,
   DriveTrainUpdateSchemaType,
-} from "@/schemas/drive-train";
+} from "@/features/setiings/drive-trains/schemas";
 
 export async function getDriveTrains(input: DriveTrainListSearchParams) {
   const { data, isSuccess, error } =

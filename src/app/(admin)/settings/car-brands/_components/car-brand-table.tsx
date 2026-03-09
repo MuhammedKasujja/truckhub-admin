@@ -7,7 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getCarBrandColumns } from "./car-brand-table-columns";
-import { getCarBrands } from "@/server/car-brands";
+import { getCarBrands } from "@/features/setiings/car-brand/service";
 import { CarBrandForm } from "./car-brand-form";
 
 type CarBrandTableProps = {

@@ -1,12 +1,12 @@
 "use server";
 
 import apiClient from "@/lib/api-client";
-import { Vehicle } from "@/types/vehicle";
+import { Vehicle } from "@/features/vehicles/types";
 import {
   VehicleCreateSchemaType,
   VehicleListSearchParams,
   VehicleUpdateSchemaType,
-} from "@/schemas/vehicle";
+} from "@/features/vehicles/schemas";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getVehicles(input: VehicleListSearchParams) {

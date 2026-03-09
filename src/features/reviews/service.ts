@@ -1,12 +1,12 @@
 "use server";
 
-import { Review } from "@/types/review";
 import apiClient from "@/lib/api-client";
+import { Review } from "@/features/reviews/types";
 import {
   ReviewCreateSchemaType,
   ReviewListSearchParams,
   ReviewUpdateSchemaType,
-} from "@/schemas/review";
+} from "@/features/reviews/schemas";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getReviews(input: ReviewListSearchParams) {

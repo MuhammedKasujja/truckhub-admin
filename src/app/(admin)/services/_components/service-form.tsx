@@ -15,10 +15,10 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { ServiceCreateSchema, ServiceUpdateSchema } from "@/schemas/service";
-import { createService, updateService } from "@/server/services";
+import { ServiceCreateSchema, ServiceUpdateSchema } from "@/features/services/schemas";
+import { createService, updateService } from "@/features/services/service";
 import { getVehicleSettings } from "@/server/settings";
-import { DistanceUnitList } from "@/types/service";
+import { DistanceUnitList } from "@/features/services/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import React from "react";

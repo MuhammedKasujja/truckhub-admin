@@ -6,7 +6,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getServices } from "@/server/services";
+import { getServices } from "@/features/services/service";
 import { getServiceTableColumns } from "./service-table-columns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

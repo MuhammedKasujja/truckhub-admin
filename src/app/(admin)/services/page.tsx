@@ -1,8 +1,8 @@
-import { getServices } from "@/server/services";
+import { getServices } from "@/features/services/service";
 import { ServiceTable, ServiceTableSkeleton } from "./_components/service-table";
 import { Suspense } from "react";
 import { generatePageSearchParams } from "@/lib/search-params";
-import { ServiceSearchParamsCache } from "@/schemas/service";
+import { ServiceSearchParamsCache } from "@/features/services/schemas";
 
 export default async function ServicesPage(props: PageProps<"/services">) {
   const searchParams = await generatePageSearchParams(

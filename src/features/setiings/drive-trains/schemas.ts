@@ -1,5 +1,5 @@
 import z from "zod";
-import { DriveTrain } from "@/types/drive-train";
+import { DriveTrain } from "@/features/setiings/drive-trains/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,

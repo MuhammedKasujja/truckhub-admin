@@ -15,8 +15,8 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { DriverCreateSchema, DriverUpdateSchema } from "@/schemas/driver";
-import { createDriver, updateDriver } from "@/server/drivers";
+import { DriverCreateSchema, DriverUpdateSchema } from "@/features/drivers/schemas";
+import { createDriver, updateDriver } from "@/features/drivers/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

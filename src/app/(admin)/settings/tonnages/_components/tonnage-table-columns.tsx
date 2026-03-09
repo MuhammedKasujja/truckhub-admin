@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Tonnage } from "@/types/tonnage";
+import { Tonnage } from "@/features/setiings/tonnage/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { TonnageForm } from "./tonnage-form";

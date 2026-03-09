@@ -1,8 +1,8 @@
-import { getUsers } from "@/server/users";
+import { getUsers } from "@/features/users/service";
 import { UserTable, UserTableSkeleton } from "./_components/user-table";
 import { Suspense } from "react";
 import { generatePageSearchParams } from "@/lib/search-params";
-import { UserSearchParamsCache } from "@/schemas/user";
+import { UserSearchParamsCache } from "@/features/users/schemas";
 
 export default async function UsersPage(props: PageProps<"/users">) {
   const searchParams = await generatePageSearchParams(

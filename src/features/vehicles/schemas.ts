@@ -6,7 +6,7 @@ import {
   parseAsStringEnum,
   createSearchParamsCache,
 } from "nuqs/server";
-import { EngineTypes, Gearboxes, Vehicle } from "@/types/vehicle";
+import { EngineTypes, Gearboxes, Vehicle } from "@/features/vehicles/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 
 export const VehicleCreateSchema = z.object({

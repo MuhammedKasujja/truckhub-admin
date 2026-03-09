@@ -1,7 +1,7 @@
-import { getDriveTrains } from "@/server/drive-trains";
+import { getDriveTrains } from "@/features/setiings/drive-trains/service";
 import { DriveTrainTable } from "./_components/drive-train-table";
 import { generatePageSearchParams } from "@/lib/search-params";
-import { DriveTrainSearchParamsCache } from "@/schemas/drive-train";
+import { DriveTrainSearchParamsCache } from "@/features/setiings/drive-trains/schemas";
 
 export default async function Page(props: PageProps<"/settings/drive-trains">) {
   const searchParams = await generatePageSearchParams(

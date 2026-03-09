@@ -1,5 +1,5 @@
 import z from "zod";
-import { SystemUser } from "@/types/user";
+import { SystemUser } from "@/features/users/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,

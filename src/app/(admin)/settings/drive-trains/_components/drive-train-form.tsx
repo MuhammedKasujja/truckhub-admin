@@ -18,8 +18,8 @@ import z from "zod";
 import {
   DriveTrainCreateSchema,
   DriveTrainUpdateSchema,
-} from "@/schemas/drive-train";
-import { createDriveTrain, updateDriveTrain } from "@/server/drive-trains";
+} from "@/features/setiings/drive-trains/schemas";
+import { createDriveTrain, updateDriveTrain } from "@/features/setiings/drive-trains/service";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 

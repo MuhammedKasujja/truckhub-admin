@@ -1,7 +1,7 @@
 import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
-import { deleteServiceById } from "@/server/services";
-import { Service } from "@/types/service";
+import { deleteServiceById } from "@/features/services/service";
+import { Service } from "@/features/services/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon, EditIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";

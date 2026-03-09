@@ -1,4 +1,4 @@
-import { getTonnages } from "@/server/tonnages";
+import { getTonnages } from "@/features/setiings/tonnage/service";
 import { TonnageTable } from "./_components/tonnage-table";
 
 export default function Page() {

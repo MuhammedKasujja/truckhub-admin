@@ -6,7 +6,7 @@ import { useTranslation } from "@/i18n";
 import { useRouter } from "next/navigation";
 import z from "zod";
 import { toast } from "sonner";
-import { login } from "@/server/auth";
+import { login } from "@/features/auth/service";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmailField, PasswordField } from "@/components/ui/form-fields";
