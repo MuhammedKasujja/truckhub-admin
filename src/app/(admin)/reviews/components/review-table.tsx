@@ -9,6 +9,7 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getReviews } from "@/features/reviews/service";
 import { getReviewTableColumns } from "./review-table-columns";
 import { toast } from "sonner";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type ReviewTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getReviews>>]>;
@@ -18,11 +19,7 @@ export function ReviewTable(props: ReviewTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getReviewTableColumns(), []);
 
-  React.useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-    }
-  }, [error]);
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

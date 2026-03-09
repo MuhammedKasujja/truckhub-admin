@@ -6,14 +6,17 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getTonnages } from "@/features/setiings/tonnage/service";
 import { getTonnageColumns } from "./tonnage-table-columns";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type TonnageTableProps = {
   tonnageListPromise: Promise<Awaited<ReturnType<typeof getTonnages>>>;
 };
 
 export function TonnageTable(props: TonnageTableProps) {
-  const { data } = React.use(props.tonnageListPromise);
+  const { data, error } = React.use(props.tonnageListPromise);
   const columns = React.useMemo(() => getTonnageColumns(), []);
+
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

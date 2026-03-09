@@ -9,14 +9,17 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getDriveTrainColumns } from "./drive-train-table-columns";
 import { getDriveTrains } from "@/features/setiings/drive-trains/service";
 import { DriveTrainForm } from "./drive-train-form";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type DriveTrainTableProps = {
   promise: Promise<Awaited<ReturnType<typeof getDriveTrains>>>;
 };
 
 export function DriveTrainTable(props: DriveTrainTableProps) {
-  const { data } = React.use(props.promise);
+  const { data, error } = React.use(props.promise);
   const columns = React.useMemo(() => getDriveTrainColumns(), []);
+
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

@@ -11,7 +11,7 @@ import { getPassengerTableColumns } from "./passenger-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
-import { toast } from "sonner";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type PassengerTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getPassengers>>]>;
@@ -21,11 +21,7 @@ export function PassengerTable(props: PassengerTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getPassengerTableColumns(), []);
 
-  React.useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-    }
-  }, [error]);
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

@@ -11,7 +11,7 @@ import { getVehicleTableColumns } from "./vehicle-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
-import { toast } from "sonner";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type VehicleTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
@@ -21,11 +21,7 @@ export function VehicleTable(props: VehicleTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getVehicleTableColumns(), []);
 
-  React.useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-    }
-  }, [error]);
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

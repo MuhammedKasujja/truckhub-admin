@@ -9,14 +9,17 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getCarBrandColumns } from "./car-brand-table-columns";
 import { getCarBrands } from "@/features/setiings/car-brand/service";
 import { CarBrandForm } from "./car-brand-form";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type CarBrandTableProps = {
   carBrandListPromise: Promise<Awaited<ReturnType<typeof getCarBrands>>>;
 };
 
 export function CarBrandTable(props: CarBrandTableProps) {
-  const { data } = React.use(props.carBrandListPromise);
+  const { data, error } = React.use(props.carBrandListPromise);
   const columns = React.useMemo(() => getCarBrandColumns(), []);
+  
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

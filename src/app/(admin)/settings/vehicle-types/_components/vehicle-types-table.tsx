@@ -9,14 +9,17 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getVehicleTypeColumns } from "./vehicle-table-columns";
 import { getVehicleTypes } from "@/features/setiings/vehicle-types/service";
 import { VehicleTypeForm } from "./vehicle-type-form";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type VehicleTypeTableProps = {
   promise: Promise<Awaited<ReturnType<typeof getVehicleTypes>>>;
 };
 
 export function VehicleTypeTable(props: VehicleTypeTableProps) {
-  const { data } = React.use(props.promise);
+  const { data, error } = React.use(props.promise);
   const columns = React.useMemo(() => getVehicleTypeColumns(), []);
+
+  useFetchEror(error);
 
   const { table } = useDataTable({
     data,

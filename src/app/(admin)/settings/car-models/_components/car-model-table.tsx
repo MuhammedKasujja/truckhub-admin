@@ -10,6 +10,7 @@ import { getCarModelColumns } from "./car-model-table-columns";
 import { getCarModels } from "@/features/setiings/car-model/service";
 import { CarModelForm } from "./car-brand-form";
 import { getVehicleSettings } from "@/server/settings";
+import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type CarModelTableProps = {
   promises: Promise<
@@ -21,9 +22,11 @@ type CarModelTableProps = {
 };
 
 export function CarModelTable(props: CarModelTableProps) {
-  const [{ data: carModels }, { data: vehicleConfigurations }] = React.use(
-    props.promises,
-  );
+  const [{ data: carModels, error }, { data: vehicleConfigurations }] =
+    React.use(props.promises);
+
+  useFetchEror(error);
+
   const columns = React.useMemo(() => getCarModelColumns(), []);
 
   const { table } = useDataTable({

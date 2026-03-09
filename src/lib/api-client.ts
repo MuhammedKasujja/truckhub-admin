@@ -1,10 +1,9 @@
-"use server"
+"use server";
 
-import { api } from "./api";
-import { logger } from "./logger";
+import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { logout } from "@/features/auth/service";
-import { ApiResponse, ApiPaginatedResponse } from "@/types";
+import { ApiResponse, ApiPaginatedResponse, ErrorStatusCode } from "@/types";
 
 export async function getFn<T>(url: string): Promise<ApiResponse<T>> {
   try {
@@ -47,6 +46,7 @@ export async function postFn<T>(
       message: response.data.message,
     };
   } catch (error) {
+    await logoutOnServerActions(error);
     return _handleApiException(error);
   }
 }
@@ -63,6 +63,7 @@ export async function putFn<T>(
       message: response.data.message,
     };
   } catch (error) {
+    await logoutOnServerActions(error);
     return _handleApiException(error);
   }
 }
@@ -79,6 +80,7 @@ export async function patchFn<T>(
       message: response.data.message,
     };
   } catch (error) {
+    await logoutOnServerActions(error);
     return _handleApiException(error);
   }
 }
@@ -92,20 +94,32 @@ export async function deleteFn(url: string): Promise<ApiResponse> {
       message: response.data.message,
     };
   } catch (error) {
+    await logoutOnServerActions(error);
     return _handleApiException(error);
   }
 }
 
 function _handleApiException<T>(error: unknown): ApiResponse<T> {
-  if (error instanceof AxiosError && error.status == 401) {
-    // await logout();
-    logger.info("Now logging out.....")
-  }
+  const statusCode = handleErrorCodes(error);
   return {
     isSuccess: false,
     error: {
       message: (error as any).response.data.error.message,
       code: (error as any).response.data.error.code,
+      status: statusCode,
     },
   };
+}
+
+function handleErrorCodes(error: unknown): ErrorStatusCode | undefined {
+  if (error instanceof AxiosError) {
+    if (error.status == 401) return "NOT_AUTHENTICATED";
+    if (error.status == 403) return "NOT_AUTHORIZED";
+  }
+  return;
+}
+
+async function logoutOnServerActions(error: unknown) {
+  const statusCode = handleErrorCodes(error);
+  if (statusCode === "NOT_AUTHENTICATED") return logout();
 }

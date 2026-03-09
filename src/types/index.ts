@@ -11,12 +11,20 @@ export interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
+export type ErrorStatusCode = "NOT_AUTHORIZED" | "NOT_AUTHENTICATED";
+
 export type ErrorResponse = {
   success: false;
   error: {
     message: string;
     code: string | undefined;
   };
+};
+
+export type AppErrorDetails = {
+  message: string;
+  code: string | undefined;
+  status?: ErrorStatusCode;
 };
 
 export type SuccessResponse<T> = {
@@ -37,10 +45,7 @@ export type ApiResponse<T = unknown> = {
   isSuccess: boolean;
   data?: T;
   message?: string | null;
-  error?: {
-    message: string;
-    code: string | undefined;
-  };
+  error?: Prettify<AppErrorDetails>;
 };
 
 export type ApiPaginatedResponse<T = unknown> = ApiResponse<T> & {
