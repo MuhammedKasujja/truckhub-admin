@@ -1,5 +1,7 @@
 "use client";
 
+//  https://www.mapcn.dev/docs -- Docs for the maps
+
 import MapLibreGL, { type PopupOptions, type MarkerOptions } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import {

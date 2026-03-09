@@ -40,7 +40,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     if (process.env.NODE_ENV === "development") {
       logger.info(
-        `Endpoint  ${(error as any).request.path} [ ${(error as any).request.method} ] ${error.code}\n`,
+        `Endpoint  ${error.config?.url} [ ${error.request.method} ] ${error.code} --> ${error.status}\n`,
       );
       // logger.error(error)
       logger.error(
