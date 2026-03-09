@@ -1,5 +1,5 @@
 import { getVehicleTypes } from "@/features/setiings/vehicle-types/service";
-import { VehicleTypeTable } from "./_components/vehicle-types-table";
+import { VehicleTypeTable } from "@/features/setiings/vehicle-types/components/vehicle-types-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { VehicleTypeSearchParamsCache } from "@/features/setiings/vehicle-types/schemas";
 

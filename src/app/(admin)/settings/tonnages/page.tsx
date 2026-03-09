@@ -1,5 +1,5 @@
 import { getTonnages } from "@/features/setiings/tonnage/service";
-import { TonnageTable } from "./_components/tonnage-table";
+import { TonnageTable } from "@/features/setiings/tonnage/components/tonnage-table";
 
 export default function Page() {
   const promises = getTonnages();

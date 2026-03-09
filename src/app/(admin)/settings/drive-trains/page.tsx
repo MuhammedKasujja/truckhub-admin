@@ -1,5 +1,5 @@
 import { getDriveTrains } from "@/features/setiings/drive-trains/service";
-import { DriveTrainTable } from "./_components/drive-train-table";
+import { DriveTrainTable } from "@/features/setiings/drive-trains/components/drive-train-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { DriveTrainSearchParamsCache } from "@/features/setiings/drive-trains/schemas";
 

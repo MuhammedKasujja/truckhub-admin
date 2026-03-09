@@ -1,5 +1,5 @@
 import { getCarBrands } from "@/features/setiings/car-brand/service";
-import { CarBrandTable } from "./_components/car-brand-table";
+import { CarBrandTable } from "@/features/setiings/car-brand/components/car-brand-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { CarBrandSearchParamsCache } from "@/features/setiings/car-brand/schemas";
 

@@ -1,5 +1,5 @@
 import { getCarModels } from "@/features/setiings/car-model/service";
-import { CarModelTable } from "./_components/car-model-table";
+import { CarModelTable } from "@/features/setiings/car-model/components/car-model-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { CarModelSearchParamsCache } from "@/features/setiings/car-model/schemas";
 import { getVehicleSettings } from "@/server/settings";
