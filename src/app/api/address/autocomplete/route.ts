@@ -29,6 +29,9 @@ export async function GET(req: NextRequest) {
       headers: {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": apiKey,
+        // Return only required fields to reduce API billing
+        "X-Goog-FieldMask":
+          "suggestions.placePrediction.placeId,suggestions.placePrediction.text",
       },
       body: JSON.stringify({
         input: query,
@@ -43,6 +46,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await response.json();
+    logger.info(data);
 
     const suggestions = data.suggestions
       ? data.suggestions.map(
