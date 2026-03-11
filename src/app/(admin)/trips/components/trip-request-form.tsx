@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { TextField } from "@/components/ui/form-fields";
+import { AutoCompleteField, TextField } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
 import { TripCreateSchema } from "@/features/trips/schemas";
 import { createTrip } from "@/features/trips/service";
@@ -61,15 +61,23 @@ export function TripRequestForm({ promises }: TripRequestFormProps) {
           })}
         >
           <FieldGroup>
-            <TextField
+            <AutoCompleteField
               label={tr("common.service")}
               name={"service_id"}
               control={form.control}
+              options={services.map((ele) => ({
+                label: ele.display_name,
+                value: ele.id,
+              }))}
             />
-            <TextField
+            <AutoCompleteField
               label={tr("common.passenger")}
               name={"passenger_id"}
               control={form.control}
+              options={passengers.map((ele) => ({
+                label: ele.fullname,
+                value: ele.id,
+              }))}
             />
             <TextField
               label={tr("common.pickup_location")}
