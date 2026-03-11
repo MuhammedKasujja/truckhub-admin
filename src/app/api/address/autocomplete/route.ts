@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { jsonFormatter, logger } from "@/lib/logger";
 import { getGeolocation } from "@/utils/get-geolocation";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -44,7 +44,18 @@ export async function GET(req: NextRequest) {
 
     const data = await response.json();
 
-    return NextResponse.json({ data: data.suggestions, error: null });
+    const suggestions = data.suggestions
+      ? data.suggestions.map(
+          (suggestion: {
+            placePrediction: { placeId: string; text: { text: string } };
+          }) => ({
+            placeId: suggestion.placePrediction.placeId,
+            name: suggestion.placePrediction.text.text,
+          }),
+        )
+      : [];
+
+    return NextResponse.json({ data: suggestions, error: null });
   } catch (error) {
     logger.info("Error fetching autocomplete suggestions:");
     logger.error(error);

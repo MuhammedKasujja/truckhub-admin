@@ -24,10 +24,8 @@ import { AutoComplete } from "@/components/ui/autocomplete";
 import { logger } from "@/lib/logger";
 
 type LocationData = {
-  id: string;
+  placeId: string;
   name: string;
-  lat: number;
-  long: number;
 };
 
 type TripRequestFormProps = {
@@ -41,7 +39,7 @@ type TripRequestFormProps = {
 
 export function TripRequestForm({ promises }: TripRequestFormProps) {
   const [{ data: services }, { data: passengers }] = React.use(promises);
-  const [selectedLocationId, setSelectedLocation] = React.useState<string>("");
+  const [selectedPlaceId, setSelectedPlaceId] = React.useState<string>("");
 
   const tr = useTranslation();
   const form = useForm<z.infer<typeof TripCreateSchema>>({
@@ -107,41 +105,38 @@ export function TripRequestForm({ promises }: TripRequestFormProps) {
             />
             <AutoComplete<LocationData>
               fetcher={async (query) => {
+                if (!query) return [];
+
                 const response = await fetch(
                   `/api/address/autocomplete?query=${query}`,
                 );
-                const data = await response.json();
-                logger.debug(data);
-                return [];
+                const { data } = await response.json();
+                return data ?? [];
               }}
               renderOption={(location) => (
                 <div className="flex items-center gap-2">
                   <div className="flex flex-col">
                     <div className="font-medium">{location.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {location.lat}/{location.long}
-                    </div>
                   </div>
                 </div>
               )}
-              getOptionValue={(location) => location.id}
+              getOptionValue={(location) => location.placeId}
               getDisplayValue={(location) => (
                 <div className="flex items-center gap-2 text-left">
                   <div className="flex flex-col leading-tight">
                     <div className="font-medium">{location.name}</div>
-                    <div className="text-xxs text-muted-foreground">
-                      {location.lat}/{location.long}
-                    </div>
                   </div>
                 </div>
               )}
               notFound={
-                <div className="py-6 text-center text-sm">No Locations found</div>
+                <div className="py-6 text-center text-sm">
+                  No Locations found
+                </div>
               }
               label="User"
               placeholder="Search location..."
-              value={selectedLocationId}
-              onChange={setSelectedLocation}
+              value={selectedPlaceId}
+              onChange={setSelectedPlaceId}
               width="375px"
             />
             <CardFooter>
