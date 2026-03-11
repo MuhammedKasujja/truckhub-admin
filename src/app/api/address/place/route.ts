@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { jsonFormatter, logger } from "@/lib/logger";
 import { type NextRequest, NextResponse } from "next/server";
 
 export interface AddressType {
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   
   const placeId = searchParams.get("placeId");
-  const url = `https://places.googleapis.com/v1/${placeId}`;
+  const url = `https://places.googleapis.com/v1/places/${placeId}`;
 
   try {
     const response = await fetch(url, {
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await response.json();
-    logger.debug(data)
+    logger.debug(jsonFormatter(data))
 
     const dataFinderRegx = (c: string) => {
       const regx = new RegExp(`<span class="${c}">([^<]+)<\/span>`);
