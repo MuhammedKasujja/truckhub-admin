@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger";
 import { type NextRequest, NextResponse } from "next/server";
 
 export interface AddressType {
@@ -40,6 +41,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await response.json();
+    logger.debug(data)
 
     const dataFinderRegx = (c: string) => {
       const regx = new RegExp(`<span class="${c}">([^<]+)<\/span>`);

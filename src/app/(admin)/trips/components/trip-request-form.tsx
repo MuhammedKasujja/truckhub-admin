@@ -20,13 +20,7 @@ import z from "zod";
 import { getServicesByQuery } from "@/features/services/service";
 import React from "react";
 import { getPassengersByQuery } from "@/features/clients/service";
-import { AutoComplete } from "@/components/ui/autocomplete";
-import { logger } from "@/lib/logger";
-
-type LocationData = {
-  placeId: string;
-  name: string;
-};
+import { LocationAutoComplete } from "@/components/location-autocomplete";
 
 type TripRequestFormProps = {
   promises: Promise<
@@ -39,7 +33,6 @@ type TripRequestFormProps = {
 
 export function TripRequestForm({ promises }: TripRequestFormProps) {
   const [{ data: services }, { data: passengers }] = React.use(promises);
-  const [selectedPlaceId, setSelectedPlaceId] = React.useState<string>("");
 
   const tr = useTranslation();
   const form = useForm<z.infer<typeof TripCreateSchema>>({
@@ -103,42 +96,7 @@ export function TripRequestForm({ promises }: TripRequestFormProps) {
               control={form.control}
               required={false}
             />
-            <AutoComplete<LocationData>
-              fetcher={async (query) => {
-                if (!query) return [];
-
-                const response = await fetch(
-                  `/api/address/autocomplete?query=${query}`,
-                );
-                const { data } = await response.json();
-                return data ?? [];
-              }}
-              renderOption={(location) => (
-                <div className="flex items-center gap-2">
-                  <div className="flex flex-col">
-                    <div className="font-medium">{location.name}</div>
-                  </div>
-                </div>
-              )}
-              getOptionValue={(location) => location.placeId}
-              getDisplayValue={(location) => (
-                <div className="flex items-center gap-2 text-left">
-                  <div className="flex flex-col leading-tight">
-                    <div className="font-medium">{location.name}</div>
-                  </div>
-                </div>
-              )}
-              notFound={
-                <div className="py-6 text-center text-sm">
-                  No Locations found
-                </div>
-              }
-              label="User"
-              placeholder="Search location..."
-              value={selectedPlaceId}
-              onChange={setSelectedPlaceId}
-              width="375px"
-            />
+            <LocationAutoComplete />
             <CardFooter>
               <Button type="submit">{tr("common.form.submit")}</Button>
             </CardFooter>
