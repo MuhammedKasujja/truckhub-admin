@@ -96,7 +96,7 @@ export function TripRequestForm({ promises }: TripRequestFormProps) {
               control={form.control}
               required={false}
             />
-            <LocationAutoComplete />
+            <LocationAutoComplete onPlaceLoaded={(place) => {}} />
             <CardFooter>
               <Button type="submit">{tr("common.form.submit")}</Button>
             </CardFooter>

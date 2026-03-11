@@ -1,26 +1,30 @@
 "use client";
 
 import { AutoComplete } from "@/components/ui/autocomplete";
-import { logger } from "@/lib/logger";
+import {
+  getLocationSuggestions,
+  LocationSuggestion,
+  getLocationDetailsByPlaceId,
+  PlaceDetails,
+} from "@/server/actions/location";
+import { Prettify } from "@/types";
 import React from "react";
 
-type LocationData = {
-  placeId: string;
-  name: string;
+type LocationAutoCompleteProps = {
+  onPlaceLoaded: (place?: Prettify<PlaceDetails> | null) => void;
 };
 
-export function LocationAutoComplete() {
+export function LocationAutoComplete({
+  onPlaceLoaded,
+}: LocationAutoCompleteProps) {
   const [selectedPlaceId, setSelectedPlaceId] = React.useState<string>("");
 
   return (
-    <AutoComplete<LocationData>
+    <AutoComplete<LocationSuggestion>
       fetcher={async (query) => {
         if (!query) return [];
 
-        const response = await fetch(
-          `/api/address/autocomplete?query=${query}`,
-        );
-        const { data } = await response.json();
+        const { data } = await getLocationSuggestions(query);
         return data ?? [];
       }}
       renderOption={(location) => (
@@ -46,10 +50,9 @@ export function LocationAutoComplete() {
       value={selectedPlaceId}
       onChange={async (placeId) => {
         setSelectedPlaceId(placeId);
-        const response = await fetch(`/api/address/place?placeId=${placeId}`);
-        const { data, error } = await response.json();
-        logger.debug(data);
-        logger.error(error);
+        const { data: placeDetails } =
+          await getLocationDetailsByPlaceId(placeId);
+        onPlaceLoaded(placeDetails);
       }}
       width="375px"
     />
