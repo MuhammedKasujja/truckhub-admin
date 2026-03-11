@@ -3,9 +3,9 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { logout } from "@/features/auth/service";
-import { ApiResponse, ApiPaginatedResponse, ErrorStatusCode } from "@/types";
+import { ApiResponse, ApiPaginatedResponse, ErrorStatusCode, Prettify } from "@/types";
 
-export async function getFn<T>(url: string): Promise<ApiResponse<T>> {
+export async function getFn<T>(url: string): Promise<Prettify<ApiResponse<T>>> {
   try {
     const response = await api.get(url);
     return {
@@ -20,7 +20,7 @@ export async function getFn<T>(url: string): Promise<ApiResponse<T>> {
 
 export async function getPaginatedFn<T>(
   url: string,
-): Promise<ApiPaginatedResponse<T>> {
+): Promise<Prettify<ApiPaginatedResponse<T>>> {
   try {
     const response = await api.get(url);
     return {

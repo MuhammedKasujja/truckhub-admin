@@ -7,6 +7,7 @@ import {
   PassengerListSearchParams,
   PassengerUpdateSchemaType,
 } from "@/features/clients/schemas";
+import { SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getPassengers(input: PassengerListSearchParams) {
@@ -22,6 +23,25 @@ export async function getPassengers(input: PassengerListSearchParams) {
   } = await apiClient.getPaginatedFn<Passenger[]>(`/v1/passengers/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
+  return { data: isSuccess ? data! : [], error, pagination };
+}
+
+export async function getPassengersByQuery(query: SearchQuery) {
+  const params = generateApiSearchParams(query);
+
+  const {
+    data,
+    isSuccess,
+    error,
+    pagination: paginator,
+  } = await apiClient.getPaginatedFn<Passenger[]>(`/v1/passengers/?${params}`);
+
+  const pagination = paginator ?? {
+    page: 1,
+    perPage: 10,
+    totalPages: 0,
+    total: 0,
+  };
   return { data: isSuccess ? data! : [], error, pagination };
 }
 

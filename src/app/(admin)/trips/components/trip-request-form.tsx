@@ -17,8 +17,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { getServicesByQuery } from "@/features/services/service";
+import React from "react";
+import { getPassengersByQuery } from "@/features/clients/service";
 
-export function TripRequestForm() {
+type TripRequestFormProps = {
+  promises: Promise<
+    [
+      Awaited<ReturnType<typeof getServicesByQuery>>,
+      Awaited<ReturnType<typeof getPassengersByQuery>>,
+    ]
+  >;
+};
+
+export function TripRequestForm({ promises }: TripRequestFormProps) {
+  const [{ data: services }, { data: passengers }] = React.use(promises);
+
   const tr = useTranslation();
   const form = useForm<z.infer<typeof TripCreateSchema>>({
     resolver: zodResolver(TripCreateSchema),

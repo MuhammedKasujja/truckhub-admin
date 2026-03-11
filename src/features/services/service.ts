@@ -1,16 +1,27 @@
 "use server";
 
-import  * as apiClient from "@/lib/api-client";
+import * as apiClient from "@/lib/api-client";
 import { Service } from "@/features/services/types";
 import {
   ServiceListSearchParams,
   ServiceUpdateSchemaType,
   ServiceCreateSchemaType,
 } from "./schemas";
+import { SearchQuery } from "@/types";
+import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getServices(input: ServiceListSearchParams) {
   const { data, isSuccess, error } =
     await apiClient.getFn<Service[]>("/v1/services");
+  return { data: isSuccess ? data! : [], error };
+}
+
+export async function getServicesByQuery(query: SearchQuery) {
+  const params = generateApiSearchParams(query);
+
+  const { data, isSuccess, error } = await apiClient.getFn<Service[]>(
+    `/v1/services/?${params}`,
+  );
   return { data: isSuccess ? data! : [], error };
 }
 
