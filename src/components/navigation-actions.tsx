@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { LocaleSwitcher } from "./locale-switcher";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "./theme/toggler";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,

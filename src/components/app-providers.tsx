@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider } from "@/components/theme/provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export function AppProviders({
