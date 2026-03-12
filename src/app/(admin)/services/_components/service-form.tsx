@@ -12,6 +12,7 @@ import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   NumberField,
+  SelectField,
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
@@ -138,7 +139,7 @@ export function ServiceForm({
               control={form.control}
               required={false}
             />
-            <AutoCompleteField
+            <SelectField
               label={tr("services.distance_unit")}
               control={form.control}
               name={"distance_unit"}
