@@ -21,6 +21,7 @@ import { getServicesByQuery } from "@/features/services/service";
 import React from "react";
 import { getPassengersByQuery } from "@/features/clients/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
+import { getLocationDistanceTime } from "@/server/actions/location";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -93,13 +94,18 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               }}
             />
             <LocationAutoComplete
-              onPlaceLoaded={(place) => {
+              onPlaceLoaded={async (place) => {
                 if (place) {
                   form.setValue("destination_location", {
                     name: place.address1,
                     lat: place.lat,
                     lng: place.lng,
                     place_id: place.placeId,
+                  });
+                  const pickup = form.getValues("pickup_location");
+                  const { data, error } = await getLocationDistanceTime({
+                    origin: { lat: pickup.lat, lng: pickup.lng },
+                    destination: { lat: place.lat, lng: place.lng },
                   });
                 }
               }}

@@ -1,10 +1,11 @@
 "use server";
 
+import { ActionResult, Prettify } from "@/types";
 import { jsonFormatter, logger } from "@/lib/logger";
 import { getGeolocation } from "@/utils/get-geolocation";
 
 export interface PlaceDetails {
-  placeId: string,
+  placeId: string;
   address1: string;
   address2: string;
   formattedAddress: string;
@@ -19,6 +20,17 @@ export interface PlaceDetails {
 export type LocationSuggestion = {
   placeId: string;
   name: string;
+};
+
+export type LocationDistanceTime = {
+  distanceMeters: number;
+  duration: string;
+  polyline: { encodedPolyline: string };
+};
+
+export type Location = {
+  lat: number;
+  lng: number;
 };
 
 export async function getLocationSuggestions({
@@ -103,7 +115,7 @@ export async function getLocationDetailsByPlaceId({
 }: {
   placeId: string;
   sessionId?: string;
-}) {
+}): Promise<Prettify<ActionResult<PlaceDetails>>> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
 
   if (!apiKey) {
@@ -169,15 +181,70 @@ export async function getLocationDetailsByPlaceId({
     };
     logger.debug(jsonFormatter(formattedData));
     return {
-      data: {
-        ...formattedData,
-        // address: formattedData,
-        // adrAddress: data.adrFormatAddress,
-      },
+      data: formattedData,
       error: null,
     };
   } catch (err) {
     console.error("Error fetching place details:", err);
     return { error: err, data: null };
+  }
+}
+
+/**
+ * Get the distance in meters, time in seconds and the polyline between the origin and destination
+ * @param origin
+ * @param destination
+ * @returns
+ */
+export async function getLocationDistanceTime({
+  origin,
+  destination,
+}: {
+  origin: Prettify<Location>;
+  destination: Prettify<Location>;
+}): Promise<Prettify<ActionResult<LocationDistanceTime>>> {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
+
+  if (!apiKey) {
+    return { error: "Missing API Key", data: null };
+  }
+
+  let url = `https://routes.googleapis.com/directions/v2:computeRoutes`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": apiKey,
+        "X-Goog-FieldMask":
+          "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
+      },
+      body: JSON.stringify({
+        origin: {
+          location: {
+            latLng: {
+              latitude: origin.lat,
+              longitude: origin.lng,
+            },
+          },
+        },
+        destination: {
+          location: {
+            latLng: {
+              latitude: destination.lat,
+              longitude: destination.lng,
+            },
+          },
+        },
+        travelMode: "DRIVE",
+      }),
+    });
+    const data = await response.json();
+
+    return { data: data?.routes[0], error: null };
+  } catch (error) {
+    console.error("Error fetching distance:", error);
+    return { error: error, data: null };
   }
 }

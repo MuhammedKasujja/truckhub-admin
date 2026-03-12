@@ -55,3 +55,8 @@ export type ApiPaginatedResponse<T = unknown> = ApiResponse<T> & {
 export type EntityId = string | number;
 
 export type SearchQuery = { search?: string };
+
+export type ActionResult<T> = {
+  data: T | null;
+  error: string | unknown | null;
+};
