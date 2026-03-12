@@ -7,7 +7,7 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getTrips } from "@/features/trips/service";
 import React from "react";
-import { getTripTableColumns } from "./trip-table-columns";
+import { getBookingTableColumns } from "./booking-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
@@ -20,7 +20,7 @@ type TripTableProps = {
 export function TripTable(props: TripTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
 
-  const columns = React.useMemo(() => getTripTableColumns(), []);
+  const columns = React.useMemo(() => getBookingTableColumns(), []);
 
   useFetchEror(error);
 
@@ -41,9 +41,9 @@ export function TripTable(props: TripTableProps) {
     <DataTable table={table}>
       <DataTableToolbar table={table}>
         <Button asChild>
-          <Link href={"/trips/new"}>
+          <Link href={"/bookings/new"}>
             <PlusIcon />
-            New Trip Request
+            New Booking Request
           </Link>
         </Button>
         <DataTableSortList table={table} align="end" />
@@ -52,10 +52,10 @@ export function TripTable(props: TripTableProps) {
   );
 }
 
-export function TripTableSkeleton() {
+export function BookingTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={getTripTableColumns().length}
+      columnCount={getBookingTableColumns().length}
       filterCount={1}
       shrinkZero
     />

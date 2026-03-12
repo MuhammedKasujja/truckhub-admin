@@ -41,8 +41,8 @@ const data = {
       icon: LayoutDashboard,
     },
     {
-      title: "routes.trips" as const,
-      url: "/trips",
+      title: "routes.bookings" as const,
+      url: "/bookings",
       icon: DatabaseSearch,
     },
     {

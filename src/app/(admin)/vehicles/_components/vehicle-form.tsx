@@ -16,7 +16,10 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { VehicleCreateSchema, VehicleUpdateSchema } from "@/features/vehicles/schemas";
+import {
+  VehicleCreateSchema,
+  VehicleUpdateSchema,
+} from "@/features/vehicles/schemas";
 import { getVehicleSettings } from "@/server/settings";
 import { createVehicle, updateVehicle } from "@/features/vehicles/service";
 import { EngineTypes, Gearboxes } from "@/features/vehicles/types";
@@ -34,6 +37,23 @@ type VehicleFormProps = {
 export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
   const tr = useTranslation();
   const [{ data: vehicleCofig }] = React.use(configPromises);
+  const [vehicleType, setVehicleType] = React.useState<
+    | {
+        name: string;
+        is_truck: boolean;
+        id: number;
+      }
+    | undefined
+  >();
+
+  const [driveTrains, setDriveTrains] = React.useState<
+    {
+      name: string;
+      is_truck: boolean;
+      id: number;
+    }[]
+  >(vehicleCofig?.drive_trains ?? []);
+
   const isEdit = !!initialData;
 
   const formSchema = isEdit ? VehicleUpdateSchema : VehicleCreateSchema;
@@ -42,6 +62,21 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
+
+  const selectedVehicleId = form.watch("vehicle_type_id");
+
+  React.useEffect(() => {
+    const vehicleType = vehicleCofig?.vehicle_types.find(
+      (ele) => ele.id === selectedVehicleId,
+    );
+    setVehicleType(vehicleType);
+    setDriveTrains(
+      vehicleCofig?.drive_trains.filter(
+        (ele) => ele.is_truck === vehicleType?.is_truck,
+      ) ?? [],
+    );
+    // form.reset({ drive_train_id: undefined, tonnage_id: undefined });
+  }, [selectedVehicleId, vehicleCofig]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const promise =
@@ -169,31 +204,34 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 }
               />
               <AutoCompleteField
+                disabled={true}
                 label={tr("common.drive_train")}
                 control={form.control}
                 name={"drive_train_id"}
                 placeholder="Select Car Drive Train"
                 emptyPlaceholder="No Car Drive Train found"
                 options={
-                  vehicleCofig?.drive_trains.map((opt) => ({
+                  driveTrains.map((opt) => ({
                     label: opt.name,
                     value: opt.id,
                   })) ?? []
                 }
               />
-              <AutoCompleteField
-                label={tr("common.tonnage")}
-                control={form.control}
-                name={"tonnage_id"}
-                placeholder="Select Truck tonnage"
-                emptyPlaceholder="No Truck tonnage found"
-                options={
-                  vehicleCofig?.truck_tonnages.map((opt) => ({
-                    label: `${opt.tonnage_min} - ${opt.tonnage_max}`,
-                    value: opt.id,
-                  })) ?? []
-                }
-              />
+              {vehicleType?.is_truck && (
+                <AutoCompleteField
+                  label={tr("common.tonnage")}
+                  control={form.control}
+                  name={"tonnage_id"}
+                  placeholder="Select Truck tonnage"
+                  emptyPlaceholder="No Truck tonnage found"
+                  options={
+                    vehicleCofig?.truck_tonnages.map((opt) => ({
+                      label: `${opt.tonnage_min} - ${opt.tonnage_max}`,
+                      value: opt.id,
+                    })) ?? []
+                  }
+                />
+              )}
             </FieldGroup>
           </div>
           <CardFooter>

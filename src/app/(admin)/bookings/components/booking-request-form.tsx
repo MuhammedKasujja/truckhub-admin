@@ -22,7 +22,7 @@ import React from "react";
 import { getPassengersByQuery } from "@/features/clients/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
 
-type TripRequestFormProps = {
+type BookingRequestFormProps = {
   promises: Promise<
     [
       Awaited<ReturnType<typeof getServicesByQuery>>,
@@ -31,7 +31,7 @@ type TripRequestFormProps = {
   >;
 };
 
-export function TripRequestForm({ promises }: TripRequestFormProps) {
+export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const [{ data: services }, { data: passengers }] = React.use(promises);
 
   const tr = useTranslation();

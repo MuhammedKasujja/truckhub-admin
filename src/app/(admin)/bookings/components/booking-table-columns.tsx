@@ -4,7 +4,7 @@ import { formatDateTime } from "@/lib/format";
 import { Trip } from "@/features/trips/types";
 import { ColumnDef } from "@tanstack/react-table";
 
-export function getTripTableColumns(): ColumnDef<Trip>[] {
+export function getBookingTableColumns(): ColumnDef<Trip>[] {
   return [
     {
       accessorKey: "id",
