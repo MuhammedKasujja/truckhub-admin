@@ -12,6 +12,7 @@ import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   NumberField,
+  SelectField,
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
@@ -95,17 +96,17 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 name={"tank_capacity"}
                 control={form.control}
               />
-              <AutoCompleteField
-                label={tr("engine_type")}
+              <SelectField
+                label={tr("fuel_type")}
                 control={form.control}
                 name={"engine_type"}
-                placeholder="Select engine type"
+                placeholder="Select fuel type"
                 options={EngineTypes.map((opt) => ({
                   label: tr(`common.${opt}`),
                   value: opt,
                 }))}
               />
-              <AutoCompleteField
+              <SelectField
                 label={tr("gearbox")}
                 control={form.control}
                 name={"gearbox"}

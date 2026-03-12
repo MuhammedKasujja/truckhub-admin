@@ -26,7 +26,7 @@ export function LocationAutoComplete({
         if (!query || query.length < 3) return [];
         const { data } = await getLocationSuggestions({
           query,
-          sessionId: sessionId,
+          sessionId,
         });
         return data ?? [];
       }}

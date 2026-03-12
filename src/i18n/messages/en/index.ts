@@ -1,3 +1,5 @@
+import {} from "./modules/services"
+
 const userModuleTranslations = {
   new_user: "New User",
   create_user_help: "Create new user that can access the system",
@@ -10,7 +12,7 @@ const serviceModuleTranslations = {
   new_service: "New Service",
   edit_service: "Edit Service",
   create_new_service: "Create new Service",
-  seats: "Seats",
+  seats: "Seating Capacity",
   base_fare: "Base fare",
   min_fare: "Min fare",
   price_per_min: "Price per minute",
@@ -32,8 +34,10 @@ const vehicleModuleTranslations = {
   interior_color: "Interior color",
   cylinders: "Cylinders",
   tank_capacity: "Tank capacity",
-  engine_type: "Engine type",
+  fuel_type: "Fuel Type",
   gearbox: "Gearbox",
+  year_of_manufacture: "Year of Manufacture",
+  seating_capacity: "Seating Capacity",
 } as const;
 
 const tripModuleTranslations = {

@@ -1,3 +1,16 @@
 export const en = {
-
-} as const
+  new_service: "New Service",
+  edit_service: "Edit Service",
+  create_new_service: "Create new Service",
+  seating_capacity: "Seating Capacity",
+  base_fare: "Base fare",
+  min_fare: "Min fare",
+  price_per_min: "Price per minute",
+  price_per_unit_distance: "Price per unit distance",
+  booking_fee: "Booking fee",
+  tax_fee: "Tax fee",
+  distance_unit: "Distance unit",
+  service_created_successfully: "Service created successfully",
+  service_updated_successfully: "Service updated successfully",
+  year_of_manufacture: "Year of Manufacture"
+} as const;
