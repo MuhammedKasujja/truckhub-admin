@@ -28,6 +28,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { EntityId } from "@/types";
 
 type VehicleFormProps = {
   configPromises: Promise<[Awaited<ReturnType<typeof getVehicleSettings>>]>;
@@ -41,7 +42,7 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     | {
         name: string;
         is_truck: boolean;
-        id: number;
+        id: EntityId;
       }
     | undefined
   >();
@@ -50,9 +51,16 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     {
       name: string;
       is_truck: boolean;
-      id: number;
+      id: EntityId;
     }[]
   >(vehicleCofig?.drive_trains ?? []);
+
+  const [carModels, setCarModels] = React.useState<
+    {
+      name: string;
+      id: EntityId;
+    }[]
+  >(vehicleCofig?.car_models ?? []);
 
   const isEdit = !!initialData;
 
@@ -64,7 +72,9 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
   });
 
   const selectedVehicleId = form.watch("vehicle_type_id");
+  const selectedCarBrandId = form.watch("car_brand_id");
 
+  //  Track vehicle type select to populate drive trains for small cars and trucks
   React.useEffect(() => {
     const vehicleType = vehicleCofig?.vehicle_types.find(
       (ele) => ele.id === selectedVehicleId,
@@ -77,6 +87,19 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     );
     // form.reset({ drive_train_id: undefined, tonnage_id: undefined });
   }, [selectedVehicleId, vehicleCofig]);
+
+
+  //  Populate car models basing on car selected car make
+  React.useEffect(() => {
+    const carBrand = vehicleCofig?.car_brands.find(
+      (ele) => ele.id === selectedCarBrandId,
+    );
+    setCarModels(
+      vehicleCofig?.car_models.filter(
+        (ele) => ele.car_brand_id === carBrand?.id,
+      ) ?? [],
+    );
+  }, [selectedCarBrandId, vehicleCofig]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const promise =
@@ -197,7 +220,7 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 placeholder="Select Car Mode"
                 emptyPlaceholder="No Car Model found"
                 options={
-                  vehicleCofig?.car_models.map((opt) => ({
+                  carModels.map((opt) => ({
                     label: opt.name,
                     value: opt.id,
                   })) ?? []

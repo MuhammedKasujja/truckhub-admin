@@ -1,3 +1,5 @@
+import { EntityId } from "@/types";
+
 export type Setting = {
   key: string;
   value: unknown;
@@ -8,24 +10,25 @@ export type VehicleConfigurations = {
     {
       name: string;
       is_truck: boolean;
-      id: number;
+      id: EntityId;
     },
   ];
   car_brands: [
     {
       name: string;
-      id: number;
+      id: EntityId;
     },
   ];
   car_models: [
     {
       name: string;
-      id: number;
+      id: EntityId;
+      car_brand_id: EntityId;
     },
   ];
   truck_tonnages: [
     {
-      id: number;
+      id: EntityId;
       tonnage: string;
       tonnage_min: number;
       tonnage_max: number;
@@ -36,14 +39,14 @@ export type VehicleConfigurations = {
       name: string;
       capacity: number;
       vehicle_type_id: number;
-      id: number;
+      id: EntityId;
     },
   ];
   drive_trains: [
     {
       name: string;
       is_truck: boolean;
-      id: number;
+      id: EntityId;
     },
   ];
 };
