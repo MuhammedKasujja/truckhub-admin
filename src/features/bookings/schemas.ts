@@ -9,12 +9,21 @@ import {
   createSearchParamsCache,
 } from "nuqs/server";
 
+export const LocationSchema = z.object({
+  name: z.string(),
+  lat: z.number(),
+  lng: z.number(),
+  place_id: z.string(),
+});
+
 export const BookingCreateSchema = z.object({
   service_id: z.number(),
-  passenger_id: z.string(),
+  passenger_id: z.number(),
   driver_id: z.string().optional(),
-  pickup_location: z.string(),
-  dropoff_location: z.string(),
+  pickup_location: LocationSchema,
+  destination_location: LocationSchema,
+  requires_fuel: z.boolean().default(false).optional(),
+  is_scheduled: z.boolean().default(false).optional(),
 });
 
 export const BookingUpdateSchema = z.object({

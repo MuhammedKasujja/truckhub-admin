@@ -80,15 +80,29 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                 value: ele.id,
               }))}
             />
-            <TextField
-              label={tr("common.pickup_location")}
-              name={"pickup_location"}
-              control={form.control}
+            <LocationAutoComplete
+              onPlaceLoaded={(place) => {
+                if (place) {
+                  form.setValue("pickup_location", {
+                    name: place.address1,
+                    lat: place.lat,
+                    lng: place.lng,
+                    place_id: place.placeId,
+                  });
+                }
+              }}
             />
-            <TextField
-              label={tr("common.dropoff_location")}
-              name={"dropoff_location"}
-              control={form.control}
+            <LocationAutoComplete
+              onPlaceLoaded={(place) => {
+                if (place) {
+                  form.setValue("destination_location", {
+                    name: place.address1,
+                    lat: place.lat,
+                    lng: place.lng,
+                    place_id: place.placeId,
+                  });
+                }
+              }}
             />
             <TextField
               label={tr("common.driver")}
@@ -96,7 +110,6 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               control={form.control}
               required={false}
             />
-            <LocationAutoComplete onPlaceLoaded={(place) => {}} />
             <CardFooter>
               <Button type="submit">{tr("common.form.submit")}</Button>
             </CardFooter>

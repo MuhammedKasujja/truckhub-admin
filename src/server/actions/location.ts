@@ -4,6 +4,7 @@ import { jsonFormatter, logger } from "@/lib/logger";
 import { getGeolocation } from "@/utils/get-geolocation";
 
 export interface PlaceDetails {
+  placeId: string,
   address1: string;
   address2: string;
   formattedAddress: string;
@@ -155,6 +156,7 @@ export async function getLocationDetailsByPlaceId({
     const formattedAddress = data.formattedAddress;
 
     const formattedData: PlaceDetails = {
+      placeId,
       address1,
       address2,
       formattedAddress,
