@@ -18,13 +18,16 @@ export function LocationAutoComplete({
   onPlaceLoaded,
 }: LocationAutoCompleteProps) {
   const [selectedPlaceId, setSelectedPlaceId] = React.useState<string>("");
+  const [sessionId, setSessionId] = React.useState<string>(crypto.randomUUID());
 
   return (
     <AutoComplete<LocationSuggestion>
       fetcher={async (query) => {
-        if (!query) return [];
-
-        const { data } = await getLocationSuggestions(query);
+        if (!query || query.length < 3) return [];
+        const { data } = await getLocationSuggestions({
+          query,
+          sessionId: sessionId,
+        });
         return data ?? [];
       }}
       renderOption={(location) => (
@@ -50,9 +53,15 @@ export function LocationAutoComplete({
       value={selectedPlaceId}
       onChange={async (placeId) => {
         setSelectedPlaceId(placeId);
-        const { data: placeDetails } =
-          await getLocationDetailsByPlaceId(placeId);
+        const { data: placeDetails } = await getLocationDetailsByPlaceId({
+          placeId,
+          sessionId,
+        });
         onPlaceLoaded(placeDetails);
+        // create a new session id for the next autocomplete or place details request
+        //  because after getting place details the session id becomes invalid
+        const session = crypto.randomUUID();
+        setSessionId(session);
       }}
       width="375px"
     />

@@ -20,11 +20,18 @@ export type LocationSuggestion = {
   name: string;
 };
 
-export async function getLocationSuggestions(query: string) {
+export async function getLocationSuggestions({
+  query,
+  sessionId,
+}: {
+  query: string;
+  sessionId?: string;
+}) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
   if (!apiKey) {
     return { error: "Missing API Key", data: null };
   }
+  logger.debug(`Session Suggestion: ${sessionId}`);
 
   // Check if the hosting provider gives you the country code
   const country = await getGeolocation();
@@ -53,6 +60,7 @@ export async function getLocationSuggestions(query: string) {
         includedPrimaryTypes: primaryTypes,
         // Location biased towards the user's country
         includedRegionCodes: [country],
+        sessionToken: sessionId,
       }),
     });
 
@@ -81,15 +89,35 @@ export async function getLocationSuggestions(query: string) {
     return { error: error, data: null };
   }
 }
+/**
+ *
+ * @param placeId the address of the id used to get place details with latitude and longitude
+ * @param sessionId must be the same used with `getLocationSuggestions(query,sessionId)` in order to cut on the api billing costs
+ * @returns a promise with PlaceDetails
+ */
 
-export async function getLocationDetailsByPlaceId(placeId: string) {
+export async function getLocationDetailsByPlaceId({
+  placeId,
+  sessionId,
+}: {
+  placeId: string;
+  sessionId?: string;
+}) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
 
   if (!apiKey) {
     return { error: "Missing API Key", data: null };
   }
 
-  const url = `https://places.googleapis.com/v1/places/${placeId}`;
+  logger.debug(`Session Place details: ${sessionId} --> ${placeId}`);
+  let url = `https://places.googleapis.com/v1/places/${placeId}`;
+
+  // Use sessionId only when the place id is coming from the autocomplete api.
+  // This make the call to be a single api call and reduces the cost
+
+  if (sessionId) {
+    url = `${url}?sessionToken=${sessionId}`;
+  }
 
   try {
     const response = await fetch(url, {
