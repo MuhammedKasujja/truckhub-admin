@@ -12,19 +12,19 @@ import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 export const VehicleCreateSchema = z.object({
   plate_number: z.string(),
   color: z.string(),
-  interior_color: z.string().optional(),
+  interior_color: z.string().optional().nullable(),
   cylinders: z.number(),
   tank_capacity: z.number(),
   engine_type: z.enum(EngineTypes),
   gearbox: z.enum(Gearboxes),
   // year: z.number().min(2010).max((new Date()).getFullYear()),
   year: z.string(),
-  seats: z.number().optional(),
+  seats: z.number().optional().nullable(),
   vehicle_type_id: z.number(),
   car_brand_id: z.number(),
   car_model_id: z.number(),
   drive_train_id: z.number(),
-  tonnage_id: z.number().optional(),
+  tonnage_id: z.number().optional().nullable(),
 });
 
 export const VehicleUpdateSchema = z.object({

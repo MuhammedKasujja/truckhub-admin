@@ -18,25 +18,25 @@ export async function getBookings(input: BookingListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.getPaginatedFn<Booking[]>(`/v1/trips/?${params}`);
+  } = await apiClient.getPaginatedFn<Booking[]>(`/v1/bookings/?${params}`);
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
 
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getBookingById(tripId: number | string) {
-  return await apiClient.getFn<Booking>(`/v1/trips/${tripId}`);
+  return await apiClient.getFn<Booking>(`/v1/bookings/${tripId}`);
 }
 
 export async function deleteBookingById(tripId: number | string) {
-  return await apiClient.deleteFn(`/v1/trips/${tripId}`);
+  return await apiClient.deleteFn(`/v1/bookings/${tripId}`);
 }
 
 export async function updateBooking(data: BookingUpdateSchemaType) {
   const { id: tripId, ...rest } = data;
-  return await apiClient.putFn(`/v1/trips/${tripId}`, rest);
+  return await apiClient.putFn(`/v1/bookings/${tripId}`, rest);
 }
 
 export async function createBooking(data: BookingCreateSchemaType) {
-  return await apiClient.postFn("/v1/trips", data);
+  return await apiClient.postFn("/v1/bookings", data);
 }
