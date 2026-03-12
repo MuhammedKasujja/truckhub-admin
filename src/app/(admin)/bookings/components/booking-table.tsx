@@ -5,7 +5,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getTrips } from "@/features/trips/service";
+import { getBookings } from "@/features/bookings/service";
 import React from "react";
 import { getBookingTableColumns } from "./booking-table-columns";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,10 @@ import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type TripTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getTrips>>]>;
+  promises: Promise<[Awaited<ReturnType<typeof getBookings>>]>;
 };
 
-export function TripTable(props: TripTableProps) {
+export function BookingTable(props: TripTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
 
   const columns = React.useMemo(() => getBookingTableColumns(), []);

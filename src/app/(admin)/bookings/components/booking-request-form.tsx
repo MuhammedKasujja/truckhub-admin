@@ -11,8 +11,8 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import { AutoCompleteField, TextField } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { TripCreateSchema } from "@/features/trips/schemas";
-import { createTrip } from "@/features/trips/service";
+import { BookingCreateSchema } from "@/features/bookings/schemas";
+import { createBooking } from "@/features/bookings/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -35,12 +35,12 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const [{ data: services }, { data: passengers }] = React.use(promises);
 
   const tr = useTranslation();
-  const form = useForm<z.infer<typeof TripCreateSchema>>({
-    resolver: zodResolver(TripCreateSchema),
+  const form = useForm<z.infer<typeof BookingCreateSchema>>({
+    resolver: zodResolver(BookingCreateSchema),
   });
 
-  async function onSubmit(values: z.infer<typeof TripCreateSchema>) {
-    const { isSuccess, error } = await createTrip(values);
+  async function onSubmit(values: z.infer<typeof BookingCreateSchema>) {
+    const { isSuccess, error } = await createBooking(values);
     if (isSuccess) {
       toast.success(`${tr("trips.trip_created_successfully")}`);
     } else {
