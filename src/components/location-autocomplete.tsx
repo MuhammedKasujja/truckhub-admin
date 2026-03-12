@@ -63,7 +63,6 @@ export function LocationAutoComplete({
         const session = crypto.randomUUID();
         setSessionId(session);
       }}
-      width="375px"
     />
   );
 }

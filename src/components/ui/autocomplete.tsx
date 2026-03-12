@@ -54,8 +54,6 @@ export interface AsyncSelectProps<T> {
   placeholder?: string;
   /** Disable the entire select */
   disabled?: boolean;
-  /** Custom width for the popover */
-  width?: string | number;
   /** Custom class names */
   className?: string;
   /** Custom trigger button class names */
@@ -80,7 +78,6 @@ export function AutoComplete<T>({
   value,
   onChange,
   disabled = false,
-  width = "200px",
   className,
   triggerClassName,
   noResultsMessage,
@@ -196,14 +193,13 @@ export function AutoComplete<T>({
             disabled && "opacity-50 cursor-not-allowed",
             triggerClassName,
           )}
-          style={{ width: width }}
           disabled={disabled}
         >
           {selectedOption ? getDisplayValue(selectedOption) : placeholder}
           <ChevronsUpDown className="opacity-50" size={10} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent style={{ width: width }} className={cn("p-0", className)}>
+      <PopoverContent className={cn("p-0 w-(--radix-popover-trigger-width)", className)}>
         <Command shouldFilter={false}>
           <div className="relative border-b w-full">
             <CommandInput

@@ -72,6 +72,7 @@ export function AutoCompleteField<T extends FieldValues>({
                     !field.value && "text-muted-foreground",
                     fieldState.invalid && "border-destructive",
                   )}
+                  disabled={disabled}
                 >
                   {currentOption ? currentOption.label : placeholder}
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

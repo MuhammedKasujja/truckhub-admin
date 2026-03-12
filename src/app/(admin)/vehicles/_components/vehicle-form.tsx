@@ -88,7 +88,6 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     // form.reset({ drive_train_id: undefined, tonnage_id: undefined });
   }, [selectedVehicleId, vehicleCofig]);
 
-
   //  Populate car models basing on car selected car make
   React.useEffect(() => {
     const carBrand = vehicleCofig?.car_brands.find(
@@ -214,6 +213,7 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 }
               />
               <AutoCompleteField
+                disabled={!form.watch("car_brand_id")}
                 label={tr("common.car_model")}
                 control={form.control}
                 name={"car_model_id"}
@@ -227,7 +227,7 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 }
               />
               <AutoCompleteField
-                disabled={true}
+                disabled={!vehicleType}
                 label={tr("common.drive_train")}
                 control={form.control}
                 name={"drive_train_id"}
