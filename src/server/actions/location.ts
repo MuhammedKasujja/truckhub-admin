@@ -241,6 +241,7 @@ export async function getLocationDistanceTime({
       }),
     });
     const data = await response.json();
+    logger.info(jsonFormatter(data?.routes))
 
     return { data: data?.routes[0], error: null };
   } catch (error) {

@@ -2,7 +2,6 @@
 
 import { useTranslation } from "@/i18n";
 import { SearchIcon } from "lucide-react";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { Kbd } from "./ui/kbd";
 import { searchPlaces } from "@/server/maps";
 import { Button } from "@/components/ui/button";
@@ -42,28 +41,26 @@ export function SearchForm({ ...props }: React.ComponentProps<"div">) {
       <form>
         <DialogTrigger asChild>
           <div {...props} className="flex w-full max-w-xs flex-col gap-6">
-            <InputGroup>
-              <InputGroupInput placeholder={`${tr("search")}...`} />
-              <InputGroupAddon>
-                <SearchIcon />
-              </InputGroupAddon>
-              <InputGroupAddon align="inline-end">
-                <Kbd>⌘K</Kbd>
-              </InputGroupAddon>
-            </InputGroup>
+            <Button
+              type="button"
+              variant={"outline"}
+              className="w-full md:w-52 justify-between text-left font-normal text-muted-foreground"
+            >
+              <SearchIcon />
+              {tr("search")}...
+              <Kbd>⌘K</Kbd>
+            </Button>
           </div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>Search places</DialogTitle>
+            <DialogTitle>Search Truckhub</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Filter and search the entire system in one go
             </DialogDescription>
           </DialogHeader>
           <FieldGroup>
             <Field>
-              <Label htmlFor="name-1">Search places</Label>
               <Input
                 id="name-1"
                 name="name"
@@ -72,14 +69,17 @@ export function SearchForm({ ...props }: React.ComponentProps<"div">) {
               />
             </Field>
           </FieldGroup>
-          {locations && locations.map((loc) => (
-            <Item size={"xs"}>
-              <ItemContent>
-                <ItemTitle>{loc.name}</ItemTitle>
-                <ItemDescription>{loc.lat} - {loc.long}</ItemDescription>
-              </ItemContent>
-            </Item>
-          ))}
+          {locations &&
+            locations.map((loc) => (
+              <Item size={"xs"}>
+                <ItemContent>
+                  <ItemTitle>{loc.name}</ItemTitle>
+                  <ItemDescription>
+                    {loc.lat} - {loc.long}
+                  </ItemDescription>
+                </ItemContent>
+              </Item>
+            ))}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>

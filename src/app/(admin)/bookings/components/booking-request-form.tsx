@@ -9,7 +9,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { AutoCompleteField, TextField } from "@/components/ui/form-fields";
+import {
+  AutoCompleteField,
+  DatePickerField,
+  TextField,
+} from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
 import { BookingCreateSchema } from "@/features/bookings/schemas";
 import { createBooking } from "@/features/bookings/service";
@@ -108,6 +112,11 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                   value: ele.id,
                 }))}
               />
+              <DatePickerField
+                label={"Start time"}
+                name={"request_start_time"}
+                control={form.control}
+              />
               <LocationAutoComplete
                 onPlaceLoaded={(place) => {
                   setLocationDistanceTime(null);
@@ -136,6 +145,12 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                       destination: { lat: place.lat, lng: place.lng },
                     });
                     setLocationDistanceTime(data);
+                    if (data) {
+                      form.setValue("estimated_distance", data.distanceMeters);
+                      // base 10 automatically returns the first numeric string when is encounters 
+                      // the first char `s` in the string `14245s`
+                      form.setValue("estimated_time", parseInt(data.duration, 10));
+                    }
                   }
                 }}
               />
@@ -185,11 +200,11 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                 }}
               >
                 <MapRoute
-                  coordinates={polyline.decode(
-                    locationDistanceTime.polyline.encodedPolyline,
-                  )}
+                  coordinates={polyline
+                    .decode(locationDistanceTime.polyline.encodedPolyline)
+                    .map(([lat, lng]) => [lng, lat])}
                   color="#3b82f6"
-                  width={10}
+                  width={5}
                   opacity={1}
                 />
                 {[

@@ -1,6 +1,5 @@
 import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form'
-import { AsteriskIcon, EyeIcon, EyeOffIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import {
   Field,
   FieldDescription,

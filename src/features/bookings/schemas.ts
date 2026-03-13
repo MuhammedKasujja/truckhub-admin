@@ -24,6 +24,9 @@ export const BookingCreateSchema = z.object({
   destination_location: LocationSchema,
   requires_fuel: z.boolean().default(false).optional(),
   is_scheduled: z.boolean().default(false).optional(),
+  estimated_time: z.number().optional(),
+  estimated_distance: z.number().optional(),
+  request_start_time: z.date(),
 });
 
 export const BookingUpdateSchema = z.object({
