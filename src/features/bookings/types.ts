@@ -3,7 +3,14 @@ export type Booking = {
   origin: string;
   destination: string;
   created_at: Date;
+  request_start_time: Date;
   status: BookingStatus;
+  customer: {
+    id: number;
+    fullname: string;
+    phone: string;
+    email: string;
+  };
 };
 
 export type BookingStatus =

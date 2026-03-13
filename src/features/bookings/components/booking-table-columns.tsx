@@ -3,16 +3,10 @@ import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
 import { Booking } from "@/features/bookings/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { Status } from "@/components/ui/status";
 
 export function getBookingTableColumns(): ColumnDef<Booking>[] {
   return [
-    {
-      accessorKey: "id",
-      header: "Id",
-      cell: ({ row }) => {
-        return <Button variant={"link"}>{row.original.id}</Button>;
-      },
-    },
     {
       accessorKey: "origin",
       header: "Origin",
@@ -28,10 +22,24 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       },
     },
     {
+      accessorKey: "customer",
+      header: "Customer",
+      cell: ({ row }) => {
+        return <p>{row.original.customer.fullname}</p>;
+      },
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        return <Status>{row.original.status}</Status>;
+      },
+    },
+    {
       accessorKey: "created_at",
       header: "Date",
       cell: ({ row }) => {
-        return <p>{formatDateTime(row.original.created_at)}</p>;
+        return <p>{formatDateTime(row.original.request_start_time)}</p>;
       },
     },
     {
