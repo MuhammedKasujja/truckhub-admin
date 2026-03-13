@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
 import { Booking } from "@/features/bookings/types";
@@ -14,17 +14,17 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       },
     },
     {
-      accessorKey: "pickup_location",
+      accessorKey: "origin",
       header: "Origin",
       cell: ({ row }) => {
-        return <p>{row.original.pickup_location}</p>;
+        return <p>{row.original.origin}</p>;
       },
     },
     {
-      accessorKey: "dropoff_location",
+      accessorKey: "destination",
       header: "Destination",
       cell: ({ row }) => {
-        return <p>{row.original.dropoff_location}</p>;
+        return <p>{row.original.destination}</p>;
       },
     },
     {

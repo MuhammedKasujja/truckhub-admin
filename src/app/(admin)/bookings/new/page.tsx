@@ -1,5 +1,5 @@
 import { getServicesByQuery } from "@/features/services/service";
-import { BookingRequestForm } from "../components/booking-request-form";
+import { BookingRequestForm } from "@/features/bookings/components/booking-request-form";
 import { getPassengersByQuery } from "@/features/clients/service";
 
 export default function CreateTripPage() {

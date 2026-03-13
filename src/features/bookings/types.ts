@@ -1,7 +1,15 @@
 export type Booking = {
   id: number;
-  pickup_location: string;
-  dropoff_location: string;
-  created_at: Date,
-  updated_at: Date
+  origin: string;
+  destination: string;
+  created_at: Date;
+  status: BookingStatus;
 };
+
+export type BookingStatus =
+  | "pending"
+  | "matched"
+  | "accepted"
+  | "rejected"
+  | "cancelled"
+  | "completed";
