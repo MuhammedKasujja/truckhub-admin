@@ -146,16 +146,14 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                       origin: { lat: pickup.lat, lng: pickup.lng },
                       destination: { lat: place.lat, lng: place.lng },
                     });
-                    // setLocationDistanceTime(data);
-                    // if (data) {
-                    //   form.setValue("estimated_distance", data.distanceMeters);
-                    //   // base 10 automatically returns the first numeric string when is encounters
-                    //   // the first char `s` in the string `14245s`
-                    //   form.setValue(
-                    //     "estimated_time",
-                    //     parseInt(data.duration, 10),
-                    //   );
-                    // }
+                    setLocationDistanceTime(data);
+                    if (data) {
+                      form.setValue("estimated_distance", data.distance);
+                      form.setValue("polyline_route", data.polyline);
+                      // base 10 automatically returns the first numeric string when is encounters
+                      // the first char `s` in the string `14245s`
+                      form.setValue("estimated_time", data.duration);
+                    }
                   }
                 }}
               />
@@ -176,22 +174,10 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
         <Card>
           <CardContent>
             <div>
-              Estimate Price:{" "}
-              {formatPrice(
-                service.base_fare *
-                  (locationDistanceTime.distanceMeters / 1000),
-              )}
+              Estimate price:{" "}
+              {formatPrice(parseFloat(locationDistanceTime.estimated_cost))}
             </div>
-            <div>
-              Estimate Time price:{" "}
-              {formatPrice(
-                service.price_per_unit_distance *
-                  (locationDistanceTime.distanceMeters / 1000),
-              )}
-            </div>
-            <div>
-              Distance: {formatDistance(locationDistanceTime.distanceMeters)}
-            </div>
+            <div>Distance: {formatDistance(locationDistanceTime.distance)}</div>
             <div className="h-[400px] w-full">
               <Map
                 ref={mapRef}
@@ -206,7 +192,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               >
                 <MapRoute
                   coordinates={polyline
-                    .decode(locationDistanceTime.polyline.encodedPolyline)
+                    .decode(locationDistanceTime.polyline)
                     .map(([lat, lng]) => [lng, lat])}
                   color="#3b82f6"
                   width={5}

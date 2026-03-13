@@ -23,9 +23,10 @@ export type LocationSuggestion = {
 };
 
 export type LocationDistanceTime = {
-  distanceMeters: number;
-  duration: string;
-  polyline: { encodedPolyline: string };
+  estimated_cost: string;
+  distance: number;
+  duration: number;
+  polyline: string;
 };
 
 export type Location = {
@@ -187,65 +188,5 @@ export async function getLocationDetailsByPlaceId({
   } catch (err) {
     console.error("Error fetching place details:", err);
     return { error: err, data: null };
-  }
-}
-
-/**
- * Get the distance in meters, time in seconds and the polyline between the origin and destination
- * @param origin
- * @param destination
- * @returns
- */
-export async function getLocationDistanceTime({
-  origin,
-  destination,
-}: {
-  origin: Prettify<Location>;
-  destination: Prettify<Location>;
-}): Promise<Prettify<ActionResult<LocationDistanceTime>>> {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
-
-  if (!apiKey) {
-    return { error: "Missing API Key", data: null };
-  }
-
-  let url = `https://routes.googleapis.com/directions/v2:computeRoutes`;
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": apiKey,
-        "X-Goog-FieldMask":
-          "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
-      },
-      body: JSON.stringify({
-        origin: {
-          location: {
-            latLng: {
-              latitude: origin.lat,
-              longitude: origin.lng,
-            },
-          },
-        },
-        destination: {
-          location: {
-            latLng: {
-              latitude: destination.lat,
-              longitude: destination.lng,
-            },
-          },
-        },
-        travelMode: "DRIVE",
-      }),
-    });
-    const data = await response.json();
-    logger.info(jsonFormatter(data?.routes))
-
-    return { data: data?.routes[0], error: null };
-  } catch (error) {
-    console.error("Error fetching distance:", error);
-    return { error: error, data: null };
   }
 }

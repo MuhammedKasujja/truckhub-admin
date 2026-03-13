@@ -27,6 +27,7 @@ export const BookingCreateSchema = z.object({
   estimated_time: z.number().optional(),
   estimated_distance: z.number().optional(),
   request_start_time: z.date(),
+  polyline_route: z.string().optional(),
 });
 
 export const BookingUpdateSchema = z.object({
