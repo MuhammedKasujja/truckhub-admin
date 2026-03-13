@@ -16,7 +16,10 @@ import {
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
 import { BookingCreateSchema } from "@/features/bookings/schemas";
-import { createBooking } from "@/features/bookings/service";
+import {
+  computeBookingEsimatedFare,
+  createBooking,
+} from "@/features/bookings/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,10 +28,7 @@ import { getServicesByQuery } from "@/features/services/service";
 import React from "react";
 import { getPassengersByQuery } from "@/features/clients/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
-import {
-  getLocationDistanceTime,
-  LocationDistanceTime,
-} from "@/server/actions/location";
+import { LocationDistanceTime } from "@/server/actions/location";
 import { Service } from "@/features/services/types";
 import { formatDistance, formatPrice } from "@/lib/format";
 import {
@@ -54,8 +54,9 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const [{ data: services }, { data: passengers }] = React.use(promises);
   const mapRef = React.useRef<MapRef>(null);
 
-  const [locationDistanceTime, setLocationDistanceTime] =
-    React.useState<LocationDistanceTime | null>(null);
+  const [locationDistanceTime, setLocationDistanceTime] = React.useState<
+    LocationDistanceTime | undefined
+  >(undefined);
   const [service, setService] = React.useState<Service | undefined>();
 
   const tr = useTranslation();
@@ -119,7 +120,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               />
               <LocationAutoComplete
                 onPlaceLoaded={(place) => {
-                  setLocationDistanceTime(null);
+                  setLocationDistanceTime(undefined);
                   if (place) {
                     form.setValue("pickup_location", {
                       name: place.address1,
@@ -140,17 +141,21 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                       place_id: place.placeId,
                     });
                     const pickup = form.getValues("pickup_location");
-                    const { data } = await getLocationDistanceTime({
+                    const { data } = await computeBookingEsimatedFare({
+                      serviceId: form.getValues("service_id"),
                       origin: { lat: pickup.lat, lng: pickup.lng },
                       destination: { lat: place.lat, lng: place.lng },
                     });
-                    setLocationDistanceTime(data);
-                    if (data) {
-                      form.setValue("estimated_distance", data.distanceMeters);
-                      // base 10 automatically returns the first numeric string when is encounters 
-                      // the first char `s` in the string `14245s`
-                      form.setValue("estimated_time", parseInt(data.duration, 10));
-                    }
+                    // setLocationDistanceTime(data);
+                    // if (data) {
+                    //   form.setValue("estimated_distance", data.distanceMeters);
+                    //   // base 10 automatically returns the first numeric string when is encounters
+                    //   // the first char `s` in the string `14245s`
+                    //   form.setValue(
+                    //     "estimated_time",
+                    //     parseInt(data.duration, 10),
+                    //   );
+                    // }
                   }
                 }}
               />

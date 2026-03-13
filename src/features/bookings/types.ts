@@ -20,3 +20,8 @@ export type BookingStatus =
   | "rejected"
   | "cancelled"
   | "completed";
+
+export type LocationPoint = {
+  lat: number;
+  lng: number;
+};

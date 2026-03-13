@@ -1,13 +1,15 @@
 "use server";
 
-import  * as apiClient from "@/lib/api-client";
-import { Booking } from "@/features/bookings/types";
-import{
+import * as apiClient from "@/lib/api-client";
+import { Booking, LocationPoint } from "@/features/bookings/types";
+import {
   BookingListSearchParams,
   BookingUpdateSchemaType,
   BookingCreateSchemaType,
 } from "@/features/bookings/schemas";
+import { EntityId } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
+import { LocationDistanceTime } from "@/server/actions/location";
 
 export async function getBookings(input: BookingListSearchParams) {
   const { page, perPage } = input;
@@ -24,19 +26,46 @@ export async function getBookings(input: BookingListSearchParams) {
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
-export async function getBookingById(tripId: number | string) {
-  return await apiClient.getFn<Booking>(`/v1/bookings/${tripId}`);
+export async function getBookingById(bookingId: EntityId) {
+  return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}`);
 }
 
-export async function deleteBookingById(tripId: number | string) {
-  return await apiClient.deleteFn(`/v1/bookings/${tripId}`);
+export async function deleteBookingById(bookingId: EntityId) {
+  return await apiClient.deleteFn(`/v1/bookings/${bookingId}`);
 }
 
 export async function updateBooking(data: BookingUpdateSchemaType) {
-  const { id: tripId, ...rest } = data;
-  return await apiClient.putFn(`/v1/bookings/${tripId}`, rest);
+  const { id: bookingId, ...rest } = data;
+  return await apiClient.putFn(`/v1/bookings/${bookingId}`, rest);
 }
 
 export async function createBooking(data: BookingCreateSchemaType) {
   return await apiClient.postFn("/v1/bookings", data);
+}
+
+/**
+ * Get the estimated trip fare between the trip origin and destination
+ * basing on the provided service
+ * @param serviceId service selected 
+ * @param origin booking origin 
+ * @param destination booking destination 
+ * @returns 
+ */
+export async function computeBookingEsimatedFare({
+  serviceId,
+  origin,
+  destination,
+}: {
+  serviceId: EntityId;
+  origin: LocationPoint;
+  destination: LocationPoint;
+}) {
+  return await apiClient.postFn<LocationDistanceTime>(
+    "/v1/bookings/compute-fare",
+    {
+      service_id: serviceId,
+      origin,
+      destination,
+    },
+  );
 }
