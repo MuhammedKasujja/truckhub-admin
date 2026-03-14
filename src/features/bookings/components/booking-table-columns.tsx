@@ -38,7 +38,13 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       accessorKey: "customer",
       header: "Customer",
       cell: ({ row }) => {
-        return <p>{row.original.customer.fullname}</p>;
+        return (
+          <Button variant={"ghost"} asChild>
+            <Link href={`/customers/${row.original.customer.id}/view`}>
+              {row.original.customer.fullname}
+            </Link>
+          </Button>
+        );
       },
     },
     {
