@@ -16,24 +16,24 @@ import {
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
 import {
-  PassengerCreateSchema,
-  PassengerUpdateSchema,
-} from "@/features/clients/schemas";
-import { createCustomer, updateCustomer } from "@/features/clients/service";
+  CustomerCreateSchema,
+  CustomerUpdateSchema,
+} from "@/features/customers/schemas";
+import { createCustomer, updateCustomer } from "@/features/customers/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 type ClientFormProps = {
-  initialData?: z.infer<typeof PassengerUpdateSchema>;
+  initialData?: z.infer<typeof CustomerUpdateSchema>;
 };
 
-export function PassengerForm({ initialData }: ClientFormProps) {
+export function CustomerForm({ initialData }: ClientFormProps) {
   const tr = useTranslation();
   const isEdit = !!initialData;
 
-  const formSchema = isEdit ? PassengerUpdateSchema : PassengerCreateSchema;
+  const formSchema = isEdit ? CustomerUpdateSchema : CustomerCreateSchema;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

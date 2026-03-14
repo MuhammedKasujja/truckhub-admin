@@ -5,21 +5,21 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getCustomers } from "@/features/clients/service";
+import { getCustomers } from "@/features/customers/service";
 import React from "react";
-import { getPassengerTableColumns } from "./passenger-table-columns";
+import { getCustomerTableColumns } from "./customer-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
 
-type PassengerTableProps = {
+type CustomerTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getCustomers>>]>;
 };
 
-export function PassengerTable(props: PassengerTableProps) {
+export function CustomerTable(props: CustomerTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
-  const columns = React.useMemo(() => getPassengerTableColumns(), []);
+  const columns = React.useMemo(() => getCustomerTableColumns(), []);
 
   useFetchEror(error);
 
@@ -40,9 +40,9 @@ export function PassengerTable(props: PassengerTableProps) {
     <DataTable table={table}>
       <DataTableToolbar table={table}>
         <Button asChild>
-          <Link href={"/passengers/new"}>
+          <Link href={"/customers/new"}>
             <PlusIcon />
-            New Passenger
+            New Customer
           </Link>
         </Button>
         <DataTableSortList table={table} align="end" />
@@ -51,10 +51,10 @@ export function PassengerTable(props: PassengerTableProps) {
   );
 }
 
-export function PassengerTableSkeleton() {
+export function CustomerTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={getPassengerTableColumns().length}
+      columnCount={getCustomerTableColumns().length}
       filterCount={1}
       shrinkZero
     />

@@ -1,17 +1,17 @@
 "use server";
 
 import * as apiClient from "@/lib/api-client";
-import { Passenger } from "@/features/clients/types";
+import { Customer } from "@/features/customers/types";
 import {
-  PassengerCreateSchemaType,
-  PassengerListSearchParams,
-  PassengerUpdateSchemaType,
-} from "@/features/clients/schemas";
+  CustomerCreateSchemaType,
+  CustomerListSearchParams,
+  CustomerUpdateSchemaType,
+} from "@/features/customers/schemas";
 import { EntityId, SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
-export async function getCustomers(input: PassengerListSearchParams) {
+export async function getCustomers(input: CustomerListSearchParams) {
   const { page, perPage } = input;
 
   const params = generateApiSearchParams(input);
@@ -21,7 +21,7 @@ export async function getCustomers(input: PassengerListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.getPaginatedFn<Passenger[]>(`/v1/passengers/?${params}`);
+  } = await apiClient.getPaginatedFn<Customer[]>(`/v1/passengers/?${params}`);
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };
@@ -40,22 +40,22 @@ export async function getCustomersByQuery({ search }: SearchQuery) {
 }
 
 export async function getCustomerById(passengerId: EntityId) {
-  return await apiClient.getFn<Passenger>(`/v1/passengers/${passengerId}`);
+  return await apiClient.getFn<Customer>(`/v1/passengers/${passengerId}`);
 }
 
 export async function getCustomerDetailsById(passengerId: EntityId) {
-  return await apiClient.getFn<Passenger>(`/v1/passengers/${passengerId}`);
+  return await apiClient.getFn<Customer>(`/v1/passengers/${passengerId}`);
 }
 
 export async function deleteCustomerById(passengerId: EntityId) {
   return await apiClient.deleteFn(`/v1/passengers/${passengerId}`);
 }
 
-export async function updateCustomer(data: PassengerUpdateSchemaType) {
+export async function updateCustomer(data: CustomerUpdateSchemaType) {
   const { id: passengerId, ...rest } = data;
   return await apiClient.putFn(`/v1/passengers/${passengerId}`, rest);
 }
 
-export async function createCustomer(data: PassengerCreateSchemaType) {
+export async function createCustomer(data: CustomerCreateSchemaType) {
   return await apiClient.postFn("/v1/passengers", data);
 }

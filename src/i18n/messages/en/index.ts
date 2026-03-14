@@ -117,7 +117,7 @@ const en = {
   },
   routes: {
     drivers: "Drivers",
-    passengers: "Passengers",
+    customers: "Customers",
     settings: "Settings",
     dashboard: "Dashboard",
     vehicles: "Vehicles",

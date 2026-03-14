@@ -51,8 +51,8 @@ const data = {
       icon: MonitorCog,
     },
     {
-      title: "routes.passengers" as const,
-      url: "/passengers",
+      title: "routes.customers" as const,
+      url: "/customers",
       icon: Users,
     },
     {

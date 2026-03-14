@@ -1,4 +1,4 @@
-export type Passenger = {
+export type Customer = {
   id: number;
   fullname: string;
   first_name: string

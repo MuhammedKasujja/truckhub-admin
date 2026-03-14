@@ -1,14 +1,14 @@
 import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
-import { deleteCustomerById } from "@/features/clients/service";
-import { Passenger } from "@/features/clients/types";
+import { deleteCustomerById } from "@/features/customers/service";
+import { Customer } from "@/features/customers/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
-export function getPassengerTableColumns(): ColumnDef<Passenger>[] {
+export function getCustomerTableColumns(): ColumnDef<Customer>[] {
   return [
     {
       accessorKey: "name",
@@ -47,7 +47,7 @@ export function getPassengerTableColumns(): ColumnDef<Passenger>[] {
               <EyeIcon />
             </Button>
             <Button variant={"outline"} size={"icon"} asChild>
-              <Link href={`/passengers/${row.original.id}/edit`}>
+              <Link href={`/customers/${row.original.id}/edit`}>
                 <EditIcon />
               </Link>
             </Button>

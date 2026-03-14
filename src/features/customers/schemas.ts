@@ -1,5 +1,5 @@
 import z from "zod";
-import { Passenger } from "@/features/clients/types";
+import { Customer } from "@/features/customers/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,
@@ -9,7 +9,7 @@ import {
   createSearchParamsCache,
 } from "nuqs/server";
 
-export const PassengerCreateSchema = z.object({
+export const CustomerCreateSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
   user_name: z.string().optional().nullable(),
@@ -18,19 +18,19 @@ export const PassengerCreateSchema = z.object({
   password: z.string(),
 });
 
-export const PassengerUpdateSchema = z.object({
+export const CustomerUpdateSchema = z.object({
   id: z.number(),
-  ...PassengerCreateSchema.partial().shape,
+  ...CustomerCreateSchema.partial().shape,
 });
 
-export type PassengerCreateSchemaType = z.infer<typeof PassengerCreateSchema>;
+export type CustomerCreateSchemaType = z.infer<typeof CustomerCreateSchema>;
 
-export type PassengerUpdateSchemaType = z.infer<typeof PassengerUpdateSchema>;
+export type CustomerUpdateSchemaType = z.infer<typeof CustomerUpdateSchema>;
 
-export const PassengerSearchParamsCache = createSearchParamsCache({
+export const CustomerSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
-  sort: getSortingStateParser<Passenger>().withDefault([
+  sort: getSortingStateParser<Customer>().withDefault([
     { id: "created_at", desc: true },
   ]),
   search: parseAsString.withDefault(""),
@@ -40,6 +40,6 @@ export const PassengerSearchParamsCache = createSearchParamsCache({
   joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
 });
 
-export type PassengerListSearchParams = Awaited<
-  ReturnType<typeof PassengerSearchParamsCache.parse>
+export type CustomerListSearchParams = Awaited<
+  ReturnType<typeof CustomerSearchParamsCache.parse>
 >;
