@@ -14,7 +14,13 @@ export function getUserTableColumns(): ColumnDef<SystemUser>[] {
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => {
-        return <Button variant={"link"}>{row.original.name}</Button>;
+        return (
+          <Button variant={"link"} asChild>
+            <Link href={`/users/${row.original.id}/view`}>
+              {row.original.name}
+            </Link>
+          </Button>
+        );
       },
     },
     {
@@ -43,8 +49,10 @@ export function getUserTableColumns(): ColumnDef<SystemUser>[] {
       cell: ({ row }) => {
         return (
           <div className="flex gap-2">
-            <Button variant={"outline"} size={"icon"}>
-              <EyeIcon />
+            <Button variant={"outline"} size={"icon"} asChild>
+              <Link href={`/users/${row.original.id}/view`}>
+                <EyeIcon />
+              </Link>
             </Button>
             <Button variant={"outline"} size={"icon"} asChild>
               <Link href={`/users/${row.original.id}/edit`}>

@@ -1,5 +1,5 @@
 import { getUsers } from "@/features/users/service";
-import { UserTable, UserTableSkeleton } from "./_components/user-table";
+import { UserTable, UserTableSkeleton } from "@/features/users/components/user-table";
 import { Suspense } from "react";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { UserSearchParamsCache } from "@/features/users/schemas";
