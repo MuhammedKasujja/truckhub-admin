@@ -21,7 +21,7 @@ export const ServiceCreateSchema = z.object({
   tax_fee: z.number().optional(),
   distance_unit: z.enum(["km", "miles"]).default("km").optional(),
   vehicle_type_id: z.number(),
-  description: z.string().optional(),
+  description: z.string().optional().nullable(),
 });
 
 export const ServiceUpdateSchema = z.object({

@@ -1,19 +1,31 @@
 "use server";
 
 import * as apiClient from "@/lib/api-client";
-import { Service } from "@/features/services/types";
+import { Service, ServiceGroup } from "@/features/services/types";
 import {
   ServiceListSearchParams,
   ServiceUpdateSchemaType,
   ServiceCreateSchemaType,
 } from "./schemas";
 import { SearchQuery } from "@/types";
+import { jsonFormatter, logger } from "@/lib/logger";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getServices(input: ServiceListSearchParams) {
   const { data, isSuccess, error } =
     await apiClient.getFn<Service[]>("/v1/services");
-  return { data: isSuccess ? data! : [], error };
+  const grouped = Object.groupBy(data! ?? [], (service, _) => service.category);
+
+  const services: ServiceGroup[] = Object.entries(grouped).map(
+    ([category, services]) => ({
+      category: category,
+      is_truck: services?.at(0)?.is_truck ?? false,
+      services: services ?? [],
+    }),
+  );
+
+  logger.error(jsonFormatter(services));
+  return { data: isSuccess ? services : [], error };
 }
 
 export async function getServicesByQuery(query: SearchQuery) {

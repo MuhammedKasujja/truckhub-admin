@@ -28,10 +28,10 @@ export function ServiceTable(props: ServiceTableProps) {
     columns,
     pageCount: 1,
     initialState: {
-      sorting: [{ id: "id", desc: true }],
+      sorting: [{ id: "category", desc: true }],
       //   columnPinning: { right: ["actions"] },
     },
-    getRowId: (originalRow) => originalRow.id.toString(),
+    getRowId: (originalRow) => originalRow.category.toString(),
     shallow: false,
     clearOnDefault: true,
   });
