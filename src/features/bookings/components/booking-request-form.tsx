@@ -57,7 +57,6 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const [locationDistanceTime, setLocationDistanceTime] = React.useState<
     LocationDistanceTime | undefined
   >(undefined);
-  const [service, setService] = React.useState<Service | undefined>();
 
   const tr = useTranslation();
   const form = useForm<z.infer<typeof BookingCreateSchema>>({
@@ -66,9 +65,8 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
 
   const serviceId = form.watch("service_id");
 
-  React.useEffect(() => {
-    const selectedService = services.find((ele) => ele.id === serviceId);
-    setService(selectedService);
+  const service = React.useMemo(() => {
+    return services.find((ele) => ele.id === serviceId);
   }, [serviceId, services]);
 
   async function onSubmit(values: z.infer<typeof BookingCreateSchema>) {
@@ -100,7 +98,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                 name={"service_id"}
                 control={form.control}
                 options={services.map((ele) => ({
-                  label: ele.display_name,
+                  label: ele.name,
                   value: ele.id,
                 }))}
               />
