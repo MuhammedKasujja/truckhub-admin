@@ -7,8 +7,9 @@ import {
   DriverListSearchParams,
   DriverUpdateSchemaType,
 } from "@/features/drivers/schemas";
-import { SearchQuery } from "@/types";
+import { EntityId, SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
+import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
 export async function getDrivers(input: DriverListSearchParams) {
   const { page, perPage } = input;
@@ -25,26 +26,23 @@ export async function getDrivers(input: DriverListSearchParams) {
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
-export async function getDriversByQuery(query: SearchQuery) {
-  const params = generateApiSearchParams(query);
-
-  const {
-    data,
-    isSuccess,
-    error,
-    pagination: paginator,
-  } = await apiClient.getPaginatedFn<Driver[]>(`/v1/drivers/?${params}`);
-
-  const pagination = paginator ?? {
+export async function getDriversByQuery({ search }: SearchQuery) {
+  return getDrivers({
     page: 1,
-    perPage: 10,
-    totalPages: 0,
-    total: 0,
-  };
-  return { data: isSuccess ? data! : [], error, pagination };
+    perPage: DEFAULT_FITER_QUERY_PER_PAGE,
+    sort: [],
+    search: search ?? "",
+    created_at: [],
+    filters: [],
+    joinOperator: "and",
+  });
 }
 
-export async function getDriverById(driverId: number | string) {
+export async function getDriverById(driverId: EntityId) {
+  return await apiClient.getFn<Driver>(`/v1/drivers/${driverId}`);
+}
+
+export async function getDriverDetailsById(driverId: EntityId) {
   return await apiClient.getFn<Driver>(`/v1/drivers/${driverId}`);
 }
 

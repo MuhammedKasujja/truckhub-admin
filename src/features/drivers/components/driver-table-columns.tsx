@@ -44,7 +44,9 @@ export function getDriverTableColumns(): ColumnDef<Driver>[] {
         return (
           <div className="flex gap-2">
             <Button variant={"outline"} size={"icon"}>
-              <EyeIcon />
+              <Link href={`/drivers/${row.original.id}/view`}>
+                <EyeIcon />
+              </Link>
             </Button>
             <Button variant={"outline"} size={"icon"} asChild>
               <Link href={`/drivers/${row.original.id}/edit`}>

@@ -1,0 +1,1 @@
+export const DEFAULT_FITER_QUERY_PER_PAGE = 10;

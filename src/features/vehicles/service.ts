@@ -7,10 +7,11 @@ import {
   VehicleListSearchParams,
   VehicleUpdateSchemaType,
 } from "@/features/vehicles/schemas";
-import { EntityId } from "@/types";
+import { EntityId, SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
+import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
-export async function getVehicles(input: VehicleListSearchParams) {
+export async function getVehicles(input: Partial<VehicleListSearchParams>) {
   const { page, perPage } = input;
   const params = generateApiSearchParams(input);
 
@@ -23,6 +24,18 @@ export async function getVehicles(input: VehicleListSearchParams) {
 
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
   return { data: isSuccess ? data! : [], error, pagination };
+}
+
+export async function getVehiclesByQuery({ search }: SearchQuery) {
+  return getVehicles({
+    page: 1,
+    perPage: DEFAULT_FITER_QUERY_PER_PAGE,
+    sort: [],
+    search: search ?? "",
+    created_at: [],
+    filters: [],
+    joinOperator: "and",
+  });
 }
 
 export async function getVehicleById(vehicleId: EntityId) {

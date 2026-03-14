@@ -9,6 +9,7 @@ import {
 } from "@/features/clients/schemas";
 import { SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
+import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
 export async function getPassengers(input: PassengerListSearchParams) {
   const { page, perPage } = input;
@@ -26,23 +27,16 @@ export async function getPassengers(input: PassengerListSearchParams) {
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
-export async function getPassengersByQuery(query: SearchQuery) {
-  const params = generateApiSearchParams(query);
-
-  const {
-    data,
-    isSuccess,
-    error,
-    pagination: paginator,
-  } = await apiClient.getPaginatedFn<Passenger[]>(`/v1/passengers/?${params}`);
-
-  const pagination = paginator ?? {
+export async function getPassengersByQuery({ search }: SearchQuery) {
+  return getPassengers({
     page: 1,
-    perPage: 10,
-    totalPages: 0,
-    total: 0,
-  };
-  return { data: isSuccess ? data! : [], error, pagination };
+    perPage: DEFAULT_FITER_QUERY_PER_PAGE,
+    sort: [],
+    search: search ?? "",
+    created_at: [],
+    filters: [],
+    joinOperator: "and",
+  });
 }
 
 export async function getPassengerById(passengerId: number | string) {
