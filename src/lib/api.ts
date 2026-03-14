@@ -69,7 +69,7 @@ api.interceptors.response.use(
       });
     }
     if (
-      error.code === "ECONNREFUSED" ||
+      error.code === "ECONNREFUSED" ||  error.code === "ECONNRESET" ||
       error.message.includes("Network Error")
     ) {
       return Promise.reject({
