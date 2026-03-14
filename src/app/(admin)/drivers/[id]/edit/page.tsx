@@ -1,4 +1,4 @@
-import { DriverForm } from "../../_components/driver-form";
+import { DriverForm } from "@/features/drivers/components/driver-form";
 import { getDriverById } from "@/features/drivers/service";
 
 export default async function Page(props: PageProps<"/drivers/[id]/edit">) {
