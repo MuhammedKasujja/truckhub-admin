@@ -4,9 +4,22 @@ import { formatDateTime } from "@/lib/format";
 import { Booking } from "@/features/bookings/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Status } from "@/components/ui/status";
+import Link from "next/link";
 
 export function getBookingTableColumns(): ColumnDef<Booking>[] {
   return [
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => {
+        return (
+          <Button variant={"link"} asChild>
+            <Link href={`/bookings/${row.original.id}/view`}></Link>
+            {row.original.id}
+          </Button>
+        );
+      },
+    },
     {
       accessorKey: "origin",
       header: "Origin",
