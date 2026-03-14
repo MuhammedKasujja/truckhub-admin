@@ -12,7 +12,7 @@ import { Driver } from "@/features/drivers/types";
 export const DriverCreateSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  user_name: z.string().optional(),
+  user_name: z.string().optional().nullable(),
   phone: z.string(),
   email: z.string(),
   password: z.string(),

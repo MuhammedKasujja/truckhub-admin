@@ -12,7 +12,7 @@ import {
 export const UserCreateSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  phone: z.string().optional(),
+  phone: z.string().optional().nullable(),
   email: z.string(),
   password: z.string(),
 });
