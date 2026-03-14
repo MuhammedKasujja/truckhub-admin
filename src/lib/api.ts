@@ -13,6 +13,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
+    if (process.env.NODE_ENV === "development") {
+      logger.info(`Request data **************`);
+      if (config.data) logger.debug(jsonFormatter(config.data));
+    }
     // Skip adding token to login / refresh endpoints
     // const noAuthEndpoints = ["/login", "/refresh-token"];
 
@@ -51,9 +55,7 @@ api.interceptors.response.use(
         }),
       );
     }
-    if (
-      error.code === "ECONNABORTED" 
-    ) {
+    if (error.code === "ECONNABORTED") {
       return Promise.reject({
         ...error,
         response: {
@@ -69,7 +71,8 @@ api.interceptors.response.use(
       });
     }
     if (
-      error.code === "ECONNREFUSED" ||  error.code === "ECONNRESET" ||
+      error.code === "ECONNREFUSED" ||
+      error.code === "ECONNRESET" ||
       error.message.includes("Network Error")
     ) {
       return Promise.reject({
@@ -89,7 +92,9 @@ api.interceptors.response.use(
     // This handles when the API endpoint is Not Found
     if (error.status === 404 && !(error.response?.data as any).error) {
       if (process.env.NODE_ENV === "development") {
-        logger.error(`${error.request.method} ${error.request.path} 404 - NOT FOUND`);
+        logger.error(
+          `${error.request.method} ${error.request.path} 404 - NOT FOUND`,
+        );
       }
       return Promise.reject({
         ...error,

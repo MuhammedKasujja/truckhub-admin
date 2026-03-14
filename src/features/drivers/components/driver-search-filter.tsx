@@ -37,7 +37,7 @@ export function DriverSearchFilter({ onSelected }: DriverSearchFilterProps) {
         <div className="py-6 text-center text-sm">No Drivers found</div>
       }
       label="Location"
-      placeholder="Search location..."
+      placeholder="Search driver..."
       value={driverId}
       onChange={async (driverId) => {
         setDriverId(driverId);

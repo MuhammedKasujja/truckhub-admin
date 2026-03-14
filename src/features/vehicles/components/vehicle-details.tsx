@@ -1,14 +1,25 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { DriverSearchFilter } from "@/features/drivers/components/driver-search-filter";
-import { getVehicleDetailsById } from "@/features/vehicles/service";
+import {
+  getVehicleDetailsById,
+  vehicleAssignDriver,
+} from "@/features/vehicles/service";
 import { useFetchEror } from "@/hooks/use-fetch-error";
+import { Edit2Icon } from "lucide-react";
+import Link from "next/link";
 import React from "react";
+import { toast } from "sonner";
 
 type VehicleDetailsProps = {
   promises: Promise<[Awaited<ReturnType<typeof getVehicleDetailsById>>]>;
@@ -16,28 +27,55 @@ type VehicleDetailsProps = {
 
 export function VehicleDetails({ promises }: VehicleDetailsProps) {
   const [{ data: vehicle, error }] = React.use(promises);
+  const [driverId, setDriverId] = React.useState<string | null>();
 
   useFetchEror(error);
 
+  async function assignDriver() {
+    const { isSuccess, error, message } = await vehicleAssignDriver({
+      vehicle_id: vehicle!.id,
+      driver_id: driverId!,
+    });
+    if (isSuccess) {
+      toast.success(message);
+    } else {
+      toast.error(error?.message);
+    }
+  }
+
   return (
-    <div className="grid grid-cols-2">
-      <Card className="col-span-2">
+    <div className="grid grid-cols-5 grid-flow-col gap-5">
+      <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>{vehicle?.plate_number}</CardTitle>
+          <CardTitle>
+            {vehicle?.plate_number} - {vehicle?.year}
+          </CardTitle>
+          <CardAction>
+            <Button asChild size={"icon"}>
+              <Link href={`/vehicles/${vehicle?.id}/edit`}>
+                <Edit2Icon />
+              </Link>
+            </Button>
+          </CardAction>
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent></CardContent>
       </Card>
-      <Card className="col-span-1">
+      <Card className="col-span-2">
         <CardHeader>
           <CardTitle>Assign Driver</CardTitle>
           <CardDescription>Attach new driver to the vehicle</CardDescription>
         </CardHeader>
         <CardContent>
-            <DriverSearchFilter onSelected={(driverid)=>{
-                
-            }}/>
+          <DriverSearchFilter
+            onSelected={(driverId) => setDriverId(driverId)}
+          />
         </CardContent>
+        <CardFooter>
+          <Button type="button" onClick={()=>assignDriver()}>
+            Submit
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );

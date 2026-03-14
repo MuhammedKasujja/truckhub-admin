@@ -1,12 +1,13 @@
 "use server";
 
-import  * as apiClient from "@/lib/api-client";
+import * as apiClient from "@/lib/api-client";
 import { Vehicle } from "@/features/vehicles/types";
 import {
   VehicleCreateSchemaType,
   VehicleListSearchParams,
   VehicleUpdateSchemaType,
-} from "@/features/vehicles/schemas";;
+} from "@/features/vehicles/schemas";
+import { EntityId } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 
 export async function getVehicles(input: VehicleListSearchParams) {
@@ -24,15 +25,15 @@ export async function getVehicles(input: VehicleListSearchParams) {
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
-export async function getVehicleById(vehicleId: number | string) {
+export async function getVehicleById(vehicleId: EntityId) {
   return await apiClient.getFn<Vehicle>(`/v1/vehicles/${vehicleId}`);
 }
 
-export async function getVehicleDetailsById(vehicleId: number | string) {
+export async function getVehicleDetailsById(vehicleId: EntityId) {
   return await apiClient.getFn<Vehicle>(`/v1/vehicles/${vehicleId}`);
 }
 
-export async function deleteVehicleById(vehicleId: number | string) {
+export async function deleteVehicleById(vehicleId: EntityId) {
   return await apiClient.deleteFn(`/v1/vehicles/${vehicleId}`);
 }
 
@@ -43,4 +44,16 @@ export async function updateVehicle(data: VehicleUpdateSchemaType) {
 
 export async function createVehicle(data: VehicleCreateSchemaType) {
   return await apiClient.postFn("/v1/vehicles", data);
+}
+
+export async function vehicleAssignDriver({
+  vehicle_id,
+  driver_id,
+}: {
+  vehicle_id: EntityId;
+  driver_id: EntityId;
+}) {
+  return await apiClient.postFn(`/v1/vehicles/${vehicle_id}/driver`, {
+    driver_id,
+  });
 }
