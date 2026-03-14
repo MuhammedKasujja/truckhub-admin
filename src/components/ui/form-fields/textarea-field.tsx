@@ -1,22 +1,22 @@
-import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form'
-import { AsteriskIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldLabel,
-} from '@/components/ui/field'
-import { Textarea } from '../textarea'
-import { RequiredLabelIcon } from '@/components/required-label-icon'
+} from "@/components/ui/field";
+import { Textarea } from "../textarea";
+import { RequiredLabelIcon } from "@/components/required-label-icon";
 
-type TextareaFieldProps<F extends FieldValues> = {
-  label?: string
-  control: Control<F>
-  name: FieldPath<F>
-  placeholder?: string
-  description?: string
-  required?: boolean
+interface TextareaFieldProps<
+  F extends FieldValues,
+> extends React.ComponentProps<"textarea"> {
+  label?: string;
+  control: Control<F>;
+  name: FieldPath<F>;
+  placeholder?: string;
+  description?: string;
+  required?: boolean;
 }
 
 export function TextareaField<T extends FieldValues>({
@@ -26,6 +26,7 @@ export function TextareaField<T extends FieldValues>({
   placeholder,
   required = true,
   description,
+  ...rest
 }: Readonly<TextareaFieldProps<T>>) {
   return (
     <Controller
@@ -43,11 +44,12 @@ export function TextareaField<T extends FieldValues>({
             aria-invalid={fieldState.invalid}
             placeholder={placeholder}
             autoComplete="off"
+            {...rest}
           />
           {description && <FieldDescription>{description}</FieldDescription>}
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>
       )}
     />
-  )
+  );
 }

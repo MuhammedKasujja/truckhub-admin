@@ -13,6 +13,7 @@ import {
   AutoCompleteField,
   NumberField,
   SelectField,
+  TextareaField,
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
@@ -149,7 +150,7 @@ export function ServiceForm({
                 value: opt,
               }))}
             />
-            <TextField
+            <TextareaField
               label={tr("common.form.description")}
               name={"description"}
               control={form.control}
