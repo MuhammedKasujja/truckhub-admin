@@ -1,7 +1,13 @@
 import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { deleteServiceById } from "@/features/services/service";
-import { ServiceGroup } from "@/features/services/types";
+import { Service, ServiceGroup } from "@/features/services/types";
+import { formatPrice } from "@/lib/format";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon, EditIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
@@ -23,21 +29,12 @@ export function getServiceTableColumns(): ColumnDef<ServiceGroup>[] {
         return (
           <div className="flex gap-2">
             {row.original.services.map((service) => (
-              <Button asChild variant={"outline"}>
-              <Link href={`/services/${service.id}/edit`} >{service.name}</Link>
-              </Button>
+              <ServiceListItem key={service.id} service={service} />
             ))}
           </div>
         );
       },
     },
-    // {
-    //   accessorKey: "booking_fee",
-    //   header: "Booking Fee",
-    //   cell: ({ row }) => {
-    //     return <p>{row.original.}</p>;
-    //   },
-    // },
     {
       accessorKey: "is_truck",
       header: "Vehicle",
@@ -70,7 +67,7 @@ export function getServiceTableColumns(): ColumnDef<ServiceGroup>[] {
                 //   toast.success(message);
                 //   return { error: false };
                 // } else {
-                return { error: true, message: "" };
+                return { error: true, message: "Not implemented yet...." };
                 // }
               }}
             >
@@ -81,4 +78,27 @@ export function getServiceTableColumns(): ColumnDef<ServiceGroup>[] {
       },
     },
   ];
+}
+
+function ServiceListItem({ service }: { service: Service }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button asChild variant={"outline"}>
+          <Link href={`/services/${service.id}/edit`}>{service.name}</Link>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="right" align="center">
+        <div className="grid grid-cols-1 gap-2">
+          <div>
+            {service.category} - {service.name}
+          </div>
+          <div>Base fee: {formatPrice(service.base_fare)}</div>
+          <div>Booking fee: {formatPrice(service.booking_fee)}</div>
+          <div>Tax fee: {formatPrice(service.tax_fee)}</div>
+          {!service.is_truck && <div>Seats: {service.seats}</div>}
+        </div>
+      </TooltipContent>
+    </Tooltip>
+  );
 }

@@ -1,5 +1,7 @@
+import { EntityId } from "@/types";
+
 export type Driver = {
-  id: number;
+  id: EntityId;
   fullname: string;
   first_name: string
   last_name: string

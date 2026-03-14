@@ -28,6 +28,10 @@ export async function getVehicleById(vehicleId: number | string) {
   return await apiClient.getFn<Vehicle>(`/v1/vehicles/${vehicleId}`);
 }
 
+export async function getVehicleDetailsById(vehicleId: number | string) {
+  return await apiClient.getFn<Vehicle>(`/v1/vehicles/${vehicleId}`);
+}
+
 export async function deleteVehicleById(vehicleId: number | string) {
   return await apiClient.deleteFn(`/v1/vehicles/${vehicleId}`);
 }
