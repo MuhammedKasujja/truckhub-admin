@@ -19,7 +19,7 @@ import {
   PassengerCreateSchema,
   PassengerUpdateSchema,
 } from "@/features/clients/schemas";
-import { createPassenger, updatePassenger } from "@/features/clients/service";
+import { createCustomer, updateCustomer } from "@/features/clients/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -42,7 +42,7 @@ export function PassengerForm({ initialData }: ClientFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const promise =
-      "id" in values ? updatePassenger(values) : createPassenger(values);
+      "id" in values ? updateCustomer(values) : createCustomer(values);
 
     const { isSuccess, error, message } = await promise;
     if (isSuccess) {

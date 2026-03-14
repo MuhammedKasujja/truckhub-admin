@@ -26,7 +26,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { getServicesByQuery } from "@/features/services/service";
 import React from "react";
-import { getPassengersByQuery } from "@/features/clients/service";
+import { getCustomersByQuery } from "@/features/clients/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
 import { LocationDistanceTime } from "@/server/actions/location";
 import { Service } from "@/features/services/types";
@@ -45,7 +45,7 @@ type BookingRequestFormProps = {
   promises: Promise<
     [
       Awaited<ReturnType<typeof getServicesByQuery>>,
-      Awaited<ReturnType<typeof getPassengersByQuery>>,
+      Awaited<ReturnType<typeof getCustomersByQuery>>,
     ]
   >;
 };

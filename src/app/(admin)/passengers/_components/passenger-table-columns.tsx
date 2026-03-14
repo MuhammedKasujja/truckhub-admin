@@ -1,7 +1,7 @@
 import { ActionButton } from "@/components/ui/action-button";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
-import { deletePassengerById } from "@/features/clients/service";
+import { deleteCustomerById } from "@/features/clients/service";
 import { Passenger } from "@/features/clients/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
@@ -56,7 +56,7 @@ export function getPassengerTableColumns(): ColumnDef<Passenger>[] {
               size={"icon"}
               requireAreYouSure
               action={async () => {
-                const { isSuccess, error, message } = await deletePassengerById(
+                const { isSuccess, error, message } = await deleteCustomerById(
                   row.original.id,
                 );
                 if (isSuccess) {

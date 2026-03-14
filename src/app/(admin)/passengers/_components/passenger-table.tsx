@@ -5,7 +5,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getPassengers } from "@/features/clients/service";
+import { getCustomers } from "@/features/clients/service";
 import React from "react";
 import { getPassengerTableColumns } from "./passenger-table-columns";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
 
 type PassengerTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getPassengers>>]>;
+  promises: Promise<[Awaited<ReturnType<typeof getCustomers>>]>;
 };
 
 export function PassengerTable(props: PassengerTableProps) {

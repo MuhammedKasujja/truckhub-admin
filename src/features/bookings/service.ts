@@ -7,9 +7,10 @@ import {
   BookingUpdateSchemaType,
   BookingCreateSchemaType,
 } from "@/features/bookings/schemas";
-import { EntityId } from "@/types";
+import { EntityId, SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 import { LocationDistanceTime } from "@/server/actions/location";
+import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
 export async function getBookings(input: BookingListSearchParams) {
   const { page, perPage } = input;
@@ -26,7 +27,23 @@ export async function getBookings(input: BookingListSearchParams) {
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
+export async function getBookingsByQuery({ search }: SearchQuery) {
+  return getBookings({
+    page: 1,
+    perPage: DEFAULT_FITER_QUERY_PER_PAGE,
+    sort: [],
+    search: search ?? "",
+    created_at: [],
+    filters: [],
+    joinOperator: "and",
+  });
+}
+
 export async function getBookingById(bookingId: EntityId) {
+  return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}`);
+}
+
+export async function getBookingDetailsById(bookingId: EntityId) {
   return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}`);
 }
 
@@ -46,10 +63,10 @@ export async function createBooking(data: BookingCreateSchemaType) {
 /**
  * Get the estimated trip fare between the trip origin and destination
  * basing on the provided service
- * @param serviceId service selected 
- * @param origin booking origin 
- * @param destination booking destination 
- * @returns 
+ * @param serviceId service selected
+ * @param origin booking origin
+ * @param destination booking destination
+ * @returns
  */
 export async function computeBookingEsimatedFare({
   serviceId,

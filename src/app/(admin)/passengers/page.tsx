@@ -1,4 +1,4 @@
-import { getPassengers } from "@/features/clients/service";
+import { getCustomers } from "@/features/clients/service";
 import { Suspense } from "react";
 import {
   PassengerTable,
@@ -13,7 +13,7 @@ export default async function Page(props: PageProps<"/passengers">) {
     PassengerSearchParamsCache,
   );
 
-  const promises = Promise.all([getPassengers(searchParams)]);
+  const promises = Promise.all([getCustomers(searchParams)]);
   return (
     <Suspense fallback={<PassengerTableSkeleton />}>
       <PassengerTable promises={promises} />

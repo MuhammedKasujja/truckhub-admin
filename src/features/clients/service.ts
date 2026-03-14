@@ -7,11 +7,11 @@ import {
   PassengerListSearchParams,
   PassengerUpdateSchemaType,
 } from "@/features/clients/schemas";
-import { SearchQuery } from "@/types";
+import { EntityId, SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
-export async function getPassengers(input: PassengerListSearchParams) {
+export async function getCustomers(input: PassengerListSearchParams) {
   const { page, perPage } = input;
 
   const params = generateApiSearchParams(input);
@@ -27,8 +27,8 @@ export async function getPassengers(input: PassengerListSearchParams) {
   return { data: isSuccess ? data! : [], error, pagination };
 }
 
-export async function getPassengersByQuery({ search }: SearchQuery) {
-  return getPassengers({
+export async function getCustomersByQuery({ search }: SearchQuery) {
+  return getCustomers({
     page: 1,
     perPage: DEFAULT_FITER_QUERY_PER_PAGE,
     sort: [],
@@ -39,19 +39,23 @@ export async function getPassengersByQuery({ search }: SearchQuery) {
   });
 }
 
-export async function getPassengerById(passengerId: number | string) {
+export async function getCustomerById(passengerId: EntityId) {
   return await apiClient.getFn<Passenger>(`/v1/passengers/${passengerId}`);
 }
 
-export async function deletePassengerById(passengerId: number | string) {
+export async function getCustomerDetailsById(passengerId: EntityId) {
+  return await apiClient.getFn<Passenger>(`/v1/passengers/${passengerId}`);
+}
+
+export async function deleteCustomerById(passengerId: EntityId) {
   return await apiClient.deleteFn(`/v1/passengers/${passengerId}`);
 }
 
-export async function updatePassenger(data: PassengerUpdateSchemaType) {
+export async function updateCustomer(data: PassengerUpdateSchemaType) {
   const { id: passengerId, ...rest } = data;
   return await apiClient.putFn(`/v1/passengers/${passengerId}`, rest);
 }
 
-export async function createPassenger(data: PassengerCreateSchemaType) {
+export async function createCustomer(data: PassengerCreateSchemaType) {
   return await apiClient.postFn("/v1/passengers", data);
 }
