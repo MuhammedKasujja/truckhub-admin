@@ -12,15 +12,16 @@ import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   NumberField,
-  SelectField,
   TextareaField,
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { ServiceCreateSchema, ServiceUpdateSchema } from "@/features/services/schemas";
+import {
+  ServiceCreateSchema,
+  ServiceUpdateSchema,
+} from "@/features/services/schemas";
 import { createService, updateService } from "@/features/services/service";
 import { getVehicleSettings } from "@/server/settings";
-import { DistanceUnitList } from "@/features/services/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import React from "react";
@@ -107,6 +108,12 @@ export function ServiceForm({
               required={false}
             />
             <NumberField
+              label={"Minimum Hire Fee"}
+              name={"minimum_hire_fee"}
+              control={form.control}
+              required={false}
+            />
+            <NumberField
               label={tr("services.base_fare")}
               name={"base_fare"}
               control={form.control}
@@ -139,16 +146,6 @@ export function ServiceForm({
               name={"tax_fee"}
               control={form.control}
               required={false}
-            />
-            <SelectField
-              label={tr("services.distance_unit")}
-              control={form.control}
-              name={"distance_unit"}
-              placeholder="Select distance unit"
-              options={DistanceUnitList.map((opt) => ({
-                label: tr(`common.${opt}`),
-                value: opt,
-              }))}
             />
             <TextareaField
               label={tr("common.form.description")}

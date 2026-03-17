@@ -19,8 +19,8 @@ export const ServiceCreateSchema = z.object({
   price_per_unit_distance: z.number(),
   booking_fee: z.number().optional(),
   tax_fee: z.number().optional(),
-  distance_unit: z.enum(["km", "miles"]).default("km").optional(),
   vehicle_type_id: z.number(),
+  minimum_hire_fee: z.string(),
   description: z.string().optional().nullable(),
 });
 
