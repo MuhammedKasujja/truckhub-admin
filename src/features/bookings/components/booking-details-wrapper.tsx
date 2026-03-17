@@ -13,7 +13,7 @@ import { useFetchEror } from "@/hooks/use-fetch-error";
 import { Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { getBookingDetailsById } from "@/features/bookings/service";
+import { getBookingDetailsById } from "@/features/bookings/services";
 import { formatDate } from "@/lib/format";
 import { Status } from "@/components/ui/status";
 

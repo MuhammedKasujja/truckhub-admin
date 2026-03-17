@@ -19,7 +19,7 @@ import { BookingCreateSchema } from "@/features/bookings/schemas";
 import {
   computeBookingEsimatedFare,
   createBooking,
-} from "@/features/bookings/service";
+} from "@/features/bookings/services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

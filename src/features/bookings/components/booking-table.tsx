@@ -5,7 +5,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getBookings } from "@/features/bookings/service";
+import { getBookings } from "@/features/bookings/services";
 import React from "react";
 import { getBookingTableColumns } from "./booking-table-columns";
 import { Button } from "@/components/ui/button";
@@ -40,6 +40,12 @@ export function BookingTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
+        <Button asChild>
+          <Link href={"/bookings/special/new"}>
+            <PlusIcon />
+            Hire
+          </Link>
+        </Button>
         <Button asChild>
           <Link href={"/bookings/new"}>
             <PlusIcon />

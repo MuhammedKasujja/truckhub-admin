@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { BookingTable, BookingTableSkeleton } from "@/features/bookings/components/booking-table";
-import { getBookings } from "@/features/bookings/service";
+import { getBookings } from "@/features/bookings/services";
 import { BookingSearchParamsCache } from "@/features/bookings/schemas";
 import { generatePageSearchParams } from "@/lib/search-params";
 
