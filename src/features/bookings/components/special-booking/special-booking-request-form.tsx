@@ -26,6 +26,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { createSpecialBooking } from "@/features/bookings/services/special-hire-service";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -58,12 +59,12 @@ export function SpecialBookingRequestForm({
   const [{ data: services }, { data: passengers }] = React.use(promises);
 
   async function onSubmit(values: z.infer<typeof SpecialBookingCreateSchema>) {
-    // const { isSuccess, error } = await createBooking(values);
-    // if (isSuccess) {
+    const { isSuccess, error } = await createSpecialBooking(values);
+    if (isSuccess) {
       toast.success(`${tr("trips.trip_created_successfully")}`);
-    // } else {
-    //   toast.error(error!.message);
-    // }
+    } else {
+      toast.error(error!.message);
+    }
   }
 
   return (
@@ -147,7 +148,7 @@ export function SpecialBookingRequestForm({
         <CardFooter>
           <Button
             type="submit"
-            disabled={formState.isSubmitting || fields.length ===0}
+            disabled={formState.isSubmitting || fields.length === 0}
           >
             {formState.isSubmitting && (
               <Loader2 className="size-4 animate-spin" />

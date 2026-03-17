@@ -14,8 +14,9 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       cell: ({ row }) => {
         return (
           <Button variant={"link"} asChild>
-            <Link href={`/bookings/${row.original.id}/view`}></Link>
-            {row.original.id}
+            <Link href={`/bookings/${row.original.id}/view`}>
+              {row.original.id}
+            </Link>
           </Button>
         );
       },
@@ -39,7 +40,7 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       header: "Customer",
       cell: ({ row }) => {
         return (
-          <Button variant={"ghost"} asChild>
+          <Button variant={"link"} asChild>
             <Link href={`/customers/${row.original.customer.id}/view`}>
               {row.original.customer.fullname}
             </Link>
