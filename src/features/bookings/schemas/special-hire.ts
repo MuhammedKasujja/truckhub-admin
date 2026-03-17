@@ -11,16 +11,19 @@ import {
 
 export const ServiceItem = z.object({
   service_name: z.string(),
-  cost_per_item: z.number(),
-  total_items: z.number(),
-  discount: z.number(),
+  cost_per_item: z.string().min(1),
+  total_items: z.number().min(1),
+  discount: z.number().optional(),
 });
 
 export const SpecialBookingCreateSchema = z.object({
   passenger_id: z.number(),
   pickup_time: z.date(),
   return_time: z.date(),
-  services: z.array(ServiceItem),
+  services: z
+    .array(ServiceItem)
+    .min(1, "Add at least one service")
+    .max(20, "Maximum 20 items per order"),
 });
 
 export const SpecialBookingUpdateSchema = z.object({
