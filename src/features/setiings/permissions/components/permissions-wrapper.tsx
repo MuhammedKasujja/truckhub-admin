@@ -24,6 +24,8 @@ type PermissionsWrapperProps = {
 export function PermissionsWrapper({ promises }: PermissionsWrapperProps) {
   const [{ data: roles }] = use(promises);
 
+  const [_, setPermissionCount] = useState<Map<string, number>>(new Map());
+
   const [selectedPermissions, setSelectedPermissions] = useState<Set<string>>(
     new Set(),
   );
@@ -37,23 +39,47 @@ export function PermissionsWrapper({ promises }: PermissionsWrapperProps) {
   const isAllSelected = (permissions: string[]) =>
     permissions.every((p) => selectedPermissions.has(p));
 
-  function togglePermissions(permissions: string[]) {
-    setSelectedPermissions((prev) => {
-      const next = new Set(prev);
+  const togglePermissions = (permissions: string[]) => {
+    setPermissionCount((prev) => {
+      // 1️⃣ Create a copy (immutability for React state)
+      const next = new Map(prev);
 
-      const allSelected = permissions.every((p) => next.has(p));
+      // 2️⃣ Check if ALL permissions in this group are currently selected
+      const allSelected = permissions.every((p) => next.get(p));
 
-      if (allSelected) {
-        // remove all permissions
-        permissions.forEach((p) => next.delete(p));
-      } else {
-        // add all permissions
-        permissions.forEach((p) => next.add(p));
-      }
+      // 3️⃣ Loop through each permission in the group
+      permissions.forEach((p) => {
+        // 4️⃣ Get current count (how many groups added this permission)
+        const count = next.get(p) || 0;
 
+        if (allSelected) {
+          // 5️⃣ If group is already fully selected → we REMOVE it
+
+          // decrement logic
+          if (count <= 1) {
+            // 6️⃣ If this was the only group contributing this permission
+            // → completely remove it
+            next.delete(p);
+          } else {
+            // 7️⃣ Otherwise, just reduce its count
+            next.set(p, count - 1);
+          }
+        } else {
+          // 8️⃣ If group is NOT fully selected → we ADD it
+
+          // increment count (track another group using it)
+          next.set(p, count + 1);
+        }
+      });
+
+      // 9️⃣ Sync the Set with current active permissions
+      // Map keys = permissions that still have count > 0
+      setSelectedPermissions(new Set(next.keys()));
+
+      // 🔟 Return updated Map (React state update)
       return next;
     });
-  }
+  };
 
   async function saveRolePermissions() {
     if (!roleId) {
@@ -107,7 +133,7 @@ export function PermissionsWrapper({ promises }: PermissionsWrapperProps) {
           ))}
         </TabsList>
         {groupedPermissions.map(([module, permissions]) => (
-          <TabsContent value={module}>
+          <TabsContent value={module} key={module}>
             {Object.entries(permissions).map(([group, permissionList]) => (
               <Button
                 type="button"
