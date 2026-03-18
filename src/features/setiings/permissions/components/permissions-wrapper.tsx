@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SystemPermissions } from "@/features/auth/permissions";
-import { getRoles } from "@/server/permissions";
+import { assignPermissionsToRole, getRoles } from "@/server/permissions";
 import { use, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 const modules = Object.keys(SystemPermissions);
 
@@ -54,22 +55,49 @@ export function PermissionsWrapper({ promises }: PermissionsWrapperProps) {
     });
   }
 
+  async function saveRolePermissions() {
+    if (!roleId) {
+      toast.error("Please select a role");
+      return;
+    }
+    const { error, isSuccess } = await assignPermissionsToRole({
+      roleId,
+      permissions: [...selectedPermissions],
+    });
+
+    if (isSuccess) {
+      toast.success("Permissions successfully assigned roles");
+    } else {
+      toast.error(error?.message);
+    }
+  }
+
   return (
     <div className="space-y-4">
-      <Select onValueChange={setRoleId} value={roleId}>
-        <SelectTrigger>
-          <SelectValue placeholder="Select Role" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {(roles ?? []).map((opt) => (
-              <SelectItem key={opt.id} value={opt.id.toString()}>
-                {opt.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      <div className="flex justify-between gap-5 flex-wrap">
+        <Select
+          value={roleId}
+          onValueChange={(role) => {
+            setRoleId(role);
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Role" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {(roles ?? []).map((opt) => (
+                <SelectItem key={opt.id} value={opt.id.toString()}>
+                  {opt.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button type="button" onClick={() => saveRolePermissions()}>
+          Sync Permissions
+        </Button>
+      </div>
       <Tabs defaultValue={modules[0]} className="w-full">
         <TabsList>
           {modules.map((module) => (
