@@ -108,7 +108,7 @@ export const verifySession = cache(async () => {
   };
 });
 
-export async function getAccessToken(): Promise<String> {
+export async function getAccessToken(): Promise<string> {
   const authData = await verifySession();
   return authData.access_token as string;
 }

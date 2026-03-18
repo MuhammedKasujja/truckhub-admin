@@ -79,10 +79,17 @@ export function hasUserPermission(permission: UserPermissionsType): boolean {
   return hasPermission(`users@${permission}`);
 }
 
-// TODO: how to get the logged in user from cache without making the function async 
+// TODO: how to get the logged in user from cache without making the function async
 
 // OPTIONS
 // -- Using context api
 // -- Using zustand
 // -- Using react - cache
 // -- Move auth user to localStorage **** Try to avoid as possible
+
+export const SystemPermissions = {
+  users: UserModulePermissions,
+  bookings: BookingModulePermissions,
+};
+
+export type PermissionModule = keyof typeof SystemPermissions;
