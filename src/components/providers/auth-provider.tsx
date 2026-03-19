@@ -1,12 +1,13 @@
 "use client";
 
-import { KeyNamedPermissions, Permissions } from "@/features/auth/permissions";
+import { UserPermission } from "@/features/auth/permissions";
 import { User } from "@/features/auth/types";
+import { hasPermission as checkPermission } from "@/lib/permissions";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 const AuthContext = createContext<{
   user: User;
-  hasPermission: (perm: Permissions) => boolean;
+  hasPermission: (perm: UserPermission) => boolean;
 } | null>(null);
 
 export function AuthProvider({
@@ -20,25 +21,7 @@ export function AuthProvider({
 
   const [user] = useState(value); // can later add refresh logic if needed
 
-  const hasPermission = (permission: Permissions) => {
-    if (user.is_admin) return true;
-
-    let required: readonly string[] = [];
-
-    if (typeof permission === "string") {
-      required = [permission];
-    } else {
-      // assuming KeyNamedPermissions is imported or available
-      required = KeyNamedPermissions[permission] ?? [];
-    }
-
-    // return required.every((p) => session.permissions.includes(p));
-
-    // All required permissions must be present in user's list
-    const userPermSet = new Set(user?.permissions ?? []);
-
-    return required.every((p) => userPermSet.has(p));
-  };
+  const hasPermission = checkPermission(user);
 
   return (
     <AuthContext.Provider value={{ user, hasPermission }}>
