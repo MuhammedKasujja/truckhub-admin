@@ -1,56 +1,36 @@
-// +++++++++++++++++++++++++++
+import {
+  BookingPermissions,
+  BookingModulePermissions,
+} from "./booking_permissions";
+import {
+  ServicePermissions,
+  ServiceModulePermissions,
+} from "./services_permissions";
+import { UserPermissions, UserModulePermissions } from "./users_permissions";
 
-// sytem users
-const createUser = [
-  "users:create",
-  "bookings:view",
-  "customers:view",
-  "cast_members:view",
-] as const;
-
-const viewUsers = ["users:view", "users:details"] as const;
-
-const deleteUsers = ["users:delete"] as const;
-
-const UserModulePermissions = {
-  "create:users": createUser,
-  "view:users": viewUsers,
-  "delete:users": deleteUsers,
+/**
+ * Derived system permissions based on the `StoreDatabasePermissions`
+ */
+export const KeyNamedPermissions = {
+  ...UserModulePermissions,
+  ...BookingModulePermissions,
+  ...ServiceModulePermissions,
 } as const;
 
-export type UserPermissionsType = keyof typeof UserModulePermissions;
+export type Permissions = keyof typeof KeyNamedPermissions;
 
-export type UserPermissions = `users@${UserPermissionsType}`;
-
-// +++++++++++++++++++++++++++
-// bookings
-const viewBooking = ["bookings:view", "bookings:details"] as const;
-
-const deleteBooking = ["bookings:delete"] as const;
-
-const createBooking = ["bookings:create"] as const;
-
-const editBooking = ["bookings:edit"] as const;
-
-const BookingModulePermissions = {
-  "create:bookings": createBooking,
-  "view:bookings": viewBooking,
-  "delete:bookings": deleteBooking,
-  "edit:bookings": editBooking,
-} as const;
-
-export type BookingPermissionsType = keyof typeof BookingModulePermissions;
-
-export type BookingPermissions = `bookings@${BookingPermissionsType}`;
-
-//
-
-export type Permissions = UserPermissions | BookingPermissions;
-
-export function useHasPermission() {
+export function hasPermission() {
   const { user } = useAuth();
   return (permission: Permissions) => {
-    return Boolean(user?.is_admin || user?.permissions.includes(permission));
+    if (user.is_admin) return true;
+
+    const required = KeyNamedPermissions[permission];
+    if (!required) return false;
+
+    // All required permissions must be present in user's list
+    const userPermSet = new Set(user?.permissions ?? []);
+
+    return required.every((p) => userPermSet.has(p));
   };
 }
 
@@ -67,16 +47,14 @@ type AuthUser = {
   permissions: string[];
 };
 
-export function hasBookingPermission(
-  permission: BookingPermissionsType,
-): boolean {
-  const hasPermission = useHasPermission();
-  return hasPermission(`bookings@${permission}`);
+export function hasBookingPermission(permission: BookingPermissions): boolean {
+  const func = hasPermission();
+  return func(`${permission}`);
 }
 
-export function hasUserPermission(permission: UserPermissionsType): boolean {
-  const hasPermission = useHasPermission();
-  return hasPermission(`users@${permission}`);
+export function hasUserPermission(permission: UserPermissions): boolean {
+  const func = hasPermission();
+  return func(`${permission}`);
 }
 
 // TODO: how to get the logged in user from cache without making the function async
@@ -90,6 +68,19 @@ export function hasUserPermission(permission: UserPermissionsType): boolean {
 export const SystemPermissions = {
   users: UserModulePermissions,
   bookings: BookingModulePermissions,
+  services: ServiceModulePermissions,
 };
 
 export type PermissionModule = keyof typeof SystemPermissions;
+
+/**
+ * Returns Stored database level permission names with typesafe
+ */
+export type StoreDatabasePermissions = {
+  [K in keyof typeof SystemPermissions]: (typeof SystemPermissions)[K][keyof (typeof SystemPermissions)[K]];
+}[keyof typeof SystemPermissions][number];
+
+///
+
+// type CanViewUsers    = Extract<UserPermissions, `${string}:view` | `${string}:details`>;
+// type CanMutateUsers  = Extract<UserPermissions, `${string}:create` | `${string}:delete` | `${string}:edit`>;
