@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-// import { SearchForm } from "@/components/search-form";
 import { VersionSwitcher } from "@/components/version-switcher";
 import {
   Sidebar,
@@ -31,54 +30,77 @@ import {
   ShieldUser,
   ChartLine,
 } from "lucide-react";
+import { UserPermission } from "@/features/auth/permissions";
+import { HasPermission } from "./has-permission";
 
-const data = {
+type SidebarItem = {
+  title: GlobalKeys;
+  url: Route;
+  icon?: LucideIcon;
+  permission: UserPermission;
+};
+
+type SidebarMenuStruct = {
+  versions: string[];
+  items: SidebarItem[];
+};
+
+const data: SidebarMenuStruct = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
+  items: [
     {
-      title: "routes.dashboard" as const,
+      title: "routes.dashboard",
       url: "/dashboard",
       icon: LayoutDashboard,
+      permission: "bookings:view",
     },
     {
-      title: "routes.bookings" as const,
+      title: "routes.bookings",
       url: "/bookings",
       icon: DatabaseSearch,
+      permission: "bookings:view",
     },
     {
-      title: "routes.services" as const,
+      title: "routes.services" ,
       url: "/services",
       icon: MonitorCog,
+      permission: "services:view",
     },
     {
-      title: "routes.customers" as const,
+      title: "routes.customers",
       url: "/customers",
       icon: Users,
+      permission: "customers:view",
     },
     {
-      title: "routes.drivers" as const,
+      title: "routes.drivers",
       url: "/drivers",
       icon: ShieldUser,
+      permission: "drivers:view",
     },
     {
-      title: "routes.vehicles" as const,
+      title: "routes.vehicles",
       url: "/vehicles",
       icon: BusFront,
+      permission: "vehicles:view",
     },
     {
-      title: "routes.users" as const,
+      title: "routes.users",
       url: "/users",
       icon: Users,
+      permission: "users:view",
     },
     {
-      title: "routes.reports" as const,
+      title: "routes.reports",
       url: "/reports",
       icon: ChartLine,
+      permission: "config:view",
     },
     {
-      title: "routes.settings" as const,
+      title: "routes.settings",
       url: "/settings",
       icon: Settings2,
+      permission: "config:view",
     },
   ],
 };
@@ -91,10 +113,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           versions={data.versions}
           defaultVersion={data.versions[0]}
         />
-        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.items} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
@@ -104,11 +125,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 export function NavMain({
   items,
 }: {
-  items: {
-    title: GlobalKeys;
-    url: string;
-    icon?: LucideIcon;
-  }[];
+  items: SidebarItem[];
 }) {
   const pathname = usePathname();
   const tr = useTranslation();
@@ -118,7 +135,8 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <Link href={item.url as Route}>
+              <HasPermission permission={item.permission}>
+              <Link href={item.url}>
                 <SidebarMenuButton
                   tooltip={tr(item.title)}
                   className={cn(
@@ -130,6 +148,7 @@ export function NavMain({
                   <span>{tr(item.title)}</span>
                 </SidebarMenuButton>
               </Link>
+              </HasPermission>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

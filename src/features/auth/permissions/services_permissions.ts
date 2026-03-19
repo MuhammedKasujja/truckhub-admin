@@ -1,6 +1,6 @@
 export const ServiceModulePermissions = {
   "services:create": ["services:create"],
-  "services:view": ["services:list", "service:details"],
+  "services:view": ["services:view_list", "services:view_single"],
   "services:delete": ["services:delete"],
   "services:edit": ["services:update"],
 } as const;
