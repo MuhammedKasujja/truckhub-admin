@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
+import { HasPermission } from "@/components/has-permission";
 
 type ServiceTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getServices>>]>;
@@ -39,12 +40,14 @@ export function ServiceTable(props: ServiceTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
-          <Link href={"/services/new"}>
-            <PlusIcon />
-            New Service
-          </Link>
-        </Button>
+        <HasPermission permission={"services:create"}>
+          <Button asChild>
+            <Link href={"/services/new"}>
+              <PlusIcon />
+              New Service
+            </Link>
+          </Button>
+        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

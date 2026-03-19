@@ -9,6 +9,7 @@ import { NavigationActions } from "@/components/navigation-actions";
 import { getCurrentUser } from "@/lib/session";
 import { SearchForm } from "@/components/search-form";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { Suspense } from "react";
 
 export default async function AdminLayout({
   children,
@@ -45,7 +46,9 @@ export default async function AdminLayout({
           </div>
         </header>
         <div className="p-4">
-          <AuthProvider value={user}>{children}</AuthProvider>
+          <Suspense>
+            <AuthProvider value={user}>{children}</AuthProvider>
+          </Suspense>
         </div>
       </SidebarInset>
     </SidebarProvider>

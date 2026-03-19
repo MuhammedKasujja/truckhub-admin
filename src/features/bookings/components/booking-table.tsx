@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { useAuth } from "@/components/providers/auth-provider";
 import { HasPermission } from "@/components/has-permission";
 
 type TripTableProps = {
@@ -21,7 +20,6 @@ type TripTableProps = {
 
 export function BookingTable(props: TripTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
-  const { hasPermission } = useAuth();
 
   const columns = React.useMemo(() => getBookingTableColumns(), []);
 

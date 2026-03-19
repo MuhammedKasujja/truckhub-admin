@@ -1,0 +1,12 @@
+// +++++++++++++++++++++++++++
+// settings permissions
+export const ConfigModulePermissions = {
+  "config:create": ["settings:create"],
+  "config:view": ["settings:view_single", "settings:view_list"],
+  "config:delete": ["settings:delete"],
+  "config:edit": ["settings:update", "settings:view_single"],
+} as const;
+
+export type ConfigPermissions = keyof typeof ConfigModulePermissions;
+
+// export type ConfigPermissions = `settings@${ConfigPermissionsType}`;

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
+import { HasPermission } from "@/components/has-permission";
 
 type UserTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getUsers>>]>;
@@ -40,12 +41,14 @@ export function UserTable(props: UserTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
-          <Link href={"/users/new"}>
-            <PlusIcon />
-            Add User
-          </Link>
-        </Button>
+        <HasPermission permission="users:create">
+          <Button asChild>
+            <Link href={"/users/new"}>
+              <PlusIcon />
+              Add User
+            </Link>
+          </Button>
+        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
