@@ -6,15 +6,16 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { NavigationActions } from "@/components/navigation-actions";
-import { verifySession } from "@/lib/session";
+import { getCurrentUser } from "@/lib/session";
 import { SearchForm } from "@/components/search-form";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await verifySession();
+  const user = await getCurrentUser();
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -43,7 +44,9 @@ export default async function AdminLayout({
             <NavigationActions />
           </div>
         </header>
-        <div className="p-4">{children}</div>
+        <div className="p-4">
+          <AuthProvider value={user}>{children}</AuthProvider>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
