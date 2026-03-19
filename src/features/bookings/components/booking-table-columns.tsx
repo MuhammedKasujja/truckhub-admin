@@ -5,6 +5,8 @@ import { Booking } from "@/features/bookings/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Status } from "@/components/ui/status";
 import Link from "next/link";
+import { HasPermission } from "@/components/has-permission";
+import { EditIcon, EyeIcon } from "lucide-react";
 
 export function getBookingTableColumns(): ColumnDef<Booking>[] {
   return [
@@ -65,7 +67,24 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
     {
       id: "actions",
       cell: ({ row }) => {
-        return <Button variant={"outline"}>View</Button>;
+        return (
+          <div className="flex gap-2">
+            <HasPermission permission={"bookings:view"}>
+              <Button variant={"outline"} size={"icon"} asChild>
+                <Link href={`/users/${row.original.id}/view`}>
+                  <EyeIcon />
+                </Link>
+              </Button>
+            </HasPermission>
+            <HasPermission permission={"bookings:edit"}>
+              <Button variant={"outline"} size={"icon"} asChild>
+                <Link href={`/users/${row.original.id}/edit`}>
+                  <EditIcon />
+                </Link>
+              </Button>
+            </HasPermission>
+          </div>
+        );
       },
     },
   ];

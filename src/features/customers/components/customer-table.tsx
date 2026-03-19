@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
+import { HasPermission } from "@/components/has-permission";
 
 type CustomerTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getCustomers>>]>;
@@ -39,12 +40,14 @@ export function CustomerTable(props: CustomerTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
-          <Link href={"/customers/new"}>
-            <PlusIcon />
-            New Customer
-          </Link>
-        </Button>
+        <HasPermission permission={"customers:create"}>
+          <Button asChild>
+            <Link href={"/customers/new"}>
+              <PlusIcon />
+              New Customer
+            </Link>
+          </Button>
+        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

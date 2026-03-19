@@ -5,7 +5,7 @@ import { NoPermissionCard } from "./no-permission-card";
 import { useAuth } from "./providers/auth-provider";
 import { useMemo } from "react";
 
-export async function HasPermission({
+export function HasPermission({
   permission,
   renderFallback = false,
   fallbackText,

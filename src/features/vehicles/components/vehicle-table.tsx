@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
+import { HasPermission } from "@/components/has-permission";
 
 type VehicleTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getVehicles>>]>;
@@ -39,12 +40,14 @@ export function VehicleTable(props: VehicleTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
-          <Link href={"/vehicles/new"}>
-            <PlusIcon />
-            New Vehicle
-          </Link>
-        </Button>
+        <HasPermission permission={"vehicles:create"}>
+          <Button asChild>
+            <Link href={"/vehicles/new"}>
+              <PlusIcon />
+              New Vehicle
+            </Link>
+          </Button>
+        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

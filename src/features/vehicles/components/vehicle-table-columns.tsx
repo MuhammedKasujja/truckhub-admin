@@ -7,6 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { HasPermission } from "@/components/has-permission";
 
 export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
   return [
@@ -65,34 +66,40 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
       cell: ({ row }) => {
         return (
           <div className="flex gap-2">
-            <Button variant={"outline"} size={"icon"}>
-              <Link href={`/vehicles/${row.original.id}/view`}>
-                <EyeIcon />
-              </Link>
-            </Button>
-            <Button variant={"outline"} size={"icon"} asChild>
-              <Link href={`/vehicles/${row.original.id}/edit`}>
-                <EditIcon />
-              </Link>
-            </Button>
-            <ActionButton
-              variant={"destructive"}
-              size={"icon"}
-              requireAreYouSure
-              action={async () => {
-                const { isSuccess, error, message } = await deleteVehicleById(
-                  row.original.id,
-                );
-                if (isSuccess) {
-                  toast.success(message);
-                  return { error: false };
-                } else {
-                  return { error: true, message: error?.message };
-                }
-              }}
-            >
-              <Trash2Icon />
-            </ActionButton>
+            <HasPermission permission={"vehicles:view"}>
+              <Button variant={"outline"} size={"icon"}>
+                <Link href={`/vehicles/${row.original.id}/view`}>
+                  <EyeIcon />
+                </Link>
+              </Button>
+            </HasPermission>
+            <HasPermission permission={"vehicles:edit"}>
+              <Button variant={"outline"} size={"icon"} asChild>
+                <Link href={`/vehicles/${row.original.id}/edit`}>
+                  <EditIcon />
+                </Link>
+              </Button>
+            </HasPermission>
+            <HasPermission permission={"vehicles:delete"}>
+              <ActionButton
+                variant={"destructive"}
+                size={"icon"}
+                requireAreYouSure
+                action={async () => {
+                  const { isSuccess, error, message } = await deleteVehicleById(
+                    row.original.id,
+                  );
+                  if (isSuccess) {
+                    toast.success(message);
+                    return { error: false };
+                  } else {
+                    return { error: true, message: error?.message };
+                  }
+                }}
+              >
+                <Trash2Icon />
+              </ActionButton>
+            </HasPermission>
           </div>
         );
       },
