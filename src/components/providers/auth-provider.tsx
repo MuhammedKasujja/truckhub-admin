@@ -7,7 +7,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 
 const AuthContext = createContext<{
   user: User;
-  hasPermission: (perm: UserPermission) => boolean;
+  hasPermission: (permission: UserPermission) => boolean;
 } | null>(null);
 
 export function AuthProvider({

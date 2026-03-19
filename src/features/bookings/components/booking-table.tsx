@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
+import { useAuth } from "@/components/providers/auth-provider";
+import { HasPermission } from "@/components/has-permission";
 
 type TripTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getBookings>>]>;
@@ -19,6 +21,7 @@ type TripTableProps = {
 
 export function BookingTable(props: TripTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
+  const { hasPermission } = useAuth();
 
   const columns = React.useMemo(() => getBookingTableColumns(), []);
 
@@ -40,18 +43,22 @@ export function BookingTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
-          <Link href={"/bookings/special/new"}>
-            <PlusIcon />
-            Hire
-          </Link>
-        </Button>
-        <Button asChild>
-          <Link href={"/bookings/new"}>
-            <PlusIcon />
-            New Booking Request
-          </Link>
-        </Button>
+        <HasPermission permission="bookings:create">
+          <Button asChild>
+            <Link href={"/bookings/special/new"}>
+              <PlusIcon />
+              Hire
+            </Link>
+          </Button>
+        </HasPermission>
+        <HasPermission permission="bookings:create">
+          <Button asChild>
+            <Link href={"/bookings/new"}>
+              <PlusIcon />
+              New Booking Request
+            </Link>
+          </Button>
+        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
