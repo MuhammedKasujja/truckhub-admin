@@ -3,8 +3,11 @@ import { VehicleTable, VehicleTableSkeleton } from "@/features/vehicles/componen
 import { generatePageSearchParams } from "@/lib/search-params";
 import { VehicleSearchParamsCache } from "@/features/vehicles/schemas";
 import { Suspense } from "react";
+import { requirePermission } from "@/lib/auth";
 
 export default async function VehiclePage(props: PageProps<"/vehicles">) {
+  await requirePermission("vehicles:view");
+  
   const searchParams = await generatePageSearchParams(
     props.searchParams,
     VehicleSearchParamsCache,

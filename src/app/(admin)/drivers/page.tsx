@@ -3,8 +3,11 @@ import { Suspense } from "react";
 import { DriverTable, DriverTableSkeleton } from "@/features/drivers/components/driver-table";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { DriverSearchParamsCache } from "@/features/drivers/schemas";
+import { requirePermission } from "@/lib/auth";
 
 export default async function Page(props: PageProps<"/drivers">) {
+  await requirePermission("drivers:view");
+  
   const searchParams = await generatePageSearchParams(
     props.searchParams,
     DriverSearchParamsCache,

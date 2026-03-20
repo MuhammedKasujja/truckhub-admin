@@ -3,8 +3,11 @@ import { ServiceTable, ServiceTableSkeleton } from "@/features/services/componen
 import { Suspense } from "react";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { ServiceSearchParamsCache } from "@/features/services/schemas";
+import { requirePermission } from "@/lib/auth";
 
 export default async function ServicesPage(props: PageProps<"/services">) {
+  await requirePermission("services:view");
+  
   const searchParams = await generatePageSearchParams(
     props.searchParams,
     ServiceSearchParamsCache,
