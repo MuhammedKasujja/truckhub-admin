@@ -9,7 +9,7 @@ import { NavigationActions } from "@/components/navigation-actions";
 import { getCurrentUser } from "@/lib/session";
 import { SearchForm } from "@/components/search-form";
 import { AuthProvider } from "@/components/providers/auth-provider";
-import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
 export default async function AdminLayout({
   children,
@@ -17,6 +17,10 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }>) {
   const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+  
   return (
     <AuthProvider value={user}>
       <SidebarProvider>

@@ -95,8 +95,7 @@ export async function deleteUserSession() {
  * Verify user login auth token `server-only`
  */
 export const verifySession = cache(async () => {
-  const cookie = (await cookies()).get(SESSION_KEY)?.value;
-  const session = await decrypt(cookie);
+  const session = await getAuthSession();
 
   if (!session?.access_token) {
     redirect("/login");
@@ -108,12 +107,23 @@ export const verifySession = cache(async () => {
   };
 });
 
+export async function getAuthSession() {
+  const cookie = (await cookies()).get(SESSION_KEY)?.value;
+  const session = await decrypt(cookie);
+  return !session
+    ? undefined
+    : {
+        access_token: session.access_token,
+        user: session.user,
+      };
+}
+
 export async function getAccessToken(): Promise<string> {
   const authData = await verifySession();
   return authData.access_token as string;
 }
 
-export async function getCurrentUser(): Promise<User> {
-  const { user } = await verifySession();
-  return user as User;
+export async function getCurrentUser(): Promise<User | undefined> {
+  const session = await getAuthSession();
+  return session ? (session.user as User) : undefined;
 }
