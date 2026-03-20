@@ -41,7 +41,7 @@ export async function getLocationSuggestions({
   query: string;
   sessionId?: string;
 }) {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   if (!apiKey) {
     return { error: "Missing API Key", data: null };
   }
@@ -117,7 +117,7 @@ export async function getLocationDetailsByPlaceId({
   placeId: string;
   sessionId?: string;
 }): Promise<Prettify<ActionResult<PlaceDetails>>> {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY as string;
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
 
   if (!apiKey) {
     return { error: "Missing API Key", data: null };
