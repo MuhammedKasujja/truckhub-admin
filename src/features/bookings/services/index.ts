@@ -1,7 +1,7 @@
 "use server";
 
 import * as apiClient from "@/lib/api-client";
-import { Booking, LocationPoint } from "@/features/bookings/types";
+import { Booking, BookingDetails, LocationPoint } from "@/features/bookings/types";
 import {
   BookingListSearchParams,
   BookingUpdateSchemaType,
@@ -40,11 +40,11 @@ export async function getBookingsByQuery({ search }: SearchQuery) {
 }
 
 export async function getBookingById(bookingId: EntityId) {
-  return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}`);
+  return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}?view=edit`);
 }
 
 export async function getBookingDetailsById(bookingId: EntityId) {
-  return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}`);
+  return await apiClient.getFn<BookingDetails>(`/v1/bookings/${bookingId}?view=full`);
 }
 
 export async function deleteBookingById(bookingId: EntityId) {

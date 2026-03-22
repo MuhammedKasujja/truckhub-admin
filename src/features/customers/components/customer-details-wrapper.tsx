@@ -27,7 +27,7 @@ export function CustomerDetailsWrapper({
   useFetchEror(error);
 
   return (
-    <div className="grid grid-cols-5 grid-flow-col gap-5">
+    <div className="grid gap-5">
       <Card>
         <CardHeader>
           <CardTitle>{customer?.fullname}</CardTitle>

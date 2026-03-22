@@ -13,6 +13,21 @@ export type Booking = {
   };
 };
 
+export type BookingDetails = {
+  id: number;
+  origin: Location;
+  destination: Location;
+  created_at: Date;
+  request_start_time: Date;
+  status: BookingStatus;
+  customer: {
+    id: number;
+    fullname: string;
+    phone: string;
+    email: string;
+  };
+};
+
 export type BookingStatus =
   | "pending"
   | "matched"
@@ -21,7 +36,11 @@ export type BookingStatus =
   | "cancelled"
   | "completed";
 
-export type LocationPoint = {
+export interface LocationPoint {
   lat: number;
   lng: number;
+};
+
+export interface Location extends  LocationPoint{
+  name: string;
 };

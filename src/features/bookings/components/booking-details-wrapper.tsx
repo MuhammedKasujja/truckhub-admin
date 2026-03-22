@@ -29,23 +29,25 @@ export function BookingDetailsWrapper({
   useFetchEror(error);
 
   return (
-    <div className="grid grid-cols-5 grid-flow-col gap-5">
+    <div className="grid gap-5">
       <Card>
         <CardHeader>
           <CardTitle>
-            {booking?.origin} - {booking?.destination}
+            {booking?.origin.name} - {booking?.destination.name}
           </CardTitle>
-          <CardAction>
+          <CardAction className="flex gap-4">
             <Status>{booking?.status}</Status>
             <Button asChild>
-              {/* <Link href={`/bookings/${booking}/edit`}> */}
-              <Edit2Icon />
-              {/* </Link> */}
+              <Link href={`/bookings/${booking?.id}/edit`}>
+                <Edit2Icon />
+              </Link>
             </Button>
           </CardAction>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          <div>{formatDate(booking?.request_start_time)}</div>
+          <div>{booking?.customer.fullname}</div>
           <div>{booking?.customer.email}</div>
           <div>{booking?.customer.phone}</div>
           <div>{formatDate(booking?.created_at)}</div>
