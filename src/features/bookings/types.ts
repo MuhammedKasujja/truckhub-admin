@@ -18,6 +18,7 @@ export type BookingDetails = {
   origin: Location;
   destination: Location;
   created_at: Date;
+  polyline_route: string | undefined
   request_start_time: Date;
   status: BookingStatus;
   customer: {
