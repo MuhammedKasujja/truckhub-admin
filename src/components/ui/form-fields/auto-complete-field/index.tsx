@@ -1,5 +1,5 @@
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
-import { Check, ChevronDown, AsteriskIcon } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Field, FieldDescription, FieldError, FieldLabel } from "../field";
+import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 import React from "react";
 import { RequiredLabelIcon } from "@/components/required-label-icon";
 

@@ -27,6 +27,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { createSpecialBooking } from "@/features/bookings/services/special-hire-service";
+import { AutoComplete } from "@/components/ui/autocomplete";
+import { Service } from "@/features/services/types";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -70,7 +72,7 @@ export function SpecialBookingRequestForm({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{tr("trips.new_trip")}</CardTitle>
+        <CardTitle>New Hire Booking</CardTitle>
         <CardDescription>{tr("trips.create_trip_help")}</CardDescription>
       </CardHeader>
       <form
@@ -104,20 +106,44 @@ export function SpecialBookingRequestForm({
               <Button type="button" onClick={() => remove(fields.length - 1)}>
                 Delete
               </Button>
-              <Button
-                type="button"
-                onClick={() =>
+            </div>
+            <AutoComplete<Service>
+              fetcher={async (_) => {
+                return services;
+              }}
+              renderOption={(service) => (
+                <div className="flex items-center gap-2">
+                  <div className="flex flex-col">
+                    <div className="font-medium">{service.name}</div>
+                  </div>
+                </div>
+              )}
+              getOptionValue={(service) => service.id.toString()}
+              getDisplayValue={(service) => (
+                <div className="flex items-center gap-2 text-left">
+                  <div className="flex flex-col leading-tight">
+                    <div className="font-medium">{service.name}</div>
+                  </div>
+                </div>
+              )}
+              notFound={
+                <div className="py-6 text-center text-sm">
+                  No Services found
+                </div>
+              }
+              label="Service"
+              placeholder="Search service..."
+              value={undefined}
+              onChange={async (service) => {
+                if (service)
                   prepend({
-                    service_name: "New",
-                    cost_per_item: "",
+                    service_name: service.name,
+                    cost_per_item: service.booking_fee.toString(),
                     total_items: 1,
                     discount: 0,
-                  })
-                }
-              >
-                Pre pend
-              </Button>
-            </div>
+                  });
+              }}
+            />
             {fields.map((service, index) => (
               <div key={service.id} className="grid grid-cols-4 gap-2">
                 <TextField

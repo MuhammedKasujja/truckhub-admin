@@ -61,6 +61,7 @@ export function LocationAutoComplete({
           onPlaceLoaded(placeDetails);
           // create a new session id for the next autocomplete or place details request
           //  because after getting place details the session id becomes invalid
+          // TODO: use new session only when the pickup-location changes
           const session = crypto.randomUUID();
           setSessionId(session);
         } else {

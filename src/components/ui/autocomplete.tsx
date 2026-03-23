@@ -27,7 +27,7 @@ export interface Option {
   icon?: React.ReactNode;
 }
 
-export interface AsyncSelectProps<T> {
+export interface AutoCompleteProps<T> {
   /** Async function to fetch options */
   fetcher: (query?: string) => Promise<T[]>;
   /** Preload all data ahead of time */
@@ -82,7 +82,7 @@ export function AutoComplete<T>({
   triggerClassName,
   noResultsMessage,
   clearable = true,
-}: AsyncSelectProps<T>) {
+}: AutoCompleteProps<T>) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<T[]>([]);

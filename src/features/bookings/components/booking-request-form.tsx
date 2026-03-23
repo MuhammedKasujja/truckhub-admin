@@ -85,14 +85,13 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
           <CardTitle>{tr("trips.new_trip")}</CardTitle>
           <CardDescription>{tr("trips.create_trip_help")}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <form
-            // className="p-6 md:p-8"
-            onSubmit={form.handleSubmit(onSubmit, (errors) => {
-              console.log(errors);
-            })}
-          >
-            <FieldGroup>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.log(errors);
+          })}
+        >
+          <CardContent>
+            <FieldGroup className="pb-6">
               <AutoCompleteField
                 label={tr("common.service")}
                 name={"service_id"}
@@ -161,12 +160,12 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                 control={form.control}
                 required={false}
               />
-              <CardFooter>
-                <Button type="submit">{tr("common.form.submit")}</Button>
-              </CardFooter>
             </FieldGroup>
-          </form>
-        </CardContent>
+          </CardContent>
+          <CardFooter>
+            <Button type="submit">{tr("common.form.submit")}</Button>
+          </CardFooter>
+        </form>
       </Card>
       {locationDistanceTime && service && (
         <Card>
