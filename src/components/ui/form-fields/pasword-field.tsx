@@ -20,7 +20,7 @@ type PasswordFieldProps<F extends FieldValues> = {
   showIcon?: boolean
 }
 
-export function PasswordField<T extends FieldValues>({
+export function PasswordField<F extends FieldValues>({
   control,
   name,
   label,
@@ -28,7 +28,7 @@ export function PasswordField<T extends FieldValues>({
   required = true,
   description,
   showIcon = true,
-}: Readonly<PasswordFieldProps<T>>) {
+}: Readonly<PasswordFieldProps<F>>) {
   const [show, setShow] = React.useState(false)
   return (
     <Controller

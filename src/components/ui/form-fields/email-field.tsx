@@ -3,13 +3,13 @@ import { TextField, TextFieldProps } from "./text-field";
 
 type EmailFieldProps<F extends FieldValues> = Omit<TextFieldProps<F>, "type">;
 
-export function EmailField<T extends FieldValues>({
+export function EmailField<F extends FieldValues>({
   control,
   name,
   label,
   placeholder,
   required = true,
-}: Readonly<EmailFieldProps<T>>) {
+}: Readonly<EmailFieldProps<F>>) {
   return (
     <TextField
       control={control}

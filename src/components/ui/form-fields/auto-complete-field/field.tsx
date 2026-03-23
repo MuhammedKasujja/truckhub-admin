@@ -3,17 +3,19 @@ import { AutoComplete, AutoCompleteProps } from "@/components/ui/autocomplete";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 
-interface AutoCompleteFieldProps<
-  T,
-  F extends FieldValues,
-> extends AutoCompleteProps<T> {
+interface AutoCompleteFieldProps<T, F extends FieldValues> extends Omit<
+  AutoCompleteProps<T>,
+  "value" | "onChange"
+> {
   control: Control<F>;
   name: FieldPath<F>;
   description?: string | undefined;
-  required: boolean;
+  required?: boolean;
+  onChange?: (value: T | null) => void;
 }
 
-export function AutoCompleteField<T, F extends FieldValues>({
+export function SearchAutoCompleteField<T, F extends FieldValues>({
+  // TODO: infer T from the [ fetcher ] function
   fetcher,
   preload,
   filterFn,
@@ -24,7 +26,6 @@ export function AutoCompleteField<T, F extends FieldValues>({
   loadingSkeleton,
   label,
   placeholder = "Select...",
-  value,
   onChange,
   disabled = false,
   className,
@@ -65,7 +66,7 @@ export function AutoCompleteField<T, F extends FieldValues>({
               clearable={clearable}
               preload={preload}
               onChange={async (value) => {
-                onChange(value);
+                onChange?.(value);
                 field.onChange(value ? getOptionValue(value) : "");
               }}
             />
@@ -77,3 +78,12 @@ export function AutoCompleteField<T, F extends FieldValues>({
     />
   );
 }
+
+// export function SearchAutoCompleteField<T>(
+//   props: AutoCompleteFieldProps<T, FieldValues> & {
+//     control: Control<any>;
+//     name: string;
+//   }
+// ) {
+//   return <SearchAutoCompleteFieldInner<T, FieldValues> {...props} />;
+// }

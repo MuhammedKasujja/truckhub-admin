@@ -16,7 +16,7 @@ export function HiddenField<T extends FieldValues>({
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
+        <Field data-invalid={fieldState.invalid} className='hidden'>
           <Input
             {...field}
             type={'hidden'}

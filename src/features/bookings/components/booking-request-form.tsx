@@ -29,7 +29,6 @@ import React from "react";
 import { getCustomersByQuery } from "@/features/customers/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
 import { LocationDistanceTime } from "@/server/actions/location";
-import { Service } from "@/features/services/types";
 import { formatDistance, formatPrice } from "@/lib/format";
 import {
   Map,
@@ -40,6 +39,7 @@ import {
   type MapRef,
 } from "@/components/ui/map";
 import polyline from "@mapbox/polyline";
+import { Customer } from "@/features/customers/types";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -110,6 +110,38 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                   value: ele.id,
                 }))}
               />
+              {/* <SearchAutoCompleteField<
+                Customer,
+                z.infer<typeof BookingCreateSchema>
+              >
+                control={form.control}
+                label={tr("common.passenger")}
+                name={"customer_id"}
+                fetcher={async (_) => {
+                  return passengers;
+                }}
+                renderOption={(customer) => (
+                  <div className="flex items-center gap-2">
+                    <div className="flex flex-col">
+                      <div className="font-medium">{customer.fullname}</div>
+                    </div>
+                  </div>
+                )}
+                getOptionValue={(customer) => customer.id.toString()}
+                getDisplayValue={(customer) => (
+                  <div className="flex items-center gap-2 text-left">
+                    <div className="flex flex-col leading-tight">
+                      <div className="font-medium">{customer.fullname}</div>
+                    </div>
+                  </div>
+                )}
+                notFound={
+                  <div className="py-6 text-center text-sm">
+                    No Customers found
+                  </div>
+                }
+                placeholder="Search customer..."
+              /> */}
               <DatePickerField
                 label={"Start time"}
                 name={"request_start_time"}

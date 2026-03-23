@@ -203,7 +203,7 @@ export function AutoComplete<T>({
         className={cn("p-0 w-(--radix-popover-trigger-width)", className)}
       >
         <Command shouldFilter={false}>
-          <div className="relative border-b w-full">
+          <div className="relative w-full">
             <CommandInput
               placeholder={`Search ${label.toLowerCase()}...`}
               value={searchTerm}

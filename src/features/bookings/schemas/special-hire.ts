@@ -10,6 +10,7 @@ import {
 } from "nuqs/server";
 
 export const ServiceItem = z.object({
+  service_id: z.number().min(1),
   service_name: z.string().min(1),
   cost_per_item: z.string().min(1),
   total_items: z.number().min(1),

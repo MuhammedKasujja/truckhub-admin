@@ -12,6 +12,7 @@ import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   DatePickerField,
+  HiddenField,
   NumberField,
   TextField,
 } from "@/components/ui/form-fields";
@@ -137,6 +138,7 @@ export function SpecialBookingRequestForm({
               onChange={async (service) => {
                 if (service)
                   prepend({
+                    service_id: service.id,
                     service_name: service.name,
                     cost_per_item: service.booking_fee.toString(),
                     total_items: 1,
@@ -146,6 +148,10 @@ export function SpecialBookingRequestForm({
             />
             {fields.map((service, index) => (
               <div key={service.id} className="grid grid-cols-4 gap-2">
+                <HiddenField
+                  name={`services.${index}.service_id`}
+                  control={control}
+                />
                 <TextField
                   label={"Service"}
                   name={`services.${index}.service_name`}
