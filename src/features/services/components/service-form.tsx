@@ -76,7 +76,7 @@ export function ServiceForm({
         })}
       >
         <CardContent className="pb-6">
-          <FieldGroup>
+          <FieldGroup className="grid grid-flow-row grid-cols-1 md:grid-cols-2">
             <AutoCompleteField
               label={tr("common.vehicle_type")}
               control={form.control}

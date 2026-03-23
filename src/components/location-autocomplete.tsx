@@ -1,5 +1,3 @@
-"use client";
-
 import { AutoComplete } from "@/components/ui/autocomplete";
 import {
   getLocationSuggestions,
@@ -17,7 +15,9 @@ type LocationAutoCompleteProps = {
 export function LocationAutoComplete({
   onPlaceLoaded,
 }: LocationAutoCompleteProps) {
-  const [selectedPlaceId, setSelectedPlaceId] = React.useState<string>("");
+  const [selectedPlaceId, setSelectedPlaceId] = React.useState<
+    string | undefined
+  >();
   const [sessionId, setSessionId] = React.useState<string>(crypto.randomUUID());
 
   return (
@@ -51,17 +51,21 @@ export function LocationAutoComplete({
       label="Location"
       placeholder="Search location..."
       value={selectedPlaceId}
-      onChange={async (placeId) => {
-        setSelectedPlaceId(placeId);
-        const { data: placeDetails } = await getLocationDetailsByPlaceId({
-          placeId,
-          sessionId,
-        });
-        onPlaceLoaded(placeDetails);
-        // create a new session id for the next autocomplete or place details request
-        //  because after getting place details the session id becomes invalid
-        const session = crypto.randomUUID();
-        setSessionId(session);
+      onChange={async (location) => {
+        setSelectedPlaceId(location?.placeId);
+        if (location) {
+          const { data: placeDetails } = await getLocationDetailsByPlaceId({
+            placeId: location!.placeId,
+            sessionId,
+          });
+          onPlaceLoaded(placeDetails);
+          // create a new session id for the next autocomplete or place details request
+          //  because after getting place details the session id becomes invalid
+          const session = crypto.randomUUID();
+          setSessionId(session);
+        } else {
+          onPlaceLoaded();
+        }
       }}
     />
   );

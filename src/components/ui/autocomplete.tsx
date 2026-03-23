@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect, useCallback } from "react";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -45,9 +45,9 @@ export interface AsyncSelectProps<T> {
   /** Custom loading skeleton */
   loadingSkeleton?: React.ReactNode;
   /** Currently selected value */
-  value: string;
+  value: string | undefined;
   /** Callback when selection changes */
-  onChange: (value: string) => void;
+  onChange: (value: T | null) => void;
   /** Label for the select field */
   label: string;
   /** Placeholder text when no selection */
@@ -172,10 +172,10 @@ export function AutoComplete<T>({
       const newValue =
         clearable && currentValue === selectedValue ? "" : currentValue;
       setSelectedValue(newValue);
-      setSelectedOption(
-        options.find((option) => getOptionValue(option) === newValue) || null,
-      );
-      onChange(newValue);
+      const selected =
+        options.find((option) => getOptionValue(option) === newValue) || null;
+      setSelectedOption(selected);
+      onChange(selected);
       setOpen(false);
     },
     [selectedValue, onChange, clearable, options, getOptionValue],
@@ -199,7 +199,9 @@ export function AutoComplete<T>({
           <ChevronsUpDown className="opacity-50" size={10} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={cn("p-0 w-(--radix-popover-trigger-width)", className)}>
+      <PopoverContent
+        className={cn("p-0 w-(--radix-popover-trigger-width)", className)}
+      >
         <Command shouldFilter={false}>
           <div className="relative border-b w-full">
             <CommandInput
