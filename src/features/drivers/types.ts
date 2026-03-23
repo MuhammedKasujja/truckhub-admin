@@ -6,6 +6,7 @@ export type Driver = {
   user_name: string | undefined;
   phone: string;
   email: string;
+  rating: number
   created_at: Date;
   updated_at: Date;
 };

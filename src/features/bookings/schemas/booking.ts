@@ -18,7 +18,7 @@ export const LocationSchema = z.object({
 
 export const BookingCreateSchema = z.object({
   service_id: z.number(),
-  passenger_id: z.number(),
+  customer_id: z.number(),
   driver_id: z.string().optional(),
   pickup_location: LocationSchema,
   destination_location: LocationSchema,

@@ -11,7 +11,6 @@ import {
 
 export const ServiceCreateSchema = z.object({
   name: z.string(),
-  display_name: z.string(),
   seats: z.number().optional(),
   base_fare: z.number(),
   min_fare: z.number(),

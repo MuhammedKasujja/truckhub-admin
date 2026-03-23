@@ -96,11 +96,11 @@ export function ServiceForm({
               name={"name"}
               control={form.control}
             />
-            <TextField
+            {/* <TextField
               label={tr("common.display_name")}
               name={"display_name"}
               control={form.control}
-            />
+            /> */}
             <NumberField
               label={tr("services.seats")}
               name={"seats"}

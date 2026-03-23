@@ -104,7 +104,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               />
               <AutoCompleteField
                 label={tr("common.passenger")}
-                name={"passenger_id"}
+                name={"customer_id"}
                 control={form.control}
                 options={passengers.map((ele) => ({
                   label: ele.fullname,
@@ -176,7 +176,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               {formatPrice(parseFloat(locationDistanceTime.estimated_cost))}
             </div>
             <div>Distance: {formatDistance(locationDistanceTime.distance)}</div>
-            <div className="h-[400px] w-full">
+            <div className="h-100 w-full">
               <Map
                 ref={mapRef}
                 center={[
