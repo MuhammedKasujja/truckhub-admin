@@ -70,13 +70,12 @@ export function ServiceForm({
         </CardTitle>
         <CardDescription>{tr("services.create_new_service")}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form
-          className="p-6 md:p-8"
-          onSubmit={form.handleSubmit(onSubmit, (errors) => {
-            console.log(errors);
-          })}
-        >
+      <form
+        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          console.log(errors);
+        })}
+      >
+        <CardContent className="pb-6">
           <FieldGroup>
             <AutoCompleteField
               label={tr("common.vehicle_type")}
@@ -153,19 +152,19 @@ export function ServiceForm({
               control={form.control}
               required={false}
             />
-            <CardFooter>
-              <Button type="submit">
-                {form.formState.isSubmitting && (
-                  <Loader2 className="size-4 animate-spin" />
-                )}
-                {form.formState.isSubmitting
-                  ? "Submitting..."
-                  : `${tr("common.form.submit")}`}
-              </Button>
-            </CardFooter>
           </FieldGroup>
-        </form>
-      </CardContent>
+        </CardContent>
+        <CardFooter>
+          <Button type="submit">
+            {form.formState.isSubmitting && (
+              <Loader2 className="size-4 animate-spin" />
+            )}
+            {form.formState.isSubmitting
+              ? "Submitting..."
+              : `${tr("common.form.submit")}`}
+          </Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }

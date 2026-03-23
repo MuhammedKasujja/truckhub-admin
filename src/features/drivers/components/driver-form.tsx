@@ -15,7 +15,10 @@ import {
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { DriverCreateSchema, DriverUpdateSchema } from "@/features/drivers/schemas";
+import {
+  DriverCreateSchema,
+  DriverUpdateSchema,
+} from "@/features/drivers/schemas";
 import { createDriver, updateDriver } from "@/features/drivers/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -55,13 +58,12 @@ export function DriverForm({ initialData }: DriverFormProps) {
         <CardTitle>{isEdit ? "Edit Driver details" : "New Driver"}</CardTitle>
         <CardDescription>Create new driver</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form
-          className="p-6 md:p-8"
-          onSubmit={form.handleSubmit(onSubmit, (errors) => {
-            console.log(errors);
-          })}
-        >
+      <form
+        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          console.log(errors);
+        })}
+      >
+        <CardContent className="pb-6">
           <FieldGroup>
             <TextField
               label={tr("common.form.first_name")}
@@ -92,12 +94,12 @@ export function DriverForm({ initialData }: DriverFormProps) {
                 control={form.control}
               />
             )}
-            <CardFooter>
-              <Button type="submit">{tr("common.form.submit")}</Button>
-            </CardFooter>
           </FieldGroup>
-        </form>
-      </CardContent>
+        </CardContent>
+        <CardFooter>
+          <Button type="submit">{tr("common.form.submit")}</Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }

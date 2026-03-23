@@ -118,13 +118,12 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
         <CardTitle>{isEdit ? tr("edit_vehicle") : tr("new_vehicle")}</CardTitle>
         <CardDescription>{tr("create_new_vehicle")}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form
-          className="p-6 md:p-8"
-          onSubmit={form.handleSubmit(onSubmit, (errors) => {
-            console.log(errors);
-          })}
-        >
+      <form
+        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          console.log(errors);
+        })}
+      >
+        <CardContent className="pb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pb-6">
             <FieldGroup>
               <TextField
@@ -257,11 +256,11 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
               )}
             </FieldGroup>
           </div>
-          <CardFooter>
-            <Button type="submit">{tr("common.form.submit")}</Button>
-          </CardFooter>
-        </form>
-      </CardContent>
+        </CardContent>
+        <CardFooter>
+          <Button type="submit">{tr("common.form.submit")}</Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }

@@ -61,13 +61,12 @@ export function UserForm({ initialData }: UserFormProps) {
         <CardTitle>{isEdit ? tr("edit_user") : tr("new_user")}</CardTitle>
         <CardDescription>{tr("create_user_help")}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form
-          className="p-6 md:p-8"
-          onSubmit={form.handleSubmit(handleSubmit, (errors) => {
-            console.log(errors);
-          })}
-        >
+      <form
+        onSubmit={form.handleSubmit(handleSubmit, (errors) => {
+          console.log(errors);
+        })}
+      >
+        <CardContent className="pb-6">
           <FieldGroup>
             <TextField
               label={tr("common.form.first_name")}
@@ -98,12 +97,12 @@ export function UserForm({ initialData }: UserFormProps) {
                 control={form.control}
               />
             )}
-            <CardFooter>
-              <Button type="submit">{tr("common.form.submit")}</Button>
-            </CardFooter>
           </FieldGroup>
-        </form>
-      </CardContent>
+        </CardContent>
+        <CardFooter>
+          <Button type="submit">{tr("common.form.submit")}</Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }
