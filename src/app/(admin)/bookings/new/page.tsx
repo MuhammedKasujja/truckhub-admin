@@ -3,7 +3,7 @@ import { BookingRequestForm } from "@/features/bookings/components/booking-reque
 import { getCustomersByQuery } from "@/features/customers/service";
 import { requirePermission } from "@/lib/auth";
 
-export default async function CreateTripPage() {
+export default async function CreateBookingPage() {
   await requirePermission("bookings:create");
 
   const promises = Promise.all([

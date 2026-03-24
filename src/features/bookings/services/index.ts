@@ -1,7 +1,11 @@
 "use server";
 
 import * as apiClient from "@/lib/api-client";
-import { Booking, BookingDetails, LocationPoint } from "@/features/bookings/types";
+import {
+  Booking,
+  LocationPoint,
+  BookingDetails,
+} from "@/features/bookings/types";
 import {
   BookingListSearchParams,
   BookingUpdateSchemaType,
@@ -21,7 +25,7 @@ export async function getBookings(input: BookingListSearchParams) {
     isSuccess,
     error,
     pagination: paginator,
-  } = await apiClient.getPaginatedFn<Booking[]>(`/v1/ride_requests/?${params}`);
+  } = await apiClient.getPaginatedFn<Booking[]>(`/v1/bookings/?${params}`);
   const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
 
   return { data: isSuccess ? data! : [], error, pagination };
@@ -40,24 +44,26 @@ export async function getBookingsByQuery({ search }: SearchQuery) {
 }
 
 export async function getBookingById(bookingId: EntityId) {
-  return await apiClient.getFn<Booking>(`/v1/ride_requests/${bookingId}?view=edit`);
+  return await apiClient.getFn<Booking>(`/v1/bookings/${bookingId}?view=edit`);
 }
 
 export async function getBookingDetailsById(bookingId: EntityId) {
-  return await apiClient.getFn<BookingDetails>(`/v1/ride_requests/${bookingId}?view=full`);
+  return await apiClient.getFn<BookingDetails>(
+    `/v1/bookings/${bookingId}?view=full`,
+  );
 }
 
 export async function deleteBookingById(bookingId: EntityId) {
-  return await apiClient.deleteFn(`/v1/ride_requests/${bookingId}`);
+  return await apiClient.deleteFn(`/v1/bookings/${bookingId}`);
 }
 
 export async function updateBooking(data: BookingUpdateSchemaType) {
   const { id: bookingId, ...rest } = data;
-  return await apiClient.putFn(`/v1/ride_requests/${bookingId}`, rest);
+  return await apiClient.putFn(`/v1/bookings/${bookingId}`, rest);
 }
 
 export async function createBooking(data: BookingCreateSchemaType) {
-  return await apiClient.postFn("/v1/ride_requests", data);
+  return await apiClient.postFn("/v1/bookings", data);
 }
 
 /**
@@ -78,7 +84,7 @@ export async function computeBookingEsimatedFare({
   destination: LocationPoint;
 }) {
   return await apiClient.postFn<LocationDistanceTime>(
-    "/v1/ride_requests/compute-fare",
+    "/v1/bookings/compute-fare",
     {
       service_id: serviceId,
       origin,

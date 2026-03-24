@@ -9,25 +9,22 @@ import {
   createSearchParamsCache,
 } from "nuqs/server";
 
-export const LocationSchema = z.object({
-  name: z.string(),
-  lat: z.number(),
-  lng: z.number(),
-  place_id: z.string(),
+export const ServiceItem = z.object({
+  service_id: z.number().min(1),
+  service_name: z.string().min(1),
+  cost_per_item: z.string().min(1),
+  total_items: z.number().min(1),
+  discount: z.number().optional(),
 });
 
 export const BookingCreateSchema = z.object({
-  service_id: z.number(),
   customer_id: z.number(),
-  driver_id: z.string().optional(),
-  pickup_location: LocationSchema,
-  destination_location: LocationSchema,
-  requires_fuel: z.boolean().default(false).optional(),
-  is_scheduled: z.boolean().default(false).optional(),
-  estimated_time: z.number().optional(),
-  estimated_distance: z.number().optional(),
-  request_start_time: z.date(),
-  polyline_route: z.string().optional(),
+  pickup_time: z.date(),
+  return_time: z.date(),
+  services: z
+    .array(ServiceItem)
+    .min(1, "Add at least one service")
+    .max(20, "Maximum 20 items per order"),
 });
 
 export const BookingUpdateSchema = z.object({
@@ -35,9 +32,13 @@ export const BookingUpdateSchema = z.object({
   ...BookingCreateSchema.partial().shape,
 });
 
-export type BookingCreateSchemaType = z.infer<typeof BookingCreateSchema>;
+export type BookingCreateSchemaType = z.infer<
+  typeof BookingCreateSchema
+>;
 
-export type BookingUpdateSchemaType = z.infer<typeof BookingUpdateSchema>;
+export type BookingUpdateSchemaType = z.infer<
+  typeof BookingUpdateSchema
+>;
 
 export const BookingSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

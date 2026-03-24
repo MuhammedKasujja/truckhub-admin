@@ -22,7 +22,7 @@ export default function Page() {
   }, [is3D]);
 
   return (
-    <div className="h-[600px] relative w-full">
+    <div className="h-150 relative w-full">
       <Map
         ref={mapRef}
         center={[-0.1276, 51.5074]}
