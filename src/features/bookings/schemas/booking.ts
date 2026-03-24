@@ -19,6 +19,8 @@ export const ServiceItem = z.object({
 
 export const BookingCreateSchema = z.object({
   customer_id: z.number(),
+  partial: z.number().optional().nullable(),
+  discount: z.number().optional().nullable(),
   pickup_time: z.date(),
   return_time: z.date(),
   services: z
@@ -32,13 +34,9 @@ export const BookingUpdateSchema = z.object({
   ...BookingCreateSchema.partial().shape,
 });
 
-export type BookingCreateSchemaType = z.infer<
-  typeof BookingCreateSchema
->;
+export type BookingCreateSchemaType = z.infer<typeof BookingCreateSchema>;
 
-export type BookingUpdateSchemaType = z.infer<
-  typeof BookingUpdateSchema
->;
+export type BookingUpdateSchemaType = z.infer<typeof BookingUpdateSchema>;
 
 export const BookingSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

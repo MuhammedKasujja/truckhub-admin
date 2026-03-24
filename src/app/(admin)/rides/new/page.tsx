@@ -1,7 +1,7 @@
 import { getServicesByQuery } from "@/features/services/service";
-import { BookingRequestForm } from "@/features/bookings/components/booking-request-form";
 import { getCustomersByQuery } from "@/features/customers/service";
 import { requirePermission } from "@/lib/auth";
+import { RideRequestForm } from "@/features/ride-requests/components/ride-request-form";
 
 export default async function CreateTripPage() {
   await requirePermission("bookings:create");
@@ -10,5 +10,5 @@ export default async function CreateTripPage() {
     getServicesByQuery({}),
     getCustomersByQuery({}),
   ]);
-  return <BookingRequestForm promises={promises} />;
+  return <RideRequestForm promises={promises} />;
 }

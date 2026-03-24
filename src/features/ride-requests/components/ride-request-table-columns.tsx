@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime, formatPrice } from "@/lib/format";
 import { RideRequest } from "@/features/ride-requests/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Status } from "@/components/ui/status";
@@ -55,6 +55,13 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
       header: "Status",
       cell: ({ row }) => {
         return <Status>{row.original.status}</Status>;
+      },
+    },
+    {
+      accessorKey: "amount",
+      header: "Amount",
+      cell: ({ row }) => {
+        return <div>{formatPrice(row.original.amount)}</div>;
       },
     },
     {

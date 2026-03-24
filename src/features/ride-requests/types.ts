@@ -5,6 +5,10 @@ export type RideRequest = {
   created_at: Date;
   request_start_time: Date;
   status: RideRequestStatus;
+  partial: number | null;
+  balance: number;
+  discount: number;
+  amount: number;
   customer: {
     id: number;
     fullname: string;
@@ -21,6 +25,10 @@ export type RideRequestDetails = {
   polyline_route: string | undefined
   request_start_time: Date;
   status: RideRequestStatus;
+  partial: number | null;
+  balance: number;
+  discount: number;
+  amount: number;
   customer: {
     id: number;
     fullname: string;

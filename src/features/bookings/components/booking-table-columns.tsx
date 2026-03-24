@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime, formatPrice } from "@/lib/format";
 import { Booking } from "@/features/bookings/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Status } from "@/components/ui/status";
@@ -57,18 +57,11 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
         return <p>{formatDateTime(row.original.pickup_time)}</p>;
       },
     },
-    // {
-    //   accessorKey: "return_time",
-    //   header: "Return Date",
-    //   cell: ({ row }) => {
-    //     return <p>{formatDateTime(row.original.return_time)}</p>;
-    //   },
-    // },
     {
-      accessorKey: "created_at",
-      header: "Date",
+      accessorKey: "amount",
+      header: "Amount",
       cell: ({ row }) => {
-        return <p>{formatDateTime(row.original.created_at)}</p>;
+        return <p>{formatPrice(row.original.amount)}</p>;
       },
     },
     {

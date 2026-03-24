@@ -28,6 +28,8 @@ export const RideRequestCreateSchema = z.object({
   estimated_distance: z.number().optional(),
   request_start_time: z.date(),
   polyline_route: z.string().optional(),
+  partial: z.number().optional().nullable(),
+  discount: z.number().optional().nullable(),
 });
 
 export const RideRequestUpdateSchema = z.object({
@@ -35,9 +37,13 @@ export const RideRequestUpdateSchema = z.object({
   ...RideRequestCreateSchema.partial().shape,
 });
 
-export type RideRequestCreateSchemaType = z.infer<typeof RideRequestCreateSchema>;
+export type RideRequestCreateSchemaType = z.infer<
+  typeof RideRequestCreateSchema
+>;
 
-export type RideRequestUpdateSchemaType = z.infer<typeof RideRequestUpdateSchema>;
+export type RideRequestUpdateSchemaType = z.infer<
+  typeof RideRequestUpdateSchema
+>;
 
 export const RideRequestSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

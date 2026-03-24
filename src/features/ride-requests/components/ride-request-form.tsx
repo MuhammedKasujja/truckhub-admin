@@ -12,6 +12,7 @@ import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   DatePickerField,
+  NumberField,
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
@@ -40,7 +41,7 @@ import {
 } from "@/components/ui/map";
 import polyline from "@mapbox/polyline";
 
-type RideRequestRequestFormProps = {
+type RideRequestFormProps = {
   promises: Promise<
     [
       Awaited<ReturnType<typeof getServicesByQuery>>,
@@ -49,7 +50,7 @@ type RideRequestRequestFormProps = {
   >;
 };
 
-export function RideRequestRequestForm({ promises }: RideRequestRequestFormProps) {
+export function RideRequestForm({ promises }: RideRequestFormProps) {
   const [{ data: services }, { data: passengers }] = React.use(promises);
   const mapRef = React.useRef<MapRef>(null);
 
@@ -141,6 +142,18 @@ export function RideRequestRequestForm({ promises }: RideRequestRequestFormProps
                 }
                 placeholder="Search customer..."
               /> */}
+              <NumberField
+                label={"Partial"}
+                name={"partial"}
+                control={form.control}
+                required={false}
+              />
+              <NumberField
+                label={"Discount"}
+                name={"discount"}
+                control={form.control}
+                required={false}
+              />
               <DatePickerField
                 label={"Start time"}
                 name={"request_start_time"}

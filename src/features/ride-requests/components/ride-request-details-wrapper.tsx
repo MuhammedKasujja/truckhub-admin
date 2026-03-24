@@ -6,6 +6,7 @@ import {
   CardAction,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,7 +15,7 @@ import { Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getRideRequestDetailsById } from "@/features/ride-requests/service";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatPrice } from "@/lib/format";
 import { Status } from "@/components/ui/status";
 import {
   Map,
@@ -62,44 +63,42 @@ export function RideRequestDetailsWrapper({
           <div>{ride?.customer.phone}</div>
           <div>{formatDate(ride?.created_at)}</div>
         </CardContent>
+        <CardFooter className="space-y-4 flex items-center gap-2">
+          <Button>{formatPrice(ride?.amount)}</Button>
+          <Button>{formatPrice(ride?.balance)}</Button>
+        </CardFooter>
       </Card>
       <Card>
         <CardContent className="h-100 w-full">
-              <Map
-                ref={mapRef}
-                center={[
-                  ride!.origin.lng,
-                  ride!.origin.lat,
-                ]}
-                zoom={11.0}
-                styles={{
-                  light: "https://tiles.openfreemap.org/styles/bright",
-                }}
+          <Map
+            ref={mapRef}
+            center={[ride!.origin.lng, ride!.origin.lat]}
+            zoom={11.0}
+            styles={{
+              light: "https://tiles.openfreemap.org/styles/bright",
+            }}
+          >
+            <MapRoute
+              coordinates={generateCoordnatesFromPolyline(ride?.polyline_route)}
+              color="#3b82f6"
+              width={5}
+              opacity={1}
+            />
+            {[ride!.origin, ride!.destination].map((stop, index) => (
+              <MapMarker
+                key={stop.name}
+                longitude={stop.lng}
+                latitude={stop.lat}
               >
-                <MapRoute
-                  coordinates={generateCoordnatesFromPolyline(ride?.polyline_route)}
-                  color="#3b82f6"
-                  width={5}
-                  opacity={1}
-                />
-                {[
-                 ride!.origin,
-                  ride!.destination,
-                ].map((stop, index) => (
-                  <MapMarker
-                    key={stop.name}
-                    longitude={stop.lng}
-                    latitude={stop.lat}
-                  >
-                    <MarkerContent>
-                      <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
-                        {index + 1}
-                      </div>
-                    </MarkerContent>
-                    <MarkerTooltip>{stop.name}</MarkerTooltip>
-                  </MapMarker>
-                ))}
-              </Map>
+                <MarkerContent>
+                  <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
+                    {index + 1}
+                  </div>
+                </MarkerContent>
+                <MarkerTooltip>{stop.name}</MarkerTooltip>
+              </MapMarker>
+            ))}
+          </Map>
         </CardContent>
       </Card>
     </div>

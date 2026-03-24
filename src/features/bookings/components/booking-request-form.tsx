@@ -2,6 +2,7 @@
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -19,7 +20,7 @@ import {
 import { getCustomersByQuery } from "@/features/customers/service";
 import { getServicesByQuery } from "@/features/services/service";
 import { useTranslation } from "@/i18n";
-import React from "react";
+import React, { useMemo } from "react";
 import z from "zod";
 import { BookingCreateSchema } from "@/features/bookings/schemas";
 import { toast } from "sonner";
@@ -30,6 +31,7 @@ import { Loader2 } from "lucide-react";
 import { createBooking } from "@/features/bookings/services";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { Service } from "@/features/services/types";
+import { formatPrice } from "@/lib/format";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -40,12 +42,10 @@ type BookingRequestFormProps = {
   >;
 };
 
-export function BookingRequestForm({
-  promises,
-}: BookingRequestFormProps) {
+export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const tr = useTranslation();
 
-  const { control, handleSubmit, formState } = useForm<
+  const { control, handleSubmit, formState, watch } = useForm<
     z.infer<typeof BookingCreateSchema>
   >({
     resolver: zodResolver(BookingCreateSchema),
@@ -70,11 +70,26 @@ export function BookingRequestForm({
     }
   }
 
+  const bookingItems = watch("services");
+  const partialAmount = watch("partial");
+  const discount = watch("discount");
+
+  const itemsTotal = useMemo(() => {
+    const updatedAmount = bookingItems.reduce(
+      (prev, item) => prev + Number(item.cost_per_item) * item.total_items,
+      0.0,
+    );
+    return updatedAmount;
+  }, [bookingItems]);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>New Hire Booking</CardTitle>
         <CardDescription>{tr("trips.create_trip_help")}</CardDescription>
+        <CardAction>
+          {formatPrice(itemsTotal, { showZeroAsNumber: true })}
+        </CardAction>
       </CardHeader>
       <form
         onSubmit={handleSubmit(onSubmit, (errors) => {
@@ -101,6 +116,18 @@ export function BookingRequestForm({
               label={"Return Date"}
               name={"return_time"}
               control={control}
+            />
+            <NumberField
+              label={"Partial"}
+              name={"partial"}
+              control={control}
+              required={false}
+            />
+            <NumberField
+              label={"Discount"}
+              name={"discount"}
+              control={control}
+              required={false}
             />
             <div>
               <Button type="button" onClick={() => remove(fields.length - 1)}>
