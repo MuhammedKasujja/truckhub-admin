@@ -55,6 +55,12 @@ const data: SidebarMenuStruct = {
       permission: "bookings:view",
     },
     {
+      title: "routes.rides",
+      url: "/rides",
+      icon: DatabaseSearch,
+      permission: "rides:view",
+    },
+    {
       title: "routes.bookings",
       url: "/bookings",
       icon: DatabaseSearch,

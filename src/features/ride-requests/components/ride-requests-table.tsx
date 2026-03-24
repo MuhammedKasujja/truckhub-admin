@@ -5,9 +5,9 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getBookings } from "@/features/bookings/services";
+import { getRideRequests } from "@/features/ride-requests/service";
 import React from "react";
-import { getBookingTableColumns } from "./booking-table-columns";
+import { getRideRequestTableColumns } from "./ride-request-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
@@ -15,13 +15,13 @@ import { useFetchEror } from "@/hooks/use-fetch-error";
 import { HasPermission } from "@/components/has-permission";
 
 type TripTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getBookings>>]>;
+  promises: Promise<[Awaited<ReturnType<typeof getRideRequests>>]>;
 };
 
-export function BookingTable(props: TripTableProps) {
+export function RideRequestTable(props: TripTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
 
-  const columns = React.useMemo(() => getBookingTableColumns(), []);
+  const columns = React.useMemo(() => getRideRequestTableColumns(), []);
 
   useFetchEror(error);
 
@@ -41,11 +41,11 @@ export function BookingTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <HasPermission permission="bookings:create">
+        <HasPermission permission="rides:create">
           <Button asChild>
-            <Link href={"/bookings/new"}>
+            <Link href={"/rides/new"}>
               <PlusIcon />
-              Hire
+              New RideRequest Request
             </Link>
           </Button>
         </HasPermission>
@@ -55,10 +55,10 @@ export function BookingTable(props: TripTableProps) {
   );
 }
 
-export function BookingTableSkeleton() {
+export function RideRequestTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={getBookingTableColumns().length}
+      columnCount={getRideRequestTableColumns().length}
       filterCount={1}
       shrinkZero
     />

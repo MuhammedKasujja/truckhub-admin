@@ -1,4 +1,4 @@
-import {} from "./modules/services"
+import {} from "./modules/services";
 
 const userModuleTranslations = {
   new_user: "New User",
@@ -125,6 +125,7 @@ const en = {
     reports: "Reports",
     users: "Users",
     bookings: "Bookings",
+    rides: "Rides",
   },
   ...vehicleModuleTranslations,
   services: { ...serviceModuleTranslations },
