@@ -11,14 +11,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { Edit2Icon } from "lucide-react";
+import { Edit2Icon, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getRideRequestDetailsById } from "@/features/ride-requests/service";
-import { formatDate, formatPrice } from "@/lib/format";
+import {
+  formatDate,
+  formatDistance,
+  formatDuration,
+  formatPrice,
+} from "@/lib/format";
 import { Status } from "@/components/ui/status";
 import {
   Map,
+  MapControls,
   MapMarker,
   MapRoute,
   MarkerContent,
@@ -62,6 +68,8 @@ export function RideRequestDetailsWrapper({
           <div>{ride?.customer.email}</div>
           <div>{ride?.customer.phone}</div>
           <div>{formatDate(ride?.created_at)}</div>
+          <div>Distance: {formatDistance(ride!.distance)}</div>
+          <div>Time: {formatDuration(ride!.duration)}</div>
         </CardContent>
         <CardFooter className="space-y-4 flex items-center gap-2">
           <Button>{formatPrice(ride?.amount)}</Button>
@@ -90,14 +98,23 @@ export function RideRequestDetailsWrapper({
                 longitude={stop.lng}
                 latitude={stop.lat}
               >
+                {/* <MarkerContent>
+                  <div className="cursor-move">
+                    <MapPin
+                      className="fill-black stroke-white dark:fill-white"
+                      size={28}
+                    >{index == 0 ? "P" : "D"}</MapPin>
+                  </div>
+                </MarkerContent> */}
                 <MarkerContent>
                   <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
-                    {index + 1}
+                    {index == 0 ? "P" : "D"}
                   </div>
                 </MarkerContent>
                 <MarkerTooltip>{stop.name}</MarkerTooltip>
               </MapMarker>
             ))}
+            <MapControls position="bottom-right" showZoom showCompass />
           </Map>
         </CardContent>
       </Card>

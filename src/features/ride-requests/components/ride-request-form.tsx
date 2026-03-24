@@ -30,7 +30,7 @@ import React from "react";
 import { getCustomersByQuery } from "@/features/customers/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
 import { LocationDistanceTime } from "@/server/actions/location";
-import { formatDistance, formatPrice } from "@/lib/format";
+import { formatDistance, formatDuration, formatPrice } from "@/lib/format";
 import {
   Map,
   MapMarker,
@@ -213,12 +213,13 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
       </Card>
       {locationDistanceTime && service && (
         <Card>
-          <CardContent>
+          <CardContent className="space-y-2">
             <div>
               Estimate price:{" "}
               {formatPrice(parseFloat(locationDistanceTime.estimated_cost))}
             </div>
             <div>Distance: {formatDistance(locationDistanceTime.distance)}</div>
+            <div>Time: {formatDuration(locationDistanceTime.duration)}</div>
             <div className="h-100 w-full">
               <Map
                 ref={mapRef}
@@ -250,7 +251,7 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
                   >
                     <MarkerContent>
                       <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
-                        {index + 1}
+                        {index == 0 ? "P" : "D"}
                       </div>
                     </MarkerContent>
                     <MarkerTooltip>{stop.name}</MarkerTooltip>

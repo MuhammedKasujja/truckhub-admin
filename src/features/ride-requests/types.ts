@@ -28,6 +28,8 @@ export type RideRequestDetails = {
   partial: number | null;
   balance: number;
   discount: number;
+  distance: number;
+  duration: number;
   amount: number;
   customer: {
     id: number;
