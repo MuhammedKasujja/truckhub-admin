@@ -77,7 +77,6 @@ export function SpecialBookingRequestForm({
         <CardDescription>{tr("trips.create_trip_help")}</CardDescription>
       </CardHeader>
       <form
-        // className="p-6 md:p-8"
         onSubmit={handleSubmit(onSubmit, (errors) => {
           console.log(errors);
         })}
@@ -86,7 +85,7 @@ export function SpecialBookingRequestForm({
           <FieldGroup className="pb-5">
             <AutoCompleteField
               label={tr("common.passenger")}
-              name={"passenger_id"}
+              name={"customer_id"}
               control={control}
               options={passengers.map((ele) => ({
                 label: ele.fullname,

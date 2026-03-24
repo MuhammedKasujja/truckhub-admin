@@ -18,7 +18,7 @@ export const ServiceItem = z.object({
 });
 
 export const SpecialBookingCreateSchema = z.object({
-  passenger_id: z.number(),
+  customer_id: z.number(),
   pickup_time: z.date(),
   return_time: z.date(),
   services: z
