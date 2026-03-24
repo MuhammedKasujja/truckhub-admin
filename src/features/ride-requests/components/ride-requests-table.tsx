@@ -45,7 +45,7 @@ export function RideRequestTable(props: TripTableProps) {
           <Button asChild>
             <Link href={"/rides/new"}>
               <PlusIcon />
-              New RideRequest Request
+              New Request
             </Link>
           </Button>
         </HasPermission>

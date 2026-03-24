@@ -6,6 +6,7 @@ import {
   CardAction,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,17 +15,19 @@ import { Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getBookingDetailsById } from "@/features/bookings/services";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatPrice } from "@/lib/format";
 import { Status } from "@/components/ui/status";
+
 import {
-  Map,
-  MapMarker,
-  MapRoute,
-  MarkerContent,
-  MarkerTooltip,
-  type MapRef,
-} from "@/components/ui/map";
-import { generateCoordnatesFromPolyline } from "@/lib/maps";
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type BookingDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getBookingDetailsById>>]>;
@@ -34,7 +37,6 @@ export function BookingDetailsWrapper({
   promises,
 }: BookingDetailsWrapperProps) {
   const [{ data: booking, error }] = React.use(promises);
-  const mapRef = React.useRef<MapRef>(null);
 
   useFetchEror(error);
 
@@ -43,7 +45,8 @@ export function BookingDetailsWrapper({
       <Card>
         <CardHeader>
           <CardTitle>
-            {booking?.origin.name} - {booking?.destination.name}
+            {formatDate(booking?.pickup_time)} -{" "}
+            {formatDate(booking?.return_time)}
           </CardTitle>
           <CardAction className="flex gap-4">
             <Status>{booking?.status}</Status>
@@ -56,50 +59,61 @@ export function BookingDetailsWrapper({
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>{formatDate(booking?.request_start_time)}</div>
           <div>{booking?.customer.fullname}</div>
           <div>{booking?.customer.email}</div>
           <div>{booking?.customer.phone}</div>
           <div>{formatDate(booking?.created_at)}</div>
         </CardContent>
+        <CardFooter className="space-y-4 flex items-center gap-2">
+          <Button>{formatPrice(booking?.amount)}</Button>
+          <Button>{formatPrice(booking?.balance)}</Button>
+        </CardFooter>
       </Card>
       <Card>
-        <CardContent className="h-100 w-full">
-              <Map
-                ref={mapRef}
-                center={[
-                  booking!.origin.lng,
-                  booking!.origin.lat,
-                ]}
-                zoom={11.0}
-                styles={{
-                  light: "https://tiles.openfreemap.org/styles/bright",
-                }}
-              >
-                <MapRoute
-                  coordinates={generateCoordnatesFromPolyline(booking?.polyline_route)}
-                  color="#3b82f6"
-                  width={5}
-                  opacity={1}
-                />
-                {[
-                 booking!.origin,
-                  booking!.destination,
-                ].map((stop, index) => (
-                  <MapMarker
-                    key={stop.name}
-                    longitude={stop.lng}
-                    latitude={stop.lat}
-                  >
-                    <MarkerContent>
-                      <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
-                        {index + 1}
-                      </div>
-                    </MarkerContent>
-                    <MarkerTooltip>{stop.name}</MarkerTooltip>
-                  </MapMarker>
+        <CardHeader>
+          <CardTitle>Services</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-hidden rounded-lg border bg-background">
+            <Table>
+              <TableHeader className="bg-muted/50">
+                <TableRow>
+                  <TableHead className="w-25">Name</TableHead>
+                  <TableHead>Cost</TableHead>
+                  <TableHead>Count</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {booking?.services.map((service) => (
+                  <TableRow key={service.service_id}>
+                    <TableCell className="font-medium">
+                      {service.service_name}
+                    </TableCell>
+                    <TableCell>{formatPrice(service.cost_per_item)}</TableCell>
+                    <TableCell>{service.total_items}</TableCell>
+                    <TableCell className="text-right">
+                      {formatPrice(service.cost_per_item * service.total_items)}
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </Map>
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={3}>Total</TableCell>
+                  <TableCell className="text-right">
+                    {formatPrice(
+                      booking?.services.reduce(
+                        (prev, service) =>
+                          service.cost_per_item * service.total_items + prev,
+                        0,
+                      ) ?? 0,
+                    )}
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

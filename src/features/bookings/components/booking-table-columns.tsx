@@ -24,20 +24,6 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       },
     },
     {
-      accessorKey: "origin",
-      header: "Origin",
-      cell: ({ row }) => {
-        return <p>{row.original.origin}</p>;
-      },
-    },
-    {
-      accessorKey: "destination",
-      header: "Destination",
-      cell: ({ row }) => {
-        return <p>{row.original.destination}</p>;
-      },
-    },
-    {
       accessorKey: "customer",
       header: "Customer",
       cell: ({ row }) => {
@@ -51,6 +37,13 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       },
     },
     {
+      id: "services",
+      header: "Services",
+      cell: ({ row }) => {
+        return <p className="text-center">{row.original.services.length}</p>;
+      },
+    },
+    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
@@ -58,10 +51,24 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       },
     },
     {
+      accessorKey: "pickup_time",
+      header: "Pickup Date",
+      cell: ({ row }) => {
+        return <p>{formatDateTime(row.original.pickup_time)}</p>;
+      },
+    },
+    // {
+    //   accessorKey: "return_time",
+    //   header: "Return Date",
+    //   cell: ({ row }) => {
+    //     return <p>{formatDateTime(row.original.return_time)}</p>;
+    //   },
+    // },
+    {
       accessorKey: "created_at",
       header: "Date",
       cell: ({ row }) => {
-        return <p>{formatDateTime(row.original.request_start_time)}</p>;
+        return <p>{formatDateTime(row.original.created_at)}</p>;
       },
     },
     {

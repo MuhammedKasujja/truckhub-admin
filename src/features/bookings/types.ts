@@ -1,10 +1,23 @@
+export type BookingServiceItem = {
+  service_id: number;
+  service_name: string;
+  cost_per_item: number;
+  total_items: number;
+  discount: number;
+};
+
 export type Booking = {
   id: number;
-  origin: string;
-  destination: string;
   created_at: Date;
   request_start_time: Date;
+  pickup_time: Date;
+  return_time: Date;
   status: BookingStatus;
+  partial: number | null;
+  balance: number;
+  discount: number;
+  amount: number;
+  services: BookingServiceItem[];
   customer: {
     id: number;
     fullname: string;
@@ -15,12 +28,15 @@ export type Booking = {
 
 export type BookingDetails = {
   id: number;
-  origin: Location;
-  destination: Location;
   created_at: Date;
-  polyline_route: string | undefined
-  request_start_time: Date;
+  pickup_time: Date;
+  return_time: Date;
   status: BookingStatus;
+  partial: number | null;
+  balance: number;
+  discount: number;
+  amount: number;
+  services: BookingServiceItem[];
   customer: {
     id: number;
     fullname: string;
@@ -31,7 +47,6 @@ export type BookingDetails = {
 
 export type BookingStatus =
   | "pending"
-  | "matched"
   | "accepted"
   | "rejected"
   | "cancelled"
@@ -40,8 +55,8 @@ export type BookingStatus =
 export interface LocationPoint {
   lat: number;
   lng: number;
-};
+}
 
-export interface Location extends  LocationPoint{
+export interface Location extends LocationPoint {
   name: string;
-};
+}

@@ -1,4 +1,9 @@
-export function formatPrice(amount: number, { showZeroAsNumber = false } = {}) {
+export function formatPrice(
+  amount?: number,
+  { showZeroAsNumber = false } = {},
+) {
+  if (amount === undefined || amount === null) return "";
+
   const formatter = new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "USD",
@@ -11,7 +16,7 @@ export function formatPrice(amount: number, { showZeroAsNumber = false } = {}) {
 
 export function formatNumber(
   number: number,
-  options?: Intl.NumberFormatOptions
+  options?: Intl.NumberFormatOptions,
 ) {
   const formatter = new Intl.NumberFormat(undefined, options);
   return formatter.format(number);
@@ -19,7 +24,7 @@ export function formatNumber(
 
 export function formatDate(
   date: Date | string | number | undefined,
-  opts: Intl.DateTimeFormatOptions = {}
+  opts: Intl.DateTimeFormatOptions = {},
 ) {
   if (!date) return "";
   try {
@@ -31,7 +36,8 @@ export function formatDate(
       timeStyle: "short",
       ...opts,
     }).format(new Date(date));
-  } catch (_) { // eslint-disable-line @typescript-eslint/no-unused-vars
+  } catch (_) {
+    // eslint-disable-line @typescript-eslint/no-unused-vars
     return "";
   }
 }
@@ -39,7 +45,7 @@ export function formatDate(
 export function formatPlural(
   count: number,
   { singular, plural }: { singular: string; plural: string },
-  { includeCount = true } = {}
+  { includeCount = true } = {},
 ) {
   const word = count === 1 ? singular : plural;
 
@@ -48,7 +54,7 @@ export function formatPlural(
 
 export const formatDateTime = (
   datetime: Date | string | number | undefined | null,
-  options?: Intl.DateTimeFormatOptions
+  options?: Intl.DateTimeFormatOptions,
 ) => {
   if (!datetime) return "";
   try {
@@ -61,11 +67,11 @@ export const formatDateTime = (
       hour12: true,
       ...options,
     });
-  } catch (_) { // eslint-disable-line @typescript-eslint/no-unused-vars
+  } catch (_) {
+    // eslint-disable-line @typescript-eslint/no-unused-vars
     return "";
   }
 };
-
 
 export function formatDistance(meters: number): string {
   if (meters < 1000) return `${Math.round(meters)} m`;
