@@ -1,36 +1,35 @@
 "use client";
 
+import React from "react";
 import { DataTable } from "@/components/data-table";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getRideRequests } from "@/features/ride-requests/service";
-import React from "react";
-import { getRideRequestTableColumns } from "./ride-request-table-columns";
-import { Button } from "@/components/ui/button";
+import { getPayments } from "@/features/payments/service";
+import { getPaymentTableColumns } from "./payment-table-columns";
 import Link from "next/link";
-import { PlusIcon, MapIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
 import { HasPermission } from "@/components/has-permission";
 
-type TripTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getRideRequests>>]>;
+type PaymentTableProps = {
+  promises: Promise<[Awaited<ReturnType<typeof getPayments>>]>;
 };
 
-export function RideRequestTable(props: TripTableProps) {
-  const [{ data, error, pagination }] = React.use(props.promises);
-
-  const columns = React.useMemo(() => getRideRequestTableColumns(), []);
+export function PaymentTable(props: PaymentTableProps) {
+  const [{ data, error }] = React.use(props.promises);
+  const columns = React.useMemo(() => getPaymentTableColumns(), []);
 
   useFetchEror(error);
 
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: pagination.totalPages,
+    pageCount: 1,
     initialState: {
-      sorting: [{ id: "id", desc: true }],
+      sorting: [{ id: 'date', desc: true }],
       //   columnPinning: { right: ["actions"] },
     },
     getRowId: (originalRow) => originalRow.id.toString(),
@@ -41,17 +40,11 @@ export function RideRequestTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
-            <Link href={"/rides/live"}>
-              <MapIcon />
-              Live
-            </Link>
-          </Button>
-        <HasPermission permission="rides:create">
+        <HasPermission permission={"services:create"}>
           <Button asChild>
-            <Link href={"/rides/new"}>
+            <Link href={"/services/new"}>
               <PlusIcon />
-              New Request
+              New Payment
             </Link>
           </Button>
         </HasPermission>
@@ -61,10 +54,10 @@ export function RideRequestTable(props: TripTableProps) {
   );
 }
 
-export function RideRequestTableSkeleton() {
+export function PaymentTableSkeleton() {
   return (
     <DataTableSkeleton
-      columnCount={getRideRequestTableColumns().length}
+      columnCount={getPaymentTableColumns().length}
       filterCount={1}
       shrinkZero
     />

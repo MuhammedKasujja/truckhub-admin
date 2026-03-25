@@ -4,6 +4,12 @@ import { ActionResult, Prettify } from "@/types";
 import { jsonFormatter, logger } from "@/lib/logger";
 import { getGeolocation } from "@/utils/get-geolocation";
 
+export interface RouteData {
+  coordinates: [number, number][];
+  duration: number; // seconds
+  distance: number; // meters
+}
+
 export interface PlaceDetails {
   placeId: string;
   address1: string;
@@ -188,5 +194,32 @@ export async function getLocationDetailsByPlaceId({
   } catch (err) {
     console.error("Error fetching place details:", err);
     return { error: err, data: null };
+  }
+}
+
+export async function fetchRoutes(origin: Location, destination: Location) {
+  try {
+    const response = await fetch(
+      `https://router.project-osrm.org/route/v1/driving/${origin.lng},${origin.lat};${destination.lng},${destination.lat}?overview=full&geometries=geojson&alternatives=true`,
+    );
+    const data = await response.json();
+
+    if (data.routes?.length > 0) {
+      const routeData: RouteData[] = data.routes.map(
+        (route: {
+          geometry: { coordinates: [number, number][] };
+          duration: number;
+          distance: number;
+        }) => ({
+          coordinates: route.geometry.coordinates,
+          duration: route.duration,
+          distance: route.distance,
+        }),
+      );
+      return routeData;
+    }
+  } catch (error) {
+    logger.error("Failed to fetch routes:");
+    logger.error(error);
   }
 }

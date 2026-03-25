@@ -126,6 +126,7 @@ const en = {
     users: "Users",
     bookings: "Bookings",
     rides: "Rides",
+    payments: "Payments",
   },
   ...vehicleModuleTranslations,
   services: { ...serviceModuleTranslations },
