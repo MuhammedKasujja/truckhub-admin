@@ -1,56 +1,36 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   NumberField,
   TextareaField,
-  TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import {
-  PaymentCreateSchema,
-  PaymentUpdateSchema,
-} from "@/features/payments/schemas";
+import { PaymentEditSchema } from "@/features/payments/schemas";
 import { createPayment, updatePayment } from "@/features/payments/service";
-import { getVehicleSettings } from "@/server/settings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { PaymentModeList } from "../types";
 
 type PaymentFormProps = {
-  vehicleConfigPromise: Promise<Awaited<ReturnType<typeof getVehicleSettings>>>;
-  initialData?: z.infer<typeof PaymentUpdateSchema>;
+  initialData?: Partial<z.infer<typeof PaymentEditSchema>>;
 };
 
-export function PaymentForm({
-  vehicleConfigPromise,
-  initialData,
-}: PaymentFormProps) {
+export function PaymentForm({ initialData }: PaymentFormProps) {
   const tr = useTranslation();
-  const { data } = React.use(vehicleConfigPromise);
 
-  const isEdit = !!initialData;
+  const isEdit = !!initialData && 'id' in initialData;
 
-  const formSchema = isEdit ? PaymentUpdateSchema : PaymentCreateSchema;
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof PaymentEditSchema>>({
+    resolver: zodResolver(PaymentEditSchema),
     defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof PaymentEditSchema>) {
     const promise =
       "id" in values ? updatePayment(values) : createPayment(values);
 
@@ -63,108 +43,46 @@ export function PaymentForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {isEdit ? tr("services.edit_service") : tr("services.new_service")}
-        </CardTitle>
-        <CardDescription>{tr("services.create_new_service")}</CardDescription>
-      </CardHeader>
-      <form
-        onSubmit={form.handleSubmit(onSubmit, (errors) => {
-          console.log(errors);
-        })}
-      >
-        <CardContent className="pb-6">
-          <FieldGroup className="grid grid-flow-row grid-cols-1 md:grid-cols-2">
-            <AutoCompleteField
-              label={tr("common.vehicle_type")}
-              control={form.control}
-              name={"vehicle_type_id"}
-              placeholder="Select Vehicle"
-              emptyPlaceholder="No vehicles found"
-              options={
-                data?.vehicle_types.map((opt) => ({
-                  label: opt.name,
-                  value: opt.id,
-                })) ?? []
-              }
-            />
-            <TextField
-              label={tr("common.form.name")}
-              name={"name"}
-              control={form.control}
-            />
-            {/* <TextField
-              label={tr("common.display_name")}
-              name={"display_name"}
-              control={form.control}
-            /> */}
-            <NumberField
-              label={tr("services.seats")}
-              name={"seats"}
-              control={form.control}
-              required={false}
-            />
-            <NumberField
-              label={"Minimum Hire Fee"}
-              name={"minimum_hire_fee"}
-              control={form.control}
-              required={false}
-            />
-            <NumberField
-              label={tr("services.base_fare")}
-              name={"base_fare"}
-              control={form.control}
-              required={false}
-            />
-            <NumberField
-              label={tr("services.min_fare")}
-              name={"min_fare"}
-              control={form.control}
-              required={false}
-            />
-            <NumberField
-              label={tr("services.price_per_min")}
-              name={"price_per_min"}
-              control={form.control}
-            />
-            <NumberField
-              label={tr("services.price_per_unit_distance")}
-              name={"price_per_unit_distance"}
-              control={form.control}
-            />
-            <NumberField
-              label={tr("services.booking_fee")}
-              name={"booking_fee"}
-              control={form.control}
-              required={false}
-            />
-            <NumberField
-              label={tr("services.tax_fee")}
-              name={"tax_fee"}
-              control={form.control}
-              required={false}
-            />
-            <TextareaField
-              label={tr("common.form.description")}
-              name={"description"}
-              control={form.control}
-              required={false}
-            />
-          </FieldGroup>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit">
-            {form.formState.isSubmitting && (
-              <Loader2 className="size-4 animate-spin" />
-            )}
-            {form.formState.isSubmitting
-              ? "Submitting..."
-              : `${tr("common.form.submit")}`}
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+    <form
+      onSubmit={form.handleSubmit(onSubmit, (errors) => {
+        console.log(errors);
+      })}
+    >
+      <FieldGroup className="grid grid-flow-row grid-cols-1">
+        <NumberField
+          label={"Booking"}
+          name={"booking_id"}
+          control={form.control}
+        />
+        <NumberField label={"Amount"} name={"amount"} control={form.control} />
+        <AutoCompleteField
+          label={"Payment Method"}
+          control={form.control}
+          name={"payment_mode"}
+          placeholder="Select payment method"
+          emptyPlaceholder="No payment method found"
+          options={
+            PaymentModeList.map((opt) => ({
+              label: opt,
+              value: opt,
+            })) ?? []
+          }
+        />
+        <TextareaField
+          label={"Transaction Ref"}
+          name={"transaction_ref"}
+          control={form.control}
+          required={false}
+        />
+      </FieldGroup>
+      <Button type="submit">
+        {form.formState.isSubmitting && (
+          <Loader2 className="size-4 animate-spin" />
+        )}
+        {form.formState.isSubmitting
+          ? "Submitting..."
+          : `${tr("common.form.submit")}`}
+      </Button>
+    </form>
   );
 }

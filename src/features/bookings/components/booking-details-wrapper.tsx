@@ -17,17 +17,17 @@ import React from "react";
 import { getBookingDetailsById } from "@/features/bookings/services";
 import { formatDate, formatPrice } from "@/lib/format";
 import { Status } from "@/components/ui/status";
-
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
+import { HasPermission } from "@/components/has-permission";
 
 type BookingDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getBookingDetailsById>>]>;
@@ -49,12 +49,17 @@ export function BookingDetailsWrapper({
             {formatDate(booking?.return_time)}
           </CardTitle>
           <CardAction className="flex gap-4">
+            <HasPermission permission={"payments:create"}>
+              <EditPaymentModal initialData={{ booking_id: booking!.id }} />
+            </HasPermission>
             <Status>{booking?.status}</Status>
-            <Button asChild>
-              <Link href={`/bookings/${booking?.id}/edit`}>
-                <Edit2Icon />
-              </Link>
-            </Button>
+            <HasPermission permission={"bookings:edit"}>
+              <Button asChild>
+                <Link href={`/bookings/${booking?.id}/edit`}>
+                  <Edit2Icon />
+                </Link>
+              </Button>
+            </HasPermission>
           </CardAction>
           <CardDescription></CardDescription>
         </CardHeader>

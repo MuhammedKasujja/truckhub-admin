@@ -9,28 +9,17 @@ import {
   createSearchParamsCache,
 } from "nuqs/server";
 
-export const PaymentCreateSchema = z.object({
-  name: z.string(),
-  seats: z.number().optional(),
-  base_fare: z.number(),
-  min_fare: z.number(),
-  price_per_min: z.number(),
-  price_per_unit_distance: z.number(),
-  booking_fee: z.number().optional(),
-  tax_fee: z.number().optional(),
-  vehicle_type_id: z.number(),
-  minimum_hire_fee: z.number(),
-  description: z.string().optional().nullable(),
+
+export const PaymentEditSchema = z.object({
+  id: z.number().optional().nullable(),
+  booking_id: z.number(),
+  amount: z.number(),
+  payment_mode: z.string(),
+  transaction_ref: z.string().optional().nullable(),
 });
 
-export const PaymentUpdateSchema = z.object({
-  id: z.number(),
-  ...PaymentCreateSchema.partial().shape,
-});
 
-export type PaymentCreateSchemaType = z.infer<typeof PaymentCreateSchema>;
-
-export type PaymentUpdateSchemaType = z.infer<typeof PaymentUpdateSchema>;
+export type PaymentEditSchemaType = z.infer<typeof PaymentEditSchema>;
 
 export const PaymentSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

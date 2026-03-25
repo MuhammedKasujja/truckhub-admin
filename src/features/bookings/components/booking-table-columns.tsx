@@ -7,6 +7,7 @@ import { Status } from "@/components/ui/status";
 import Link from "next/link";
 import { HasPermission } from "@/components/has-permission";
 import { EditIcon, EyeIcon } from "lucide-react";
+import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 
 export function getBookingTableColumns(): ColumnDef<Booking>[] {
   return [
@@ -85,6 +86,9 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
                   <EditIcon />
                 </Link>
               </Button>
+            </HasPermission>
+            <HasPermission permission={"payments:create"}>
+              <EditPaymentModal initialData={{ booking_id: booking.id }} />
             </HasPermission>
           </div>
         );
