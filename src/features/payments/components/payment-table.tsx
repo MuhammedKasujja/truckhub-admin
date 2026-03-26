@@ -19,7 +19,7 @@ type PaymentTableProps = {
 };
 
 export function PaymentTable(props: PaymentTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+  const [{ data, error, pagination }] = React.use(props.promises);
   const columns = React.useMemo(() => getPaymentTableColumns(), []);
 
   useFetchEror(error);
@@ -27,7 +27,7 @@ export function PaymentTable(props: PaymentTableProps) {
   const { table } = useDataTable({
     data,
     columns,
-    pageCount: 1,
+    pageCount: pagination.totalPages,
     initialState: {
       sorting: [{ id: 'date', desc: true }],
       //   columnPinning: { right: ["actions"] },

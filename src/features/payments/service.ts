@@ -1,20 +1,23 @@
 "use server";
 
+import { SearchQuery } from "@/types";
 import * as apiClient from "@/lib/api-client";
 import { Payment } from "@/features/payments/types";
-import {
-  PaymentEditSchemaType,
-  PaymentListSearchParams,
-} from "./schemas";
-import { SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
+import { PaymentEditSchemaType, PaymentListSearchParams } from "./schemas";
 
 export async function getPayments(input: PaymentListSearchParams) {
+  const { page, perPage } = input;
   const params = generateApiSearchParams(input);
-  const { data, isSuccess, error } = await apiClient.getFn<Payment[]>(
-    `/v1/payments?${params}`,
-  );
-  return { data: isSuccess ? data! : [], error };
+  const {
+    data,
+    isSuccess,
+    error,
+    pagination: paginator,
+  } = await apiClient.getPaginatedFn<Payment[]>(`/v1/payments?${params}`);
+
+  const pagination = paginator ?? { page, perPage, totalPages: 0, total: 0 };
+  return { data: isSuccess ? data! : [], error, pagination };
 }
 
 export async function getPaymentsByQuery(query: SearchQuery) {

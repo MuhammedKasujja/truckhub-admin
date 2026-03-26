@@ -51,7 +51,7 @@ export function PaymentForm({ initialData }: PaymentFormProps) {
       <FieldGroup className="grid grid-flow-row grid-cols-1">
         <NumberField
           label={"Booking"}
-          name={"booking_id"}
+          name={"entity_id"}
           control={form.control}
         />
         <NumberField label={"Amount"} name={"amount"} control={form.control} />
