@@ -45,6 +45,13 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
       },
     },
     {
+      accessorKey: "payment_mode",
+      header: "Mode",
+      cell: ({ row }) => {
+        return <p>{row.original.payment_mode}</p>;
+      },
+    },
+    {
       accessorKey: "date",
       header: "Date",
       cell: ({ row }) => {

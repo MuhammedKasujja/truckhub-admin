@@ -150,6 +150,7 @@ export function BookingDetailsWrapper({
                   <TableHead className="w-25">Number</TableHead>
                   <TableHead>Amount</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Mode</TableHead>
                   <TableHead className="text-right">Date</TableHead>
                 </TableRow>
               </TableHeader>
@@ -162,6 +163,7 @@ export function BookingDetailsWrapper({
                       </TableCell>
                       <TableCell>{formatPrice(payment.amount)}</TableCell>
                       <TableCell>{payment.status}</TableCell>
+                      <TableCell>{payment.payment_mode}</TableCell>
                       <TableCell className="text-right">
                         {formatDate(payment.date)}
                       </TableCell>
@@ -169,7 +171,7 @@ export function BookingDetailsWrapper({
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={4} className="h-24 text-center">
+                    <TableCell colSpan={5} className="h-24 text-center">
                       <Empty className="">
                         <EmptyHeader>
                           <EmptyMedia variant="icon">
