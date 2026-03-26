@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { Edit2Icon } from "lucide-react";
+import { CreditCard, Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getBookingDetailsById } from "@/features/bookings/services";
@@ -28,6 +28,13 @@ import {
 } from "@/components/ui/table";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 import { HasPermission } from "@/components/has-permission";
+import {
+  Empty,
+  EmptyContent,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 
 type BookingDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getBookingDetailsById>>]>;
@@ -49,9 +56,16 @@ export function BookingDetailsWrapper({
             {formatDate(booking?.return_time)}
           </CardTitle>
           <CardAction className="flex gap-4">
-            <HasPermission permission={"payments:create"}>
-              <EditPaymentModal initialData={{ booking_id: booking?.id }} />
-            </HasPermission>
+            {!booking?.is_paid && (
+              <HasPermission permission={"payments:create"}>
+                <EditPaymentModal
+                  initialData={{
+                    booking_id: booking?.id,
+                    amount: booking?.balance,
+                  }}
+                />
+              </HasPermission>
+            )}
             <Status>{booking?.status}</Status>
             <HasPermission permission={"bookings:edit"}>
               <Button asChild>
@@ -71,7 +85,9 @@ export function BookingDetailsWrapper({
         </CardContent>
         <CardFooter className="space-y-4 flex items-center gap-2">
           <Button>{formatPrice(booking?.amount)}</Button>
-          <Button>{formatPrice(booking?.balance)}</Button>
+          <Button>
+            {booking?.is_paid ? "Paid" : formatPrice(booking?.balance)}
+          </Button>
         </CardFooter>
       </Card>
       <Card>
@@ -137,18 +153,50 @@ export function BookingDetailsWrapper({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {booking?.payments.map((payment) => (
-                  <TableRow key={payment.id.toString()}>
-                    <TableCell className="font-medium">
-                      {payment.number}
-                    </TableCell>
-                    <TableCell>{formatPrice(payment.amount)}</TableCell>
-                    <TableCell>{payment.status}</TableCell>
-                    <TableCell className="text-right">
-                      {formatDate(payment.date)}
+                {booking?.payments.length ? (
+                  booking?.payments.map((payment) => (
+                    <TableRow key={payment.id.toString()}>
+                      <TableCell className="font-medium">
+                        {payment.number}
+                      </TableCell>
+                      <TableCell>{formatPrice(payment.amount)}</TableCell>
+                      <TableCell>{payment.status}</TableCell>
+                      <TableCell className="text-right">
+                        {formatDate(payment.date)}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={4} className="h-24 text-center">
+                      <Empty className="">
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <CreditCard />
+                          </EmptyMedia>
+                          <EmptyTitle>No Payments Found</EmptyTitle>
+                        </EmptyHeader>
+                        <EmptyContent>
+                          {!booking?.is_paid && (
+                            <HasPermission permission={"payments:create"}>
+                              <EditPaymentModal
+                                initialData={{
+                                  booking_id: booking?.id,
+                                  amount: booking?.balance,
+                                }}
+                                trigger={
+                                  <Button variant={"outline"}>
+                                    Make Payment
+                                  </Button>
+                                }
+                              />
+                            </HasPermission>
+                          )}
+                        </EmptyContent>
+                      </Empty>
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </div>

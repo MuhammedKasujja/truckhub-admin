@@ -33,6 +33,7 @@ export type BookingDetails = {
   created_at: Date;
   pickup_time: Date;
   return_time: Date;
+  is_paid: boolean;
   status: BookingStatus;
   partial: number | null;
   balance: number;

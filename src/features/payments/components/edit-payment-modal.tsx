@@ -30,9 +30,10 @@ import React from "react";
 
 type PaymentFormProps = {
   initialData?: Partial<z.infer<typeof PaymentEditSchema>>;
+  trigger?: React.ReactNode;
 };
 
-export function EditPaymentModal({ initialData }: PaymentFormProps) {
+export function EditPaymentModal({ initialData, trigger }: PaymentFormProps) {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -54,7 +55,7 @@ export function EditPaymentModal({ initialData }: PaymentFormProps) {
     const { isSuccess, error, message } = await promise;
     if (isSuccess) {
       toast.success(message);
-      form.reset()
+      form.reset();
       setIsOpen(false);
     } else {
       toast.error(error?.message);
@@ -67,10 +68,12 @@ export function EditPaymentModal({ initialData }: PaymentFormProps) {
       onOpenChange={setIsOpen}
     >
       <DrawerTrigger asChild>
-        <Button variant={"outline"}>
-          <CreditCard />
-          Pay
-        </Button>
+        {trigger ?? (
+          <Button variant={"outline"}>
+            <CreditCard />
+            Pay
+          </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
