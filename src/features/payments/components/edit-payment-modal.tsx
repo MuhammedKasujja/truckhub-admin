@@ -26,6 +26,7 @@ import {
 import { toast } from "sonner";
 import { updatePayment, createPayment } from "../service";
 import { PaymentModeList } from "../types";
+import React from "react";
 
 type PaymentFormProps = {
   initialData?: Partial<z.infer<typeof PaymentEditSchema>>;
@@ -33,6 +34,7 @@ type PaymentFormProps = {
 
 export function EditPaymentModal({ initialData }: PaymentFormProps) {
   const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const tr = useTranslation();
 
@@ -52,12 +54,18 @@ export function EditPaymentModal({ initialData }: PaymentFormProps) {
     const { isSuccess, error, message } = await promise;
     if (isSuccess) {
       toast.success(message);
+      form.reset()
+      setIsOpen(false);
     } else {
       toast.error(error?.message);
     }
   }
   return (
-    <Drawer direction={isMobile ? "bottom" : "right"}>
+    <Drawer
+      direction={isMobile ? "bottom" : "right"}
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <DrawerTrigger asChild>
         <Button variant={"outline"}>
           <CreditCard />

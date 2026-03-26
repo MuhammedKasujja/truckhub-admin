@@ -50,7 +50,7 @@ export function BookingDetailsWrapper({
           </CardTitle>
           <CardAction className="flex gap-4">
             <HasPermission permission={"payments:create"}>
-              <EditPaymentModal initialData={{ booking_id: booking!.id }} />
+              <EditPaymentModal initialData={{ booking_id: booking?.id }} />
             </HasPermission>
             <Status>{booking?.status}</Status>
             <HasPermission permission={"bookings:edit"}>
@@ -83,7 +83,7 @@ export function BookingDetailsWrapper({
             <Table>
               <TableHeader className="bg-muted/50">
                 <TableRow>
-                  <TableHead className="w-25">Name</TableHead>
+                  <TableHead className="w-25">Service</TableHead>
                   <TableHead>Cost</TableHead>
                   <TableHead>Count</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
@@ -117,6 +117,39 @@ export function BookingDetailsWrapper({
                   </TableCell>
                 </TableRow>
               </TableFooter>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Payments</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-hidden rounded-lg border bg-background">
+            <Table>
+              <TableHeader className="bg-muted/50">
+                <TableRow>
+                  <TableHead className="w-25">Number</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {booking?.payments.map((payment) => (
+                  <TableRow key={payment.id.toString()}>
+                    <TableCell className="font-medium">
+                      {payment.number}
+                    </TableCell>
+                    <TableCell>{formatPrice(payment.amount)}</TableCell>
+                    <TableCell>{payment.status}</TableCell>
+                    <TableCell className="text-right">
+                      {formatDate(payment.date)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
           </div>
         </CardContent>

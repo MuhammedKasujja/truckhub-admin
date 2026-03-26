@@ -1,3 +1,5 @@
+import { Payment } from "@/features/payments/types";
+
 export type BookingServiceItem = {
   service_id: number;
   service_name: string;
@@ -43,6 +45,7 @@ export type BookingDetails = {
     phone: string;
     email: string;
   };
+  payments: Payment[]
 };
 
 export type BookingStatus =
