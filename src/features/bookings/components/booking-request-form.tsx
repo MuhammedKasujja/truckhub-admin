@@ -16,6 +16,7 @@ import {
   HiddenField,
   NumberField,
   TextField,
+  MoneyField,
 } from "@/components/ui/form-fields";
 import { getCustomersByQuery } from "@/features/customers/service";
 import { getServicesByQuery } from "@/features/services/service";
@@ -117,7 +118,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               name={"return_time"}
               control={control}
             />
-            <NumberField
+            <MoneyField
               label={"Partial"}
               name={"partial"}
               control={control}
