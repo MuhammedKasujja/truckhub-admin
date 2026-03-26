@@ -3,9 +3,8 @@
 import * as apiClient from "@/lib/api-client";
 import { Payment } from "@/features/payments/types";
 import {
+  PaymentEditSchemaType,
   PaymentListSearchParams,
-  PaymentUpdateSchemaType,
-  PaymentCreateSchemaType,
 } from "./schemas";
 import { SearchQuery } from "@/types";
 import { generateApiSearchParams } from "@/lib/search-params";
@@ -35,11 +34,11 @@ export async function deletePaymentById(serviceId: number | string) {
   return await apiClient.deleteFn(`/v1/payments/${serviceId}`);
 }
 
-export async function updatePayment(data: PaymentUpdateSchemaType) {
+export async function updatePayment(data: PaymentEditSchemaType) {
   const { id: serviceId, ...rest } = data;
   return await apiClient.putFn(`/v1/payments/${serviceId}`, rest);
 }
 
-export async function createPayment(data: PaymentCreateSchemaType) {
+export async function createPayment(data: PaymentEditSchemaType) {
   return await apiClient.postFn("/v1/payments", data);
 }

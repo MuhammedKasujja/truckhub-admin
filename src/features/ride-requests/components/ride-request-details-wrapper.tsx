@@ -32,6 +32,8 @@ import {
   type MapRef,
 } from "@/components/ui/map";
 import { generateCoordnatesFromPolyline } from "@/lib/maps";
+import { HasPermission } from "@/components/has-permission";
+import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 
 type RideRequestDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getRideRequestDetailsById>>]>;
@@ -53,6 +55,17 @@ export function RideRequestDetailsWrapper({
             {ride?.origin.name} - {ride?.destination.name}
           </CardTitle>
           <CardAction className="flex gap-4">
+            {!ride?.is_paid && (
+              <HasPermission permission={"payments:create"}>
+                <EditPaymentModal
+                  initialData={{
+                    entity_id: ride?.id,
+                    amount: ride?.balance,
+                    type: "ride",
+                  }}
+                />
+              </HasPermission>
+            )}
             <Status>{ride?.status}</Status>
             <Button asChild>
               <Link href={`/rides/${ride?.id}/edit`}>

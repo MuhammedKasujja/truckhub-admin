@@ -9,15 +9,14 @@ import {
   createSearchParamsCache,
 } from "nuqs/server";
 
-
 export const PaymentEditSchema = z.object({
   id: z.number().optional().nullable(),
-  booking_id: z.number(),
+  entity_id: z.number(),
   amount: z.number(),
   payment_mode: z.string(),
   transaction_ref: z.string().optional().nullable(),
+  type: z.enum(["booking", "ride"]),
 });
-
 
 export type PaymentEditSchemaType = z.infer<typeof PaymentEditSchema>;
 
@@ -25,7 +24,7 @@ export const PaymentSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
   sort: getSortingStateParser<Payment>().withDefault([
-    { id: 'date', desc: true },
+    { id: "date", desc: true },
   ]),
   search: parseAsString.withDefault(""),
   created_at: parseAsArrayOf(parseAsInteger).withDefault([]),

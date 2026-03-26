@@ -60,8 +60,9 @@ export function BookingDetailsWrapper({
               <HasPermission permission={"payments:create"}>
                 <EditPaymentModal
                   initialData={{
-                    booking_id: booking?.id,
+                    entity_id: booking?.id,
                     amount: booking?.balance,
+                    type: "booking",
                   }}
                 />
               </HasPermission>
@@ -181,8 +182,9 @@ export function BookingDetailsWrapper({
                             <HasPermission permission={"payments:create"}>
                               <EditPaymentModal
                                 initialData={{
-                                  booking_id: booking?.id,
+                                  entity_id: booking?.id,
                                   amount: booking?.balance,
+                                  type: "booking",
                                 }}
                                 trigger={
                                   <Button variant={"outline"}>

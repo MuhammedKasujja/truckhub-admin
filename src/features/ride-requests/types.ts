@@ -31,6 +31,7 @@ export type RideRequestDetails = {
   distance: number;
   duration: number;
   amount: number;
+  is_paid: number;
   customer: {
     id: number;
     fullname: string;
