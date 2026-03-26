@@ -1,17 +1,19 @@
+import { CURRENCY_CODE } from "@/config/constants";
+
 export function formatPrice(
-  amount?: number,
+  amount?: number | string,
   { showZeroAsNumber = false } = {},
 ) {
   if (amount === undefined || amount === null) return "";
 
   const formatter = new Intl.NumberFormat(undefined, {
     style: "currency",
-    currency: "USD",
+    currency: CURRENCY_CODE,
     minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
   });
 
   if (amount === 0 && !showZeroAsNumber) return "Free";
-  return formatter.format(amount);
+  return formatter.format(Number(amount));
 }
 
 export function formatNumber(

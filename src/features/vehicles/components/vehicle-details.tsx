@@ -68,11 +68,13 @@ export function VehicleDetails({ promises }: VehicleDetailsProps) {
         </CardHeader>
         <CardContent>
           <DriverSearchFilter
-            onSelected={(driverId) => setDriverId(driverId)}
+            onSelected={(driver) => {
+              setDriverId(driver?.id.toString());
+            }}
           />
         </CardContent>
         <CardFooter>
-          <Button type="button" onClick={()=>assignDriver()}>
+          <Button type="button" onClick={() => assignDriver()}>
             Submit
           </Button>
         </CardFooter>

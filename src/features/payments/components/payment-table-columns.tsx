@@ -156,7 +156,7 @@ function PaymentViewer({ payment }: {payment:Payment}) {
             </div>
             <div className="flex flex-col gap-3">
               <Label htmlFor="reviewer">Reviewer</Label>
-              <Select defaultValue={payment.amount.toFixed()}>
+              <Select defaultValue={payment.amount.toString()}>
                 <SelectTrigger id="reviewer" className="w-full">
                   <SelectValue placeholder="Select a reviewer" />
                 </SelectTrigger>

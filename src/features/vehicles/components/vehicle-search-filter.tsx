@@ -6,7 +6,7 @@ import { getVehiclesByQuery } from "@/features/vehicles/service";
 import { useState } from "react";
 
 type VehicleSearchFilterProps = {
-  onSelected: (vehicleId: string | undefined | null) => void;
+  onSelected: (Vehicle?: Vehicle | null) => void;
 };
 
 export function VehicleSearchFilter({ onSelected }: VehicleSearchFilterProps) {
@@ -39,9 +39,9 @@ export function VehicleSearchFilter({ onSelected }: VehicleSearchFilterProps) {
       label="Location"
       placeholder="Search vehicles..."
       value={vehicleId}
-      onChange={async (vehicleId) => {
-        setVehicleId(vehicleId);
-        onSelected(vehicleId);
+      onChange={async (vehicle) => {
+        setVehicleId(vehicle?.id.toString() ?? "");
+        onSelected(vehicle);
       }}
     />
   );

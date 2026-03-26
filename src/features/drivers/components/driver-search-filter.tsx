@@ -6,7 +6,7 @@ import { getDriversByQuery } from "../service";
 import { useState } from "react";
 
 type DriverSearchFilterProps = {
-  onSelected: (driverId: string | undefined | null) => void;
+  onSelected: (driver?: Driver | null) => void;
 };
 
 export function DriverSearchFilter({ onSelected }: DriverSearchFilterProps) {
@@ -39,9 +39,9 @@ export function DriverSearchFilter({ onSelected }: DriverSearchFilterProps) {
       label="Location"
       placeholder="Search driver..."
       value={driverId}
-      onChange={async (driverId) => {
-        setDriverId(driverId);
-        onSelected(driverId);
+      onChange={async (driver) => {
+        setDriverId(driver?.id.toString() ?? "");
+        onSelected(driver);
       }}
     />
   );
