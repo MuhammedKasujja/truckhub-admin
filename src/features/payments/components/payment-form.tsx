@@ -7,7 +7,7 @@ import {
   TextareaField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { PaymentEditSchema } from "@/features/payments/schemas";
+import { PaymentEditSchemaType, createEditPaymentSchema } from "@/features/payments/schemas";
 import { createPayment, updatePayment } from "@/features/payments/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -17,7 +17,7 @@ import z from "zod";
 import { PaymentModeList } from "../types";
 
 type PaymentFormProps = {
-  initialData?: Partial<z.infer<typeof PaymentEditSchema>>;
+  initialData?: Partial<PaymentEditSchemaType>;
 };
 
 export function PaymentForm({ initialData }: PaymentFormProps) {
@@ -25,12 +25,14 @@ export function PaymentForm({ initialData }: PaymentFormProps) {
 
   const isEdit = !!initialData && 'id' in initialData;
 
-  const form = useForm<z.infer<typeof PaymentEditSchema>>({
-    resolver: zodResolver(PaymentEditSchema),
+  const schema = createEditPaymentSchema(initialData?.amount)
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues: initialData,
   });
 
-  async function onSubmit(values: z.infer<typeof PaymentEditSchema>) {
+  async function onSubmit(values: z.infer<typeof schema>) {
     const promise =
       "id" in values ? updatePayment(values) : createPayment(values);
 

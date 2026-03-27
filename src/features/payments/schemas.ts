@@ -8,17 +8,32 @@ import {
   parseAsStringEnum,
   createSearchParamsCache,
 } from "nuqs/server";
+import { formatPrice } from "@/lib/format";
 
-export const PaymentEditSchema = z.object({
-  id: z.number().optional().nullable(),
-  entity_id: z.number(),
-  amount: z.number(),
-  payment_mode: z.string(),
-  transaction_ref: z.string().optional().nullable(),
-  type: z.enum(["booking", "ride"]),
-});
+/**
+ *
+ * @param maxAmount zero value means already fully paid
+ * @returns
+ */
+export const createEditPaymentSchema = (maxAmount: number = 0) => {
+  return z.object({
+    id: z.number().optional().nullable(),
+    entity_id: z.number(),
+    amount: z
+      .number()
+      .min(100)
+      .max(maxAmount, {
+        error: `Payment amount cannot exceed ${formatPrice(maxAmount)}`,
+      }),
+    payment_mode: z.string(),
+    transaction_ref: z.string().optional().nullable(),
+    type: z.enum(["booking", "ride"]),
+  });
+};
 
-export type PaymentEditSchemaType = z.infer<typeof PaymentEditSchema>;
+export type PaymentEditSchemaType = z.infer<
+  ReturnType<typeof createEditPaymentSchema>
+>;
 
 export const PaymentSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

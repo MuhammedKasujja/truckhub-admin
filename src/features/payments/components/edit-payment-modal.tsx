@@ -15,7 +15,7 @@ import { CreditCard, Loader2 } from "lucide-react";
 import { useTranslation } from "@/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PaymentEditSchema } from "../schemas";
+import { PaymentEditSchemaType, createEditPaymentSchema } from "../schemas";
 import z from "zod";
 import { FieldGroup } from "@/components/ui/field";
 import {
@@ -29,7 +29,7 @@ import { PaymentModeList } from "../types";
 import React from "react";
 
 type PaymentFormProps = {
-  initialData?: Partial<z.infer<typeof PaymentEditSchema>>;
+  initialData?: Partial<PaymentEditSchemaType>;
   trigger?: React.ReactNode;
 };
 
@@ -41,11 +41,12 @@ export function EditPaymentModal({ initialData, trigger }: PaymentFormProps) {
 
   const isEdit = !!initialData && "id" in initialData;
 
-  const formSchema = PaymentEditSchema;
+  const formSchema = createEditPaymentSchema(initialData?.amount);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
+    mode: "onChange",
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
