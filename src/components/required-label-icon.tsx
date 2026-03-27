@@ -9,7 +9,7 @@ export function RequiredLabelIcon({
   return (
     <AsteriskIcon
       {...props}
-      className={cn("text-destructive inline size-3 align-top", className)}
+      className={cn("text-muted-foreground inline size-3 align-top", className)}
     />
   )
 }

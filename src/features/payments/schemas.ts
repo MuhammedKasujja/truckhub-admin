@@ -23,7 +23,7 @@ export const createEditPaymentSchema = (maxAmount: number = 0) => {
       .number()
       .min(100)
       .max(maxAmount, {
-        error: `Payment amount cannot exceed ${formatPrice(maxAmount)}`,
+        error: `Payment amount cannot exceed ${formatPrice(maxAmount, { showZeroAsNumber: true })}`,
       }),
     payment_mode: z.string(),
     transaction_ref: z.string().optional().nullable(),

@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
+import { useAuth } from "@/components/providers/auth-provider";
 
 type PermissionMap = Record<string, string[]>;
 
-export const usePermissions = (systemPermissions: PermissionMap) => {
+export const useGeneratePermissions = (systemPermissions: PermissionMap) => {
   // Map<permission, count>
   const [permissionCount, setPermissionCount] = useState<Map<string, number>>(
     new Map(),
@@ -122,4 +123,10 @@ export const usePermissions = (systemPermissions: PermissionMap) => {
     // data
     modules,
   };
+};
+
+export const useHasPermission = () => {
+  const { hasPermission } = useAuth();
+
+  return hasPermission;
 };
