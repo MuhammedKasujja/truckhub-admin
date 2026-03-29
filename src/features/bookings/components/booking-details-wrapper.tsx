@@ -89,6 +89,7 @@ export function BookingDetailsWrapper({
           <Button>
             {booking?.is_paid ? "Paid" : formatPrice(booking?.balance)}
           </Button>
+          <Button variant={"outline"}>Partial: {formatPrice(booking?.partial)}</Button>
         </CardFooter>
       </Card>
       <Card>

@@ -88,7 +88,13 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
               </Button>
             </HasPermission>
             <HasPermission permission={"payments:create"}>
-              <EditPaymentModal initialData={{ entity_id: booking.id, type:'booking' }} />
+              <EditPaymentModal
+                initialData={{
+                  entity_id: booking.id,
+                  type: "booking",
+                  amount: booking.balance,
+                }}
+              />
             </HasPermission>
           </div>
         );

@@ -35,7 +35,7 @@ export type BookingDetails = {
   return_time: Date;
   is_paid: boolean;
   status: BookingStatus;
-  partial: number | null;
+  partial: number | undefined;
   balance: number;
   discount: number;
   amount: number;

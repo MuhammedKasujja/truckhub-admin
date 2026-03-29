@@ -87,6 +87,7 @@ export function RideRequestDetailsWrapper({
         <CardFooter className="space-y-4 flex items-center gap-2">
           <Button>{formatPrice(ride?.amount)}</Button>
           <Button>{formatPrice(ride?.balance)}</Button>
+          <Button variant={"outline"}>Partial: {formatPrice(ride?.partial)}</Button>
         </CardFooter>
       </Card>
       <Card>

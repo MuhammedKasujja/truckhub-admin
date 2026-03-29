@@ -118,7 +118,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
               name={"return_time"}
               control={control}
             />
-            <MoneyField
+            <NumberField
               label={"Partial"}
               name={"partial"}
               control={control}

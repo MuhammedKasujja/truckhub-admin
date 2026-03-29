@@ -25,7 +25,7 @@ export type RideRequestDetails = {
   polyline_route: string | undefined
   request_start_time: Date;
   status: RideRequestStatus;
-  partial: number | null;
+  partial: number | undefined;
   balance: number;
   discount: number;
   distance: number;

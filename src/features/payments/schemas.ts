@@ -16,12 +16,20 @@ import { formatPrice } from "@/lib/format";
  * @returns
  */
 export const createEditPaymentSchema = (maxAmount: number = 0) => {
+  // TODO: get company min amount from settings
+  const companyMinAmount = 5;
+
+  const minAmount =
+    maxAmount > 0 && maxAmount < companyMinAmount
+      ? maxAmount
+      : companyMinAmount;
+
   return z.object({
     id: z.number().optional().nullable(),
     entity_id: z.number(),
     amount: z
       .number()
-      .min(100)
+      .min(minAmount)
       .max(maxAmount, {
         error: `Payment amount cannot exceed ${formatPrice(maxAmount, { showZeroAsNumber: true })}`,
       }),
