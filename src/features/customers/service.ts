@@ -8,6 +8,7 @@ import {
   CustomerUpdateSchemaType,
 } from "@/features/customers/schemas";
 import { EntityId, SearchQuery } from "@/types";
+import { Payment } from "@/features/payments/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
@@ -60,4 +61,8 @@ export async function updateCustomer(data: CustomerUpdateSchemaType) {
 
 export async function createCustomer(data: CustomerCreateSchemaType) {
   return await apiClient.postFn(endpoint, data);
+}
+
+export async function getCustomerPayments(customerId: EntityId) {
+  return await apiClient.getFn<Payment[]>(`/v1/customers/${customerId}/payments`);
 }

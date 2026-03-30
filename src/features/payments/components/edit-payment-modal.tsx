@@ -131,7 +131,7 @@ export function EditPaymentModal({ initialData, trigger }: PaymentFormProps) {
               : `${tr("common.form.submit")}`}
           </Button>
           <DrawerClose asChild>
-            <Button variant="outline">Done</Button>
+            <Button variant="outline">Cancel</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

@@ -1,7 +1,7 @@
 "use server";
 
-import { SearchQuery } from "@/types";
 import * as apiClient from "@/lib/api-client";
+import { EntityId, SearchQuery } from "@/types";
 import { Payment } from "@/features/payments/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 import { PaymentEditSchemaType, PaymentListSearchParams } from "./schemas";
@@ -29,12 +29,12 @@ export async function getPaymentsByQuery(query: SearchQuery) {
   return { data: isSuccess ? data! : [], error };
 }
 
-export async function getPaymentById(serviceId: number | string) {
-  return await apiClient.getFn<Payment>(`/v1/payments/${serviceId}`);
+export async function getPaymentById(paymentId: EntityId) {
+  return await apiClient.getFn<Payment>(`/v1/payments/${paymentId}`);
 }
 
-export async function deletePaymentById(serviceId: number | string) {
-  return await apiClient.deleteFn(`/v1/payments/${serviceId}`);
+export async function deletePaymentById(paymentId: EntityId) {
+  return await apiClient.deleteFn(`/v1/payments/${paymentId}`);
 }
 
 export async function updatePayment(data: PaymentEditSchemaType) {
