@@ -25,8 +25,8 @@ import {
 } from "@/components/ui/form-fields";
 import { toast } from "sonner";
 import { updatePayment, createPayment } from "../service";
-import { PaymentModeList } from "../types";
 import React from "react";
+import { PaymentModeList } from "@/config/constants";
 
 type PaymentFormProps = {
   initialData?: Partial<PaymentEditSchemaType>;
@@ -90,7 +90,7 @@ export function EditPaymentModal({ initialData, trigger }: PaymentFormProps) {
           >
             <FieldGroup className="grid grid-flow-row grid-cols-1">
               <NumberField
-                label={"Booking"}
+                label={initialData?.type === "ride" ? "Ride" : "Booking"}
                 name={"entity_id"}
                 control={form.control}
               />
