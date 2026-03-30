@@ -14,6 +14,7 @@ import { Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getCustomerDetailsById } from "@/features/customers/service";
+import { formatPrice } from "@/lib/format";
 
 type CustomerDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getCustomerDetailsById>>]>;
@@ -40,9 +41,11 @@ export function CustomerDetailsWrapper({
           </CardAction>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <div>{customer?.email}</div>
           <div>{customer?.phone}</div>
+          <div>Balance: {formatPrice(customer?.balance)}</div>
+          <div>Paid to Date: {formatPrice(customer?.paid_to_date)}</div>
         </CardContent>
       </Card>
     </div>

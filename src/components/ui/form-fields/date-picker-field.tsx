@@ -25,6 +25,8 @@ type DatePickerFieldProps<F extends FieldValues> = {
   placeholder?: string;
   description?: string;
   required?: boolean;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export function DatePickerField<T extends FieldValues>({
@@ -34,8 +36,17 @@ export function DatePickerField<T extends FieldValues>({
   placeholder,
   required = true,
   description,
+  startDate,
+  endDate,
 }: Readonly<DatePickerFieldProps<T>>) {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const newStartDate = React.useMemo(() => {
+    if (startDate) return startDate;
+
+    const date = new Date();
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }, [startDate]);
 
   return (
     <Controller
@@ -73,8 +84,8 @@ export function DatePickerField<T extends FieldValues>({
                   field.onChange(selectedDate);
                 }}
                 onDayClick={() => setIsOpen(false)}
-                startMonth={new Date(2020)}
-                endMonth={new Date()}
+                startMonth={newStartDate}
+                endMonth={endDate}
                 // disabled={(date) =>
                 //   Number(date) < Date.now() - 1000 * 60 * 60 * 24 ||
                 //   Number(date) > Date.now() + 1000 * 60 * 60 * 24 * 30

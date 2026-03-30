@@ -89,7 +89,9 @@ export function BookingDetailsWrapper({
           <Button>
             {booking?.is_paid ? "Paid" : formatPrice(booking?.balance)}
           </Button>
-          <Button variant={"outline"}>Partial: {formatPrice(booking?.partial)}</Button>
+          <Button variant={"outline"}>
+            Partial: {formatPrice(booking?.partial)}
+          </Button>
         </CardFooter>
       </Card>
       <Card>
@@ -104,7 +106,7 @@ export function BookingDetailsWrapper({
                   <TableHead className="w-25">Service</TableHead>
                   <TableHead>Cost</TableHead>
                   <TableHead>Count</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead>Amount</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -115,7 +117,7 @@ export function BookingDetailsWrapper({
                     </TableCell>
                     <TableCell>{formatPrice(service.cost_per_item)}</TableCell>
                     <TableCell>{service.total_items}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell>
                       {formatPrice(service.cost_per_item * service.total_items)}
                     </TableCell>
                   </TableRow>
@@ -152,7 +154,7 @@ export function BookingDetailsWrapper({
                   <TableHead>Amount</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Mode</TableHead>
-                  <TableHead className="text-right">Date</TableHead>
+                  <TableHead>Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -165,9 +167,7 @@ export function BookingDetailsWrapper({
                       <TableCell>{formatPrice(payment.amount)}</TableCell>
                       <TableCell>{payment.status}</TableCell>
                       <TableCell>{payment.payment_mode}</TableCell>
-                      <TableCell className="text-right">
-                        {formatDate(payment.date)}
-                      </TableCell>
+                      <TableCell>{formatDate(payment.date)}</TableCell>
                     </TableRow>
                   ))
                 ) : (
