@@ -8,11 +8,11 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getPayments } from "@/features/payments/service";
 import { getPaymentTableColumns } from "./payment-table-columns";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
 import { HasPermission } from "@/components/has-permission";
+import { EditPaymentModal } from "./edit-payment-modal";
 
 type PaymentTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getPayments>>]>;
@@ -29,7 +29,7 @@ export function PaymentTable(props: PaymentTableProps) {
     columns,
     pageCount: pagination.totalPages,
     initialState: {
-      sorting: [{ id: 'date', desc: true }],
+      sorting: [{ id: "date", desc: true }],
       //   columnPinning: { right: ["actions"] },
     },
     getRowId: (originalRow) => originalRow.id.toString(),
@@ -41,12 +41,17 @@ export function PaymentTable(props: PaymentTableProps) {
     <DataTable table={table}>
       <DataTableToolbar table={table}>
         <HasPermission permission={"services:create"}>
-          <Button asChild>
-            <Link href={"/services/new"}>
-              <PlusIcon />
-              New Payment
-            </Link>
-          </Button>
+          <EditPaymentModal
+            initialData={{
+              type: "booking",
+            }}
+            trigger={
+              <Button>
+                  <PlusIcon />
+                  New Payment
+              </Button>
+            }
+          />
         </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>

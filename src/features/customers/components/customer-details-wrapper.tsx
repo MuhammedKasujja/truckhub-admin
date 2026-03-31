@@ -57,7 +57,14 @@ export function CustomerDetailsWrapper({
       <Card>
         <CardHeader>
           <CardTitle>{customer?.fullname}</CardTitle>
-          <CardAction>
+          <CardAction className="flex gap-4">
+            <HasPermission permission={"payments:create"}>
+              <EditPaymentModal
+                initialData={{
+                  type: "booking",
+                }}
+              />
+            </HasPermission>
             <Button asChild size={"icon"}>
               <Link href={`/customers/${customer?.id}/edit`}>
                 <Edit2Icon />
