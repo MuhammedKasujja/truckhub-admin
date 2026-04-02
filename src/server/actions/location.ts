@@ -224,7 +224,7 @@ export async function fetchRoutes({
           distance: route.distance,
         }),
       );
-      logger.debug(jsonFormatter(routeData));
+      console.log("Fetched route data:", routeData);
       return routeData;
     }
   } catch (error) {

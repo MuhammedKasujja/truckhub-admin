@@ -9,6 +9,7 @@ import {
   Map,
   MapRef,
 } from "@/components/ui/map";
+import { MAP_LIGHT_STYLE_URL } from "@/config/constants";
 import { formatDistance, formatDuration } from "@/lib/format";
 import { fetchRoutes, RouteData } from "@/server/actions/location";
 import React, { useEffect } from "react";
@@ -55,7 +56,7 @@ export function RideRequestMap({
           center={[origin.lng, origin.lat]}
           zoom={11.0}
           styles={{
-            light: "https://tiles.openfreemap.org/styles/bright",
+            light: MAP_LIGHT_STYLE_URL,
           }}
         >
           <MapRoute
@@ -85,7 +86,7 @@ export function RideRequestMap({
           <MapControls position="bottom-right" showZoom showCompass />
         </Map>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="gap-2">
         <div>Distance: {formatDistance(routeData?.[0].distance ?? 0)}</div>
         <div>Duration: {formatDuration(routeData?.[0].duration ?? 0)}</div>
       </CardFooter>

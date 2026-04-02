@@ -38,7 +38,7 @@ export function RideRequestDetailsWrapper({
   useFetchEror(error);
 
   if (error) {
-    return <div>Ride not found</div>;
+    return <div>Ride details not found</div>;
   }
 
   return (

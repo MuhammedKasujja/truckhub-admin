@@ -21,3 +21,9 @@ export const PaymentStatuses = [
 ] as const;
 
 export const PaymentEntityList = ["ride", "booking"] as const;
+
+export const MAP_TILE_URL = "https://tiles.openfreemap.org/styles/bright/{z}/{x}/{y}.png";
+
+export const MAP_LIGHT_STYLE_URL = "https://tiles.openfreemap.org/styles/bright";
+
+export const MAP_DARK_STYLE_URL = "https://tiles.openfreemap.org/styles/dark";
