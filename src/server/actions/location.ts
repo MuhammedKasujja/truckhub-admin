@@ -35,7 +35,7 @@ export type LocationDistanceTime = {
   polyline: string;
 };
 
-export type Location = {
+export type Coordinates = {
   lat: number;
   lng: number;
 };
@@ -197,7 +197,15 @@ export async function getLocationDetailsByPlaceId({
   }
 }
 
-export async function fetchRoutes(origin: Location, destination: Location) {
+export async function fetchRoutes({
+  origin,
+  destination,
+  waypoints = [],
+}: {
+  origin: Coordinates;
+  destination: Coordinates;
+  waypoints?: Coordinates[];
+}): Promise<RouteData[] | undefined> {
   try {
     const response = await fetch(
       `https://router.project-osrm.org/route/v1/driving/${origin.lng},${origin.lat};${destination.lng},${destination.lat}?overview=full&geometries=geojson&alternatives=true`,
@@ -216,10 +224,12 @@ export async function fetchRoutes(origin: Location, destination: Location) {
           distance: route.distance,
         }),
       );
+      logger.debug(jsonFormatter(routeData));
       return routeData;
     }
   } catch (error) {
     logger.error("Failed to fetch routes:");
     logger.error(error);
+    return;
   }
 }

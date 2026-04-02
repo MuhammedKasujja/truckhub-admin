@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { Edit2Icon, MapPin } from "lucide-react";
+import { Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getRideRequestDetailsById } from "@/features/ride-requests/service";
@@ -22,18 +22,9 @@ import {
   formatPrice,
 } from "@/lib/format";
 import { Status } from "@/components/ui/status";
-import {
-  Map,
-  MapControls,
-  MapMarker,
-  MapRoute,
-  MarkerContent,
-  MarkerTooltip,
-  type MapRef,
-} from "@/components/ui/map";
-import { generateCoordnatesFromPolyline } from "@/lib/maps";
 import { HasPermission } from "@/components/has-permission";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
+import { RideRequestMap } from "./ride-request-map";
 
 type RideRequestDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getRideRequestDetailsById>>]>;
@@ -43,9 +34,12 @@ export function RideRequestDetailsWrapper({
   promises,
 }: RideRequestDetailsWrapperProps) {
   const [{ data: ride, error }] = React.use(promises);
-  const mapRef = React.useRef<MapRef>(null);
 
   useFetchEror(error);
+
+  if (error) {
+    return <div>Ride not found</div>;
+  }
 
   return (
     <div className="grid gap-5">
@@ -87,51 +81,16 @@ export function RideRequestDetailsWrapper({
         <CardFooter className="space-y-4 flex items-center gap-2">
           <Button>{formatPrice(ride?.amount)}</Button>
           <Button>{formatPrice(ride?.balance)}</Button>
-          <Button variant={"outline"}>Partial: {formatPrice(ride?.partial)}</Button>
+          <Button variant={"outline"}>
+            Partial: {formatPrice(ride?.partial)}
+          </Button>
         </CardFooter>
       </Card>
-      <Card>
-        <CardContent className="h-100 w-full">
-          <Map
-            ref={mapRef}
-            center={[ride!.origin.lng, ride!.origin.lat]}
-            zoom={11.0}
-            styles={{
-              light: "https://tiles.openfreemap.org/styles/bright",
-            }}
-          >
-            <MapRoute
-              coordinates={generateCoordnatesFromPolyline(ride?.polyline_route)}
-              color="#3b82f6"
-              width={5}
-              opacity={1}
-            />
-            {[ride!.origin, ride!.destination].map((stop, index) => (
-              <MapMarker
-                key={stop.name}
-                longitude={stop.lng}
-                latitude={stop.lat}
-              >
-                {/* <MarkerContent>
-                  <div className="cursor-move">
-                    <MapPin
-                      className="fill-black stroke-white dark:fill-white"
-                      size={28}
-                    >{index == 0 ? "P" : "D"}</MapPin>
-                  </div>
-                </MarkerContent> */}
-                <MarkerContent>
-                  <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
-                    {index == 0 ? "P" : "D"}
-                  </div>
-                </MarkerContent>
-                <MarkerTooltip>{stop.name}</MarkerTooltip>
-              </MapMarker>
-            ))}
-            <MapControls position="bottom-right" showZoom showCompass />
-          </Map>
-        </CardContent>
-      </Card>
+      <RideRequestMap
+        origin={ride!.origin}
+        destination={ride!.destination}
+        waypoints={[]}
+      />
     </div>
   );
 }
