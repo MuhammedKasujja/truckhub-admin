@@ -38,13 +38,12 @@ export function RideRequestMap({
   waypoints = [],
 }: RideRequestMapProps) {
   const mapRef = React.useRef<MapRef>(null);
-  const [routeData, setRouteData] = React.useState<RouteData[] | undefined>(
-    undefined,
-  );
+  const [routeData, setRouteData] = React.useState<RouteData[] | undefined>();
 
   useEffect(() => {
     fetchRoutes({ origin, destination, waypoints }).then((data) => {
       setRouteData(data);
+      mapRef.current?.setPitch(30)
     });
   }, [origin, destination, waypoints]);
 

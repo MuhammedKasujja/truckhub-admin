@@ -76,7 +76,7 @@ export function VehicleTypeForm({ trigger, initialData }: Props) {
             <div className="grid flex-1 gap-4">
               <TextField label="Name" control={form.control} name={"name"} />
               <SwitchField
-                label="Truck"
+                label="Truck Vehicle"
                 control={form.control}
                 name={"is_truck"}
                 description="When checked indicates this is a truck vehicle"

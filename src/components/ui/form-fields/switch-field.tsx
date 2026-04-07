@@ -2,11 +2,13 @@ import {
   Field,
   FieldContent,
   FieldDescription,
+  FieldError,
   FieldLabel,
   FieldTitle,
 } from "@/components/ui/field";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 import { Switch } from "@/components/ui/switch";
+import { RequiredLabelIcon } from "@/components/required-label-icon";
 
 type SwitchFieldProps<T extends FieldValues> = {
   label?: string;
@@ -20,7 +22,7 @@ export function SwitchField<T extends FieldValues>({
   control,
   name,
   label,
-  required = true,
+  required = false,
   description,
 }: Readonly<SwitchFieldProps<T>>) {
   return (
@@ -31,22 +33,20 @@ export function SwitchField<T extends FieldValues>({
         <FieldLabel htmlFor={field.name}>
           <Field orientation="horizontal" data-invalid={fieldState.invalid}>
             <FieldContent>
-              <FieldTitle>{label}</FieldTitle>
-              {/* {required && (
-                <AsteriskIcon
-                  className={cn("text-destructive inline size-2.5 align-top")}
-                />
-              )} */}
+              <FieldTitle>
+                {label} {required && <RequiredLabelIcon />}
+              </FieldTitle>
               {description && (
                 <FieldDescription>{description}</FieldDescription>
               )}
-              {/* {fieldState.invalid && <FieldError errors={[fieldState.error]} />} */}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </FieldContent>
             <Switch
               {...field}
               id={field.name}
-              value={field.value}
+              checked={field.value}
               aria-invalid={fieldState.invalid}
+              onCheckedChange={field.onChange}
             />
           </Field>
         </FieldLabel>

@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DriveTrain } from "@/features/setiings/drive-trains/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { EditIcon, EyeIcon } from "lucide-react";
+import { CarIcon, EditIcon, EyeIcon } from "lucide-react";
 import { DriveTrainForm } from "./drive-train-form";
 
 export function getDriveTrainColumns(): ColumnDef<DriveTrain>[] {
@@ -26,7 +26,13 @@ export function getDriveTrainColumns(): ColumnDef<DriveTrain>[] {
       header: "Truck",
       cell: ({ row }) => {
         return (
-          <p>{row.original.is_truck && <Badge variant={"secondary"} />}</p>
+          <p>
+            {row.original.is_truck && (
+              <Badge variant={"secondary"}>
+                <CarIcon />
+              </Badge>
+            )}
+          </p>
         );
       },
     },
