@@ -30,15 +30,23 @@ const data = {
       route: "/settings/car-models" as const,
     },
     { name: "Tonnages", icon: Globe, route: "/settings/tonnages" as const },
-    { name: "Vehicle Types", icon: Globe, route: "/settings/vehicle-types" as const },
-    { name: "Drive Trains", icon: Globe, route: "/settings/drive-trains" as const },
+    {
+      name: "Vehicle Types",
+      icon: Globe,
+      route: "/settings/vehicle-types" as const,
+    },
+    {
+      name: "Drive Trains",
+      icon: Globe,
+      route: "/settings/drive-trains" as const,
+    },
     { name: "Privacy & visibility", icon: Lock },
     {
       name: "Permissions",
       icon: Keyboard,
       route: "/settings/permissions" as const,
     },
-    { name: "Advanced", icon: Settings },
+    { name: "Advanced", route: "/settings/advanced" as const, icon: Settings },
   ],
 };
 
@@ -52,10 +60,7 @@ export function SettingsSidebar() {
             <SidebarMenu>
               {data.nav.map((item) => (
                 <SidebarMenuItem key={item.name}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={item.route == pathname}
-                  >
+                  <SidebarMenuButton asChild isActive={item.route == pathname}>
                     {item.route ? (
                       <Link href={item.route}>
                         <item.icon />

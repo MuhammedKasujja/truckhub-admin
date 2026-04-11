@@ -71,7 +71,11 @@ export function RideRequestDetailsWrapper({
         </CardHeader>
         <CardContent className="space-y-4">
           <div>{formatDate(ride?.request_start_time)}</div>
-          <div>{ride?.customer.fullname}</div>
+          <Button variant={"secondary"} asChild>
+            <Link href={`/customers/${ride?.customer.id}/view`}>
+              {ride?.customer.fullname}
+            </Link>
+          </Button>
           <div>{ride?.customer.email}</div>
           <div>{ride?.customer.phone}</div>
           <div>{formatDate(ride?.created_at)}</div>

@@ -79,7 +79,11 @@ export function BookingDetailsWrapper({
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>{booking?.customer.fullname}</div>
+          <Button variant={"secondary"} asChild>
+            <Link href={`/customers/${booking?.customer.id}/view`}>
+              {booking?.customer.fullname}
+            </Link>
+          </Button>
           <div>{booking?.customer.email}</div>
           <div>{booking?.customer.phone}</div>
           <div>{formatDate(booking?.created_at)}</div>
