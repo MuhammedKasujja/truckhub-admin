@@ -11,20 +11,28 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import { NumberField } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
-import { EditSettingsSchema } from "@/features/setiings/schemas";
+import {
+  EditSettingsSchema,
+  EditSettingsSchemaType,
+} from "@/features/setiings/schemas";
 import { updateSettings } from "@/features/setiings/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-export function EditSettingsForm() {
+type EditSettingsFormProps = {
+  settings?: EditSettingsSchemaType;
+};
+
+export function EditSettingsForm({ settings }: EditSettingsFormProps) {
   const tr = useTranslation();
 
   const formSchema = EditSettingsSchema;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: settings,
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -50,7 +58,7 @@ export function EditSettingsForm() {
         <CardContent className="pb-6">
           <FieldGroup>
             <NumberField
-              label={"Search Radius"}
+              label={"Search Radius (meters)"}
               name={"search_radius"}
               control={form.control}
             />

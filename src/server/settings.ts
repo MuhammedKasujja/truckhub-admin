@@ -2,7 +2,7 @@ import * as apiClient from "@/lib/api-client";
 import { Setting, VehicleConfigurations } from "@/types/setting";
 
 export async function getSettings() {
-  return await apiClient.getFn<Setting[]>("/v1/settings");
+  return await apiClient.getFn<Setting>("/v1/settings");
 }
 
 export async function getVehicleSettings() {
