@@ -25,7 +25,7 @@ type DriverDetailsProps = {
 
 export function DriverDetails({ promises }: DriverDetailsProps) {
   const [{ data: driver, error }] = React.use(promises);
-  const [vehicleId, setVehicleId] = React.useState<string | null>();
+  const [vehicleId, setVehicleId] = React.useState<number | null>();
 
   useFetchEror(error);
 
@@ -45,9 +45,7 @@ export function DriverDetails({ promises }: DriverDetailsProps) {
     <div className="grid grid-cols-5 grid-flow-col gap-5">
       <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>
-            {driver?.fullname}
-          </CardTitle>
+          <CardTitle>{driver?.fullname}</CardTitle>
           <CardAction>
             <Button asChild size={"icon"}>
               <Link href={`/drivers/${driver?.id}/edit`}>
@@ -67,9 +65,10 @@ export function DriverDetails({ promises }: DriverDetailsProps) {
           <CardTitle>Assign Vehicle to driver</CardTitle>
           <CardDescription>Attach vehicle to the driver</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex">
           <VehicleSearchFilter
-            onSelected={(vehicleId) => setVehicleId(vehicleId)}
+            className="flex-1"
+            onSelected={(vehicle) => setVehicleId(vehicle?.id)}
           />
         </CardContent>
         <CardFooter>

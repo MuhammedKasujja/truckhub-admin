@@ -66,8 +66,9 @@ export function VehicleDetails({ promises }: VehicleDetailsProps) {
           <CardTitle>Assign Driver</CardTitle>
           <CardDescription>Attach new driver to the vehicle</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex">
           <DriverSearchFilter
+            className="flex-1"
             onSelected={(driver) => {
               setDriverId(driver?.id.toString());
             }}

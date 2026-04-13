@@ -5,14 +5,16 @@ import { Vehicle } from "@/features/vehicles/types";
 import { getVehiclesByQuery } from "@/features/vehicles/service";
 import { useState } from "react";
 
-type VehicleSearchFilterProps = {
+interface VehicleSearchFilterProps {
   onSelected: (Vehicle?: Vehicle | null) => void;
+  className?: string 
 };
 
-export function VehicleSearchFilter({ onSelected }: VehicleSearchFilterProps) {
+export function VehicleSearchFilter({ onSelected, className }: VehicleSearchFilterProps) {
   const [vehicleId, setVehicleId] = useState<string>("");
   return (
     <AutoComplete<Vehicle>
+      triggerClassName={className}
       fetcher={async (search) => {
         if (!search || search.length < 3) return [];
         const { data } = await getVehiclesByQuery({ search });

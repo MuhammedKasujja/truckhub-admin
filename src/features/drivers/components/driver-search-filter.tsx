@@ -5,14 +5,16 @@ import { Driver } from "../types";
 import { getDriversByQuery } from "../service";
 import { useState } from "react";
 
-type DriverSearchFilterProps = {
+interface DriverSearchFilterProps {
   onSelected: (driver?: Driver | null) => void;
+  className?: string 
 };
 
-export function DriverSearchFilter({ onSelected }: DriverSearchFilterProps) {
+export function DriverSearchFilter({ onSelected, className }: DriverSearchFilterProps) {
   const [driverId, setDriverId] = useState<string>("");
   return (
     <AutoComplete<Driver>
+      triggerClassName={className}
       fetcher={async (search) => {
         if (!search || search.length < 3) return [];
         const { data } = await getDriversByQuery({ search });
