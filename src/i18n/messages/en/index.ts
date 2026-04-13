@@ -48,6 +48,15 @@ const tripModuleTranslations = {
   trip_updated_successfully: "Trip updated successfully",
 } as const;
 
+const bookingModuleTranslations = {
+  client: "Client",
+  new_booking: "New Booking",
+  create_booking_help: "Create client booking",
+  edit_booking: "Edit Booking",
+  booking_created_successfully: "Booking created successfully",
+  booking_updated_successfully: "Booking updated successfully",
+} as const;
+
 const en = {
   app_name: "Truckhub",
   welcome_back: "Welcome back",
@@ -132,6 +141,7 @@ const en = {
   services: { ...serviceModuleTranslations },
   trips: { ...tripModuleTranslations },
   ...userModuleTranslations,
+  ...bookingModuleTranslations
 } as const;
 
 export default en;

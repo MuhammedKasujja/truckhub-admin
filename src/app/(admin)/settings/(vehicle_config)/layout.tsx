@@ -1,5 +1,9 @@
+"use client";
+import { tabs } from "slidytabs";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const vehicleConfigSections = [
   {
@@ -29,8 +33,13 @@ export default function VehicleConfigLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
   return (
-    <Tabs defaultValue={vehicleConfigSections[0].route} className="w-full">
+    <Tabs
+      ref={tabs()}
+      defaultValue={pathname}
+      className="w-full"
+    >
       <TabsList>
         {vehicleConfigSections.map((section) => (
           <TabsTrigger key={section.name} value={section.route} asChild>
@@ -38,11 +47,11 @@ export default function VehicleConfigLayout({
           </TabsTrigger>
         ))}
       </TabsList>
-      <TabsContent value="/settings/car-brands">{children}</TabsContent>
-      {/* <TabsContent value="car_models">Car models..... here</TabsContent>
-      <TabsContent value="drive_train">Drive train..... here</TabsContent>
-      <TabsContent value="vehicles">Vehicle types..... here</TabsContent>
-      <TabsContent value="tonnages">Truck tonnages..... here</TabsContent> */}
+      {vehicleConfigSections.map((section) => (
+        <TabsContent key={section.name} value={section.route}>
+          {children}
+        </TabsContent>
+      ))}
     </Tabs>
   );
 }

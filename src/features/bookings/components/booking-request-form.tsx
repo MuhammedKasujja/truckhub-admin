@@ -21,18 +21,20 @@ import {
 import { getCustomersByQuery } from "@/features/customers/service";
 import { getServicesByQuery } from "@/features/services/service";
 import { useTranslation } from "@/i18n";
-import React, { useMemo } from "react";
+import React, { Activity, useMemo, useState } from "react";
 import z from "zod";
 import { BookingCreateSchema } from "@/features/bookings/schemas";
 import { toast } from "sonner";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { ListIcon, Loader2 } from "lucide-react";
 import { createBooking } from "@/features/bookings/services";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { Service } from "@/features/services/types";
 import { formatPrice } from "@/lib/format";
+import { tabs } from "slidytabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -45,6 +47,10 @@ type BookingRequestFormProps = {
 
 export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const tr = useTranslation();
+  const [activeServiceTab, setActiveServiceTab] = useState<
+    string | undefined
+  >();
+  const [serviceView, setServiceView] = useState<"list" | "single">("single");
 
   const { control, handleSubmit, formState, watch } = useForm<
     z.infer<typeof BookingCreateSchema>
@@ -53,6 +59,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
     defaultValues: {
       services: [],
     },
+    mode: "onChange",
   });
 
   const { fields, remove, prepend } = useFieldArray({
@@ -71,25 +78,48 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
     }
   }
 
-  const bookingItems = watch("services");
+  const watchedServiceItems = useWatch({
+    control,
+    name: "services",
+    defaultValue: [],
+  });
+
   const partialAmount = watch("partial");
   const discount = watch("discount");
 
-  const itemsTotal = useMemo(() => {
-    const updatedAmount = bookingItems.reduce(
-      (prev, item) => prev + Number(item.cost_per_item) * item.total_items,
-      0.0,
+  const calculatedServices = useMemo(() => {
+    return watchedServiceItems.map((item) => {
+      const qty = item.total_items || 0;
+      const price = Number(item.cost_per_item) || 0;
+      const discount = item.discount || 0;
+
+      const subtotalBeforeDiscount = qty * price;
+      const discountAmount = subtotalBeforeDiscount * (discount / 100);
+      const lineTotal = subtotalBeforeDiscount - discountAmount;
+
+      return {
+        ...item,
+        lineTotal: Math.round(lineTotal * 100) / 100, // 2 decimal places
+      };
+    });
+  }, [watchedServiceItems]);
+
+  const grandTotal = useMemo(() => {
+    return calculatedServices.reduce(
+      (sum, item) => sum + (item.lineTotal || 0),
+      0,
     );
-    return updatedAmount;
-  }, [bookingItems]);
+  }, [calculatedServices]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New Hire Booking</CardTitle>
-        <CardDescription>{tr("trips.create_trip_help")}</CardDescription>
+        <CardTitle>{tr("new_booking")}</CardTitle>
+        <CardDescription>{tr("create_booking_help")}</CardDescription>
         <CardAction>
-          {formatPrice(itemsTotal, { showZeroAsNumber: true })}
+          <CardTitle>
+            {formatPrice(grandTotal, { showZeroAsNumber: true })}
+          </CardTitle>
         </CardAction>
       </CardHeader>
       <form
@@ -97,112 +127,212 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
           console.log(errors);
         })}
       >
-        <CardContent>
-          <FieldGroup className="pb-5">
-            <AutoCompleteField
-              label={tr("common.passenger")}
-              name={"customer_id"}
-              control={control}
-              options={passengers.map((ele) => ({
-                label: ele.fullname,
-                value: ele.id,
-              }))}
-            />
-            <DatePickerField
-              label={"Pickup Date"}
-              name={"pickup_time"}
-              control={control}
-            />
-            <DatePickerField
-              label={"Return Date"}
-              name={"return_time"}
-              control={control}
-            />
-            <NumberField
-              label={"Partial"}
-              name={"partial"}
-              control={control}
-              required={false}
-            />
-            <NumberField
-              label={"Discount"}
-              name={"discount"}
-              control={control}
-              required={false}
-            />
-            <div>
-              <Button type="button" onClick={() => remove(fields.length - 1)}>
-                Delete
-              </Button>
-            </div>
-            <AutoComplete<Service>
-              fetcher={async (_) => {
-                return services;
-              }}
-              renderOption={(service) => (
-                <div className="flex items-center gap-2">
-                  <div className="flex flex-col">
-                    <div className="font-medium">{service.name}</div>
-                  </div>
-                </div>
-              )}
-              getOptionValue={(service) => service.id.toString()}
-              getDisplayValue={(service) => (
-                <div className="flex items-center gap-2 text-left">
-                  <div className="flex flex-col leading-tight">
-                    <div className="font-medium">{service.name}</div>
-                  </div>
-                </div>
-              )}
-              notFound={
-                <div className="py-6 text-center text-sm">
-                  No Services found
-                </div>
-              }
-              label="Service"
-              placeholder="Search service..."
-              value={undefined}
-              onChange={async (service) => {
-                if (service)
-                  prepend({
-                    service_id: service.id,
-                    service_name: service.name,
-                    cost_per_item: service.booking_fee.toString(),
-                    total_items: 1,
-                    discount: 0,
-                  });
-              }}
-            />
-            {fields.map((service, index) => (
-              <div key={service.id} className="grid grid-cols-4 gap-2">
-                <HiddenField
-                  name={`services.${index}.service_id`}
+        <CardContent className="grid gap-5 grid-cols-1 md:grid-cols-2 pb-5">
+          <Card>
+            <CardContent>
+              <FieldGroup className="pb-5">
+                <AutoCompleteField
+                  label={tr("client")}
+                  name={"customer_id"}
+                  control={control}
+                  options={passengers.map((ele) => ({
+                    label: ele.fullname,
+                    value: ele.id,
+                  }))}
+                />
+                <DatePickerField
+                  label={"Pickup Date"}
+                  name={"pickup_time"}
                   control={control}
                 />
-                <TextField
-                  label={"Service"}
-                  name={`services.${index}.service_name`}
-                  control={control}
-                />
-                <TextField
-                  label={"Cost"}
-                  name={`services.${index}.cost_per_item`}
+                <DatePickerField
+                  label={"Return Date"}
+                  name={"return_time"}
                   control={control}
                 />
                 <NumberField
-                  label={"Total"}
-                  name={`services.${index}.total_items`}
+                  label={"Initial Payment"}
+                  name={"partial"}
                   control={control}
-                />
-                <NumberField
                   required={false}
-                  label={"Discount"}
-                  name={`services.${index}.discount`}
-                  control={control}
                 />
-              </div>
-            ))}
-          </FieldGroup>
+                <NumberField
+                  label={"Discount"}
+                  name={"discount"}
+                  control={control}
+                  required={false}
+                />
+                {/* <div>
+                  <Button
+                    type="button"
+                    onClick={() => remove(fields.length - 1)}
+                  >
+                    Delete
+                  </Button>
+                </div> */}
+              </FieldGroup>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <FieldGroup className="pb-5">
+                <div className="flex flex-row gap-2">
+                  <AutoComplete<Service>
+                    triggerClassName="flex-1"
+                    fetcher={async (_) => {
+                      return services;
+                    }}
+                    renderOption={(service) => (
+                      <div className="flex items-center gap-2">
+                        <div className="flex flex-col">
+                          <div className="font-medium">{service.name}</div>
+                        </div>
+                      </div>
+                    )}
+                    getOptionValue={(service) => service.id.toString()}
+                    getDisplayValue={(service) => (
+                      <div className="flex items-center gap-2 text-left">
+                        <div className="flex flex-col leading-tight">
+                          <div className="font-medium">{service.name}</div>
+                        </div>
+                      </div>
+                    )}
+                    notFound={
+                      <div className="py-6 text-center text-sm">
+                        No Services found
+                      </div>
+                    }
+                    label="Service"
+                    placeholder="Search service..."
+                    value={undefined}
+                    onChange={async (service) => {
+                      if (service)
+                        prepend({
+                          service_id: service.id,
+                          service_name: service.name,
+                          cost_per_item: service.booking_fee.toString(),
+                          total_items: 1,
+                          discount: 0,
+                        });
+                      setActiveServiceTab(`services.0`);
+                    }}
+                  />
+                  <Button
+                    size="icon"
+                    type="button"
+                    variant={"secondary"}
+                    onClick={() => {
+                      setServiceView((prev) =>
+                        prev === "list" ? "single" : "list",
+                      );
+                    }}
+                  >
+                    <ListIcon />
+                  </Button>
+                </div>
+                <Activity
+                  mode={
+                    fields.length > 0 && serviceView === "single"
+                      ? "visible"
+                      : "hidden"
+                  }
+                >
+                  <Tabs
+                    value={activeServiceTab}
+                    onValueChange={(val) => {
+                      setActiveServiceTab(val);
+                    }}
+                  >
+                    <TabsList>
+                      {fields.map((service, index) => (
+                        <TabsTrigger
+                          key={`services.${index}`}
+                          value={`services.${index}`}
+                        >
+                          {service.service_name}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                    {fields.map((service, index) => (
+                      <TabsContent
+                        key={`services.${index}`}
+                        value={`services.${index}`}
+                      >
+                        <Card>
+                          <CardContent
+                            key={service.id}
+                            className="grid grid-cols-1 gap-2"
+                          >
+                            <HiddenField
+                              name={`services.${index}.service_id`}
+                              control={control}
+                            />
+                            <TextField
+                              label={"Service"}
+                              name={`services.${index}.service_name`}
+                              control={control}
+                            />
+                            <TextField
+                              label={"Cost"}
+                              name={`services.${index}.cost_per_item`}
+                              control={control}
+                            />
+                            <NumberField
+                              label={"Total"}
+                              name={`services.${index}.total_items`}
+                              control={control}
+                            />
+                            <NumberField
+                              required={false}
+                              label={"Discount"}
+                              name={`services.${index}.discount`}
+                              control={control}
+                            />
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+                    ))}
+                  </Tabs>
+                </Activity>
+                <Activity mode={serviceView === "list" ? "visible" : "hidden"}>
+                  {fields.map((service, index) => (
+                    <Card>
+                      <CardContent
+                        key={`${service.id}-${index}`}
+                        className="grid grid-cols-1 gap-2"
+                      >
+                        <HiddenField
+                          name={`services.${index}.service_id`}
+                          control={control}
+                        />
+                        <TextField
+                          label={"Service"}
+                          name={`services.${index}.service_name`}
+                          control={control}
+                        />
+                        <TextField
+                          label={"Cost"}
+                          name={`services.${index}.cost_per_item`}
+                          control={control}
+                        />
+                        <NumberField
+                          label={"Total"}
+                          name={`services.${index}.total_items`}
+                          control={control}
+                        />
+                        <NumberField
+                          required={false}
+                          label={"Discount"}
+                          name={`services.${index}.discount`}
+                          control={control}
+                        />
+                      </CardContent>
+                    </Card>
+                  ))}
+                </Activity>
+              </FieldGroup>
+            </CardContent>
+          </Card>
         </CardContent>
         <CardFooter>
           <Button
