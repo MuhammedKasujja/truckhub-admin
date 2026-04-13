@@ -14,7 +14,7 @@ export const ServiceItem = z.object({
   service_name: z.string().min(1),
   cost_per_item: z.string().min(1),
   total_items: z.number().min(1),
-  discount: z.number().optional(),
+  discount: z.number().optional().nullable(),
 });
 
 export const BookingCreateSchema = z.object({

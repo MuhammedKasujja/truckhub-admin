@@ -28,12 +28,11 @@ import { toast } from "sonner";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { ListIcon, Loader2 } from "lucide-react";
+import { ListIcon, Loader2, Trash2Icon } from "lucide-react";
 import { createBooking } from "@/features/bookings/services";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { Service } from "@/features/services/types";
 import { formatPrice } from "@/lib/format";
-import { tabs } from "slidytabs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type BookingRequestFormProps = {
@@ -87,7 +86,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const partialAmount = watch("partial");
   const discount = watch("discount");
 
-  const calculatedServices = useMemo(() => {
+  const calculatedServicesTotals = useMemo(() => {
     return watchedServiceItems.map((item) => {
       const qty = item.total_items || 0;
       const price = Number(item.cost_per_item) || 0;
@@ -105,11 +104,11 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   }, [watchedServiceItems]);
 
   const grandTotal = useMemo(() => {
-    return calculatedServices.reduce(
+    return calculatedServicesTotals.reduce(
       (sum, item) => sum + (item.lineTotal || 0),
       0,
     );
-  }, [calculatedServices]);
+  }, [calculatedServicesTotals]);
 
   return (
     <Card>
@@ -162,14 +161,6 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                   control={control}
                   required={false}
                 />
-                {/* <div>
-                  <Button
-                    type="button"
-                    onClick={() => remove(fields.length - 1)}
-                  >
-                    Delete
-                  </Button>
-                </div> */}
               </FieldGroup>
             </CardContent>
           </Card>
@@ -253,12 +244,29 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                         </TabsTrigger>
                       ))}
                     </TabsList>
-                    {fields.map((service, index) => (
+                    {fields.map((service, index) =>{
+                      const serviceWithTotal = calculatedServicesTotals[index];
+                      return (
                       <TabsContent
                         key={`services.${index}`}
                         value={`services.${index}`}
                       >
                         <Card>
+                          <CardHeader>
+                            <CardAction>
+                              <Button
+                                type="button"
+                                variant={"destructive"}
+                                size={"icon-sm"}
+                                onClick={()=>{
+                                  remove(index)
+                                  setActiveServiceTab('services.0')
+                                }}
+                              >
+                                <Trash2Icon />
+                              </Button>
+                            </CardAction>
+                          </CardHeader>
                           <CardContent
                             key={service.id}
                             className="grid grid-cols-1 gap-2"
@@ -289,9 +297,12 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                               control={control}
                             />
                           </CardContent>
+                          <CardFooter>
+                            Total: {formatPrice(serviceWithTotal?.lineTotal, {showZeroAsNumber: true})}
+                          </CardFooter>
                         </Card>
                       </TabsContent>
-                    ))}
+                    )})}
                   </Tabs>
                 </Activity>
                 <Activity mode={serviceView === "list" ? "visible" : "hidden"}>
