@@ -16,6 +16,7 @@ import {
   HiddenField,
   NumberField,
   TextField,
+  DiscountField,
   MoneyField,
 } from "@/components/ui/form-fields";
 import { getCustomersByQuery } from "@/features/customers/service";
@@ -155,7 +156,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                   control={control}
                   required={false}
                 />
-                <NumberField
+                <DiscountField
                   label={"Discount"}
                   name={"discount"}
                   control={control}
@@ -307,7 +308,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                 </Activity>
                 <Activity mode={serviceView === "list" ? "visible" : "hidden"}>
                   {fields.map((service, index) => (
-                    <Card>
+                    <Card key={`${service.id}*${index}`}>
                       <CardContent
                         key={`${service.id}-${index}`}
                         className="grid grid-cols-1 gap-2"
