@@ -1,3 +1,61 @@
-export default async function Page(props: PageProps<"/dashboard">) {
-  return <div className="flex flex-col gap-2">Dashboard</div>;
+import {
+  Stat,
+  StatIndicator,
+  StatLabel,
+  StatTrend,
+  StatValue,
+} from "@/components/ui/stat";
+import { getDashboardStatistics } from "@/features/dashboard/service";
+import { RecentPaymentsTable } from "@/features/dashboard/components/recent-payments-table";
+import { RecentBookingTable } from "@/features/dashboard/components/recent-booking-table";
+import { RecentRideTable } from "@/features/dashboard/components/recent-ride-table";
+import { DollarSign, TrendingUp } from "lucide-react";
+import { formatPrice } from "@/lib/format";
+
+export default async function Page() {
+  const { data, error } = await getDashboardStatistics();
+
+  if (!data)
+    return <div className="flex flex-col gap-2">Error Loading Statistics</div>;
+
+  return (
+    <div className="flex flex-col gap-5">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
+        <Stat>
+          <StatLabel>Payments</StatLabel>
+          <StatValue>{formatPrice(data.statistics.payments.total_amount)}</StatValue>
+          <StatIndicator variant="icon" color="success">
+            <DollarSign />
+          </StatIndicator>
+        </Stat>
+        <Stat>
+          <StatLabel>Bookings</StatLabel>
+          <StatValue>{data.statistics.bookings.total}</StatValue>
+          <StatIndicator variant="icon" color="success">
+            <DollarSign />
+          </StatIndicator>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Customers</StatLabel>
+          <StatValue>{data.statistics.customers.total}</StatValue>
+          <StatIndicator variant="badge" color="info">
+            +24
+          </StatIndicator>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Rides</StatLabel>
+          <StatValue>{data.statistics.rides.total}</StatValue>
+          <StatIndicator variant="icon" color="warning">
+            <TrendingUp />
+          </StatIndicator>
+          <StatTrend trend="down">Capacity threshold reached</StatTrend>
+        </Stat>
+      </div>
+      <RecentPaymentsTable payments={data.recent_payments} />
+      <RecentBookingTable bookings={data.recent_bookings} />
+      <RecentRideTable rides={data.recent_rides} />
+    </div>
+  );
 }
