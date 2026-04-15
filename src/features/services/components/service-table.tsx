@@ -6,26 +6,22 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getServices } from "@/features/services/service";
 import { getServiceTableColumns } from "./service-table-columns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
-import { useFetchEror } from "@/hooks/use-fetch-error";
 import { HasPermission } from "@/components/has-permission";
+import { ServiceGroup } from "@/features/services/types";
 
 type ServiceTableProps = {
-  promises: Promise<[Awaited<ReturnType<typeof getServices>>]>;
+  services: ServiceGroup[];
 };
 
-export function ServiceTable(props: ServiceTableProps) {
-  const [{ data, error }] = React.use(props.promises);
+export function ServiceTable({services}: ServiceTableProps) {
   const columns = React.useMemo(() => getServiceTableColumns(), []);
 
-  useFetchEror(error);
-
   const { table } = useDataTable({
-    data,
+    data: services,
     columns,
     pageCount: 1,
     initialState: {

@@ -21,6 +21,7 @@ export function getServiceTableColumns(): ColumnDef<ServiceGroup>[] {
       cell: ({ row }) => {
         return <Button variant={"link"}>{row.original.category}</Button>;
       },
+      size: 120,
     },
     {
       accessorKey: "services",
@@ -41,6 +42,7 @@ export function getServiceTableColumns(): ColumnDef<ServiceGroup>[] {
       cell: ({ row }) => {
         return <p>{row.original.is_truck ? "Truck" : "Normal"}</p>;
       },
+      size: 80,
     },
     {
       id: "actions",
@@ -76,6 +78,7 @@ export function getServiceTableColumns(): ColumnDef<ServiceGroup>[] {
           </div>
         );
       },
+      size: 120,
     },
   ];
 }

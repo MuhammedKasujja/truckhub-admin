@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { formatDateTime, formatPrice } from "@/lib/format";
 import { Booking } from "@/features/bookings/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { Status } from "@/components/ui/status";
 import Link from "next/link";
 import { HasPermission } from "@/components/has-permission";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
+import { Badge } from "@/components/ui/badge";
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 
 export function getBookingTableColumns(): ColumnDef<Booking>[] {
   return [
@@ -23,10 +24,13 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
           </Button>
         );
       },
+      size: 80,
     },
     {
       accessorKey: "customer",
-      header: "Customer",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} label="Customer" />
+      ),
       cell: ({ row }) => {
         return (
           <Button variant={"link"} asChild>
@@ -36,6 +40,7 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
           </Button>
         );
       },
+      enableHiding: false,
     },
     {
       id: "services",
@@ -43,12 +48,13 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       cell: ({ row }) => {
         return <p className="text-center">{row.original.services.length}</p>;
       },
+      size: 80,
     },
     {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        return <Status>{row.original.status}</Status>;
+        return <Badge variant={"outline"}>{row.original.status}</Badge>;
       },
     },
     {

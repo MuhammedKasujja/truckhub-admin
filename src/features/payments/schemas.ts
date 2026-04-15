@@ -55,7 +55,7 @@ export const PaymentSearchParamsCache = createSearchParamsCache({
     { id: "date", desc: true },
   ]),
   search: parseAsString.withDefault(""),
-  created_at: parseAsArrayOf(parseAsInteger).withDefault([]),
+  date: parseAsInteger.withDefault(0),
   // advanced filter
   filters: getFiltersStateParser().withDefault([]),
   joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
