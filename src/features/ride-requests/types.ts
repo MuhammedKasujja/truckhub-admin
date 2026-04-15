@@ -1,20 +1,22 @@
+export type Passenger = {
+  id: number;
+  fullname: string;
+  phone: string;
+  email: string;
+};
+
 export type RideRequest = {
   id: number;
   origin: string;
   destination: string;
   created_at: Date;
   request_start_time: Date;
-  status: RideRequestStatus;
+  status: RideStatus;
   partial: number | null;
   balance: number;
   discount: number;
   amount: number;
-  customer: {
-    id: number;
-    fullname: string;
-    phone: string;
-    email: string;
-  };
+  customer: Passenger;
 };
 
 export type RideRequestDetails = {
@@ -22,9 +24,9 @@ export type RideRequestDetails = {
   origin: Location;
   destination: Location;
   created_at: Date;
-  polyline_route: string | undefined
+  polyline_route: string | undefined;
   request_start_time: Date;
-  status: RideRequestStatus;
+  status: RideStatus;
   partial: number | undefined;
   balance: number;
   discount: number;
@@ -32,15 +34,10 @@ export type RideRequestDetails = {
   duration: number;
   amount: number;
   is_paid: number;
-  customer: {
-    id: number;
-    fullname: string;
-    phone: string;
-    email: string;
-  };
+  customer: Passenger;
 };
 
-export type RideRequestStatus =
+export type RideStatus =
   | "pending"
   | "matched"
   | "accepted"
@@ -51,8 +48,8 @@ export type RideRequestStatus =
 export interface LocationPoint {
   lat: number;
   lng: number;
-};
+}
 
-export interface Location extends  LocationPoint{
+export interface Location extends LocationPoint {
   name: string;
-};
+}

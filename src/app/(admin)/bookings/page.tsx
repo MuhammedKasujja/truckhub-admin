@@ -20,7 +20,7 @@ export default async function Page(props: PageProps<"/bookings">) {
   const promises = Promise.all([getBookings(searchParams)]);
   return (
     <Suspense fallback={<BookingTableSkeleton />}>
-      <PageHeader />
+      <PageHeader title="Bookings" />
       <BookingTable promises={promises} />
     </Suspense>
   );
