@@ -17,7 +17,7 @@ type ServiceTableProps = {
   services: ServiceGroup[];
 };
 
-export function ServiceTable({services}: ServiceTableProps) {
+export function ServiceTable({ services }: ServiceTableProps) {
   const columns = React.useMemo(() => getServiceTableColumns(), []);
 
   const { table } = useDataTable({
@@ -36,14 +36,6 @@ export function ServiceTable({services}: ServiceTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <HasPermission permission={"services:create"}>
-          <Button asChild>
-            <Link href={"/services/new"}>
-              <PlusIcon />
-              New Service
-            </Link>
-          </Button>
-        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
