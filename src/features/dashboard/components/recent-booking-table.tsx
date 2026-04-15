@@ -36,7 +36,7 @@ export function RecentBookingTable({ bookings }: RecentBookingTableProps) {
       <CardHeader>
         <CardTitle>Recent Bookings</CardTitle>
         <CardAction>
-          <Button type="button" asChild>
+          <Button type="button" variant={"secondary"} asChild>
             <Link href={"/bookings"}>
               View
               <ArrowUpRight />

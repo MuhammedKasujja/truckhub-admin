@@ -522,8 +522,10 @@ function Rating(props: RatingProps) {
   );
 }
 
-interface RatingItemProps
-  extends Omit<React.ComponentProps<"button">, "children"> {
+interface RatingItemProps extends Omit<
+  React.ComponentProps<"button">,
+  "children"
+> {
   index?: number;
   asChild?: boolean;
   children?: React.ReactNode | ((dataState: DataState) => React.ReactNode);
@@ -930,9 +932,4 @@ function RatingItem(props: RatingItemProps) {
   );
 }
 
-export {
-  Rating,
-  RatingItem,
-  //
-  useStore as useRating,
-};
+export { Rating, RatingItem, useStore as useRating };

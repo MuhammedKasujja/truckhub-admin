@@ -6,9 +6,11 @@ import {
   parseAsArrayOf,
   parseAsInteger,
   parseAsStringEnum,
+  parseAsStringLiteral,
   createSearchParamsCache,
 } from "nuqs/server";
 import { formatPrice } from "@/lib/format";
+import { PaymentStatuses, PaymentModeList } from "@/config/constants";
 
 /**
  *
@@ -46,6 +48,9 @@ export type PaymentEditSchemaType = z.infer<
 export const PaymentSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
+  status: parseAsArrayOf(
+    parseAsStringLiteral(PaymentStatuses),
+  ).withDefault([]),
   sort: getSortingStateParser<Payment>().withDefault([
     { id: "date", desc: true },
   ]),

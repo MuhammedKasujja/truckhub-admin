@@ -36,7 +36,7 @@ export function RecentPaymentsTable({ payments }: PaymentTableprops) {
       <CardHeader>
         <CardTitle>Recent Payments</CardTitle>
         <CardAction>
-          <Button type="button" asChild>
+          <Button type="button" variant={"secondary"} asChild>
             <Link href={"/payments"}>View<ArrowUpRight/></Link>
           </Button>
         </CardAction>

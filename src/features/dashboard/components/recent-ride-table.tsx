@@ -36,7 +36,7 @@ export function RecentRideTable({ rides }: RecentRideTableProps) {
       <CardHeader>
         <CardTitle>Recent Rides</CardTitle>
         <CardAction>
-          <Button type="button" asChild>
+          <Button type="button" variant={"secondary"} asChild>
             <Link href={"/rides"}>
               View
               <ArrowUpRight />

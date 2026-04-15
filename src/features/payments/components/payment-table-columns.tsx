@@ -5,6 +5,8 @@ import { formatDate, formatPrice } from "@/lib/format";
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash2Icon } from "lucide-react";
 import { PaymentViewModal } from "./payment-view-modal";
+import { PaymentStatuses, PaymentModeList } from "@/config/constants";
+import { Badge } from "@/components/ui/badge";
 
 export function getPaymentTableColumns(): ColumnDef<Payment>[] {
   return [
@@ -14,6 +16,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
       cell: ({ row }) => {
         return <Button variant={"link"}>{row.original.number}</Button>;
       },
+      size: 100,
     },
     {
       accessorKey: "amount",
@@ -28,15 +31,37 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        return <p>{row.original.status}</p>;
+        return (
+          <Badge variant="outline" className="capitalize">
+            {row.original.status}
+          </Badge>
+        );
       },
+      meta: {
+        label: "Status",
+        variant: "multiSelect",
+        options: PaymentStatuses.map((status) => ({
+          label: `${status}`,
+          value: `${status}`,
+        })),
+      },
+      enableColumnFilter: true,
     },
     {
       accessorKey: "payment_mode",
-      header: "Mode",
+      header: "Method",
       cell: ({ row }) => {
-        return <p>{row.original.payment_mode}</p>;
+        return <Badge variant="outline">{row.original.payment_mode}</Badge>;
       },
+      meta: {
+        label: "Method",
+        variant: "select",
+        options: PaymentModeList.map((method) => ({
+          label: `${method}`,
+          value: `${method}`,
+        })),
+      },
+      enableColumnFilter: true,
     },
     {
       accessorKey: "date",
@@ -50,7 +75,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
       cell: ({ row }) => {
         return (
           <div className="flex gap-2">
-            <PaymentViewModal payment={row.original}/>
+            <PaymentViewModal payment={row.original} />
             <ActionButton
               variant={"destructive"}
               size={"icon"}
@@ -64,6 +89,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
           </div>
         );
       },
+      size: 100,
     },
   ];
 }
