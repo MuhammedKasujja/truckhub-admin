@@ -15,8 +15,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { CarModelCreateSchema, CarModelUpdateSchemaType, CarModelUpdateSchema } from "@/features/setiings/car-model/schemas";
-import { createCarModel, updateCarModel } from "@/features/setiings/car-model/service";
+import {
+  CarModelCreateSchema,
+  CarModelUpdateSchemaType,
+  CarModelUpdateSchema,
+} from "@/features/setiings/car-model/schemas";
+import {
+  createCarModel,
+  updateCarModel,
+} from "@/features/setiings/car-model/service";
 import { AutoCompleteField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 import { FieldGroup } from "@/components/ui/field";
@@ -108,9 +115,7 @@ export function CarModelForm({
             />
           </FieldGroup>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit" variant="secondary">
-              {tr("common.form.submit")}
-            </Button>
+            <Button type="submit">{tr("common.form.submit")}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

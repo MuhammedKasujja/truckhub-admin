@@ -76,7 +76,7 @@ export function CarBrandForm({ trigger, initialData }: Props) {
             </div>
           </div>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit" variant="secondary">
+            <Button type="submit">
               Submit
             </Button>
           </DialogFooter>

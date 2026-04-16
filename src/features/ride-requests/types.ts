@@ -37,13 +37,16 @@ export type RideRequestDetails = {
   customer: Passenger;
 };
 
-export type RideStatus =
-  | "pending"
-  | "matched"
-  | "accepted"
-  | "rejected"
-  | "cancelled"
-  | "completed";
+export const RideStatusList = [
+  "pending",
+  "matched",
+  "accepted",
+  "rejected",
+  "cancelled",
+  "completed",
+] as const;
+
+export type RideStatus = (typeof RideStatusList)[number];
 
 export interface LocationPoint {
   lat: number;

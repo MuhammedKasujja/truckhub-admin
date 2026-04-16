@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { formatDateTime, formatPrice } from "@/lib/format";
-import { RideRequest } from "@/features/ride-requests/types";
+import { RideRequest, RideStatusList } from "@/features/ride-requests/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Status } from "@/components/ui/status";
 import Link from "next/link";
@@ -22,6 +22,7 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
           </Button>
         );
       },
+      size: 100,
     },
     {
       accessorKey: "origin",
@@ -56,6 +57,15 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
       cell: ({ row }) => {
         return <Status>{row.original.status}</Status>;
       },
+      meta: {
+        label: "Status",
+        variant: "multiSelect",
+        options: RideStatusList.map((status) => ({
+          label: `${status}`,
+          value: `${status}`,
+        })),
+      },
+      enableColumnFilter: true,
     },
     {
       accessorKey: "amount",
@@ -96,6 +106,7 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
           </div>
         );
       },
+      size: 120,
     },
   ];
 }

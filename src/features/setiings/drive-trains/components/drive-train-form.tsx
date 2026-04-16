@@ -19,7 +19,10 @@ import {
   DriveTrainCreateSchema,
   DriveTrainUpdateSchema,
 } from "@/features/setiings/drive-trains/schemas";
-import { createDriveTrain, updateDriveTrain } from "@/features/setiings/drive-trains/service";
+import {
+  createDriveTrain,
+  updateDriveTrain,
+} from "@/features/setiings/drive-trains/service";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 
@@ -79,9 +82,7 @@ export function DriveTrainForm({ trigger, initialData }: Props) {
             </div>
           </div>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit" variant="secondary">
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </DialogFooter>
         </form>
       </DialogContent>

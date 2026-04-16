@@ -20,7 +20,10 @@ import {
   VehicleTypeUpdateSchemaType,
   VehicleTypeUpdateSchema,
 } from "@/features/setiings/vehicle-types/schemas";
-import { createVehicleType, updateVehicleType } from "@/features/setiings/vehicle-types/service";
+import {
+  createVehicleType,
+  updateVehicleType,
+} from "@/features/setiings/vehicle-types/service";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 
@@ -31,7 +34,7 @@ type Props = {
 
 export function VehicleTypeForm({ trigger, initialData }: Props) {
   const [open, setOpen] = React.useState(false);
-  console.table(initialData)
+  console.table(initialData);
 
   const isEdit = !!initialData;
 
@@ -84,9 +87,7 @@ export function VehicleTypeForm({ trigger, initialData }: Props) {
             </div>
           </div>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit" variant="secondary">
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </DialogFooter>
         </form>
       </DialogContent>
