@@ -21,25 +21,6 @@ export function PageHeader({ title }: PageHeaderProps) {
   );
 }
 
-export function PageTitle() {
-  return <h2 className="text-2xl font-bold tracking-tight">Bookings</h2>;
-}
-
-export function PageActions({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="page-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
 
 export function PageBackButton() {
   const router = useRouter();

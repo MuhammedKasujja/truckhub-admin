@@ -40,14 +40,6 @@ export function CustomerTable(props: CustomerTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <HasPermission permission={"customers:create"}>
-          <Button asChild>
-            <Link href={"/customers/new"}>
-              <PlusIcon />
-              New Customer
-            </Link>
-          </Button>
-        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>
