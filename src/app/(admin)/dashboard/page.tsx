@@ -11,6 +11,7 @@ import { RecentBookingTable } from "@/features/dashboard/components/recent-booki
 import { RecentRideTable } from "@/features/dashboard/components/recent-ride-table";
 import { DollarSign, TrendingUp } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { PageHeader, PageTitle } from "@/components/header";
 
 export default async function Page() {
   const { data, error } = await getDashboardStatistics();
@@ -20,10 +21,15 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col gap-5">
+      <PageHeader className="pb-0">
+        <PageTitle>Dashboard</PageTitle>
+      </PageHeader>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
         <Stat>
           <StatLabel>Payments</StatLabel>
-          <StatValue>{formatPrice(data.statistics.payments.total_amount)}</StatValue>
+          <StatValue>
+            {formatPrice(data.statistics.payments.total_amount)}
+          </StatValue>
           <StatIndicator variant="icon" color="success">
             <DollarSign />
           </StatIndicator>

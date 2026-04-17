@@ -53,7 +53,7 @@ const data = {
 export function SettingsSidebar() {
   const pathname = usePathname();
   return (
-    <Sidebar collapsible="none" className="hidden md:flex">
+    <Sidebar collapsible="none" className="hidden md:flex rounded-xl">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

@@ -1,25 +1,24 @@
-import { cn } from "@/lib/utils"; // adjust path as needed
+import { cn } from "@/lib/utils";
 
 function PageHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="page-header"
       className={cn(
-        // Base layout
         "group/page-header @container/page-header",
-        "grid auto-rows-min items-start gap-1 rounded-t-xl px-4 py-2",
+        "grid auto-rows-min items-start gap-x-4 gap-y-1 rounded-t-xl pb-5",
 
-        // Small card variant support
-        "group-data-[size=sm]/card:px-3 group-data-[size=sm]/card:py-3",
+        // Small size support
+        "group-data-[size=sm]/card:px-3 group-data-[size=sm]/card:py-4",
 
-        // Border bottom support
-        "[.border-b]:pb-4 group-data-[size=sm]/card:[.border-b]:pb-3",
-
-        // Two-column layout when PageAction is present
+        // When action exists → two columns
         "has-data-[slot=page-action]:grid-cols-[1fr_auto]",
 
-        // When both title + description exist
+        // When description exists → two rows
         "has-data-[slot=page-description]:grid-rows-[auto_auto]",
+
+        // Border bottom support
+        "[.border-b]:pb-6 group-data-[size=sm]/card:[.border-b]:pb-4",
 
         className,
       )}
@@ -28,24 +27,30 @@ function PageHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function PageTitle({ className, ...props }: React.ComponentProps<"div">) {
+function PageTitle({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="page-title"
       className={cn(
-        "text-xl font-medium leading-snug",
+        "flex items-center gap-3 text-2xl font-semibold leading-tight",
         "group-data-[size=sm]/card:text-sm",
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }
 
 function PageDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      data-slot="page-description" // kept your original data-slot
+      data-slot="page-description"
       className={cn("text-muted-foreground text-sm leading-relaxed", className)}
       {...props}
     />
@@ -57,11 +62,8 @@ function PageAction({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="page-action"
       className={cn(
-        // Perfect alignment: top-right, spans both rows when description exists
-        "col-start-2 row-span-2 row-start-1",
-        "self-start justify-self-end",
-        // Optional: add some spacing if needed
-        "ml-4",
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        "mt-0.5", // fine-tune vertical alignment with title
         className,
       )}
       {...props}
@@ -69,4 +71,18 @@ function PageAction({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-export { PageHeader, PageTitle, PageAction, PageDescription };
+// Optional: Icon component for consistency
+function PageTitleIcon({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "text-muted-foreground shrink-0",
+        "group-data-[size=sm]/card:text-base",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export { PageHeader, PageTitle, PageDescription, PageAction, PageTitleIcon };

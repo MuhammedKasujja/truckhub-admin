@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import {
   DatabaseSearch,
-  Settings2,
   Users,
   MonitorCog,
   LayoutDashboard,
@@ -31,6 +30,7 @@ import {
   ChartLine,
   CreditCard,
   CalendarCheck,
+  SettingsIcon,
 } from "lucide-react";
 import { UserPermission } from "@/features/auth/permissions";
 import { HasPermission } from "./has-permission";
@@ -113,7 +113,7 @@ const data: SidebarMenuStruct = {
     {
       title: "routes.settings",
       url: "/settings",
-      icon: Settings2,
+      icon: SettingsIcon,
       permission: "config:view",
     },
   ],
