@@ -1,5 +1,6 @@
 export type SystemUser = {
   id: number;
+  number: string | undefined;
   name: string;
   first_name: string;
   last_name: string;
@@ -9,4 +10,3 @@ export type SystemUser = {
   created_at: string;
   updated_at: string;
 };
-

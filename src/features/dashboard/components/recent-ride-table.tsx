@@ -23,7 +23,7 @@ import {
 import { formatDate, formatPrice } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, PlusIcon } from "lucide-react";
 import { RideRequest } from "@/features/ride-requests/types";
 
 type RecentRideTableProps = {
@@ -60,7 +60,7 @@ export function RecentRideTable({ rides }: RecentRideTableProps) {
             <TableBody>
               {rides.length ? (
                 rides.map((ride) => (
-                  <TableRow key={`${ride.id.toString()}*${ride.status}`}>
+                  <TableRow key={`ride-${ride.id.toString()}`}>
                     <TableCell className="font-medium">{ride.id}</TableCell>
                     <TableCell className="font-medium">
                       {ride.customer.fullname}
@@ -76,7 +76,13 @@ export function RecentRideTable({ rides }: RecentRideTableProps) {
                   <TableCell colSpan={5} className="h-24 text-center">
                     <Empty className="">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon"></EmptyMedia>
+                        <EmptyMedia variant="icon">
+                          <Button type="button" asChild size={"icon"}>
+                            <Link href={"/rides/new"}>
+                              <PlusIcon />
+                            </Link>
+                          </Button>
+                        </EmptyMedia>
                         <EmptyTitle>No Rides Found</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent></EmptyContent>

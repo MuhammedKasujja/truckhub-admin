@@ -10,6 +10,7 @@ export type BookingServiceItem = {
 
 export type Booking = {
   id: number;
+  number: string
   created_at: Date;
   request_start_time: Date;
   pickup_time: Date;
@@ -30,6 +31,7 @@ export type Booking = {
 
 export type BookingDetails = {
   id: number;
+  number: string
   created_at: Date;
   pickup_time: Date;
   return_time: Date;

@@ -12,10 +12,17 @@ import { HasPermission } from "@/components/has-permission";
 export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
   return [
     {
+      accessorKey: "number",
+      header: "ID",
+      cell: ({ row }) => {
+        return <Button variant={"link"}>{row.original.number}</Button>;
+      },
+    },
+    {
       accessorKey: "plate_number",
       header: "License",
       cell: ({ row }) => {
-        return <Button variant={"link"}>{row.original.plate_number}</Button>;
+        return <>{row.original.plate_number}</>;
       },
     },
     {

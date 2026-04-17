@@ -23,7 +23,7 @@ import {
 import { formatDate, formatPrice } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, PlusIcon } from "lucide-react";
 import { Booking } from "@/features/bookings/types";
 
 type RecentBookingTableProps = {
@@ -59,7 +59,7 @@ export function RecentBookingTable({ bookings }: RecentBookingTableProps) {
             <TableBody>
               {bookings.length ? (
                 bookings.map((booking) => (
-                  <TableRow key={booking.id.toString()}>
+                  <TableRow key={`booking-${booking.id.toString()}`}>
                     <TableCell className="font-medium">
                       {booking.services.length}
                     </TableCell>
@@ -74,7 +74,13 @@ export function RecentBookingTable({ bookings }: RecentBookingTableProps) {
                   <TableCell colSpan={5} className="h-24 text-center">
                     <Empty className="">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon"></EmptyMedia>
+                        <EmptyMedia variant="icon">
+                          <Button type="button" asChild size={"icon"}>
+                            <Link href={"/bookings/new"}>
+                              <PlusIcon />
+                            </Link>
+                          </Button>
+                        </EmptyMedia>
                         <EmptyTitle>No Bookings Found</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent></EmptyContent>

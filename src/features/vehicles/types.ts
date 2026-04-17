@@ -6,6 +6,7 @@ export type Gearbox = (typeof Gearboxes)[number];
 
 export type Vehicle = {
   id: number;
+  number: string
   plate_number: string;
   color: string;
   interior_color: string;

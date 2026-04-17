@@ -56,7 +56,7 @@ export function RecentPaymentsTable({ payments }: PaymentTableprops) {
             <TableBody>
               {payments.length ? (
                 payments.map((payment) => (
-                  <TableRow key={payment.id.toString()}>
+                  <TableRow key={`payment-${payment.id.toString()}`}>
                     <TableCell className="font-medium">
                       {payment.number}
                     </TableCell>

@@ -19,7 +19,7 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
         return (
           <Button variant={"link"} asChild>
             <Link href={`/bookings/${row.original.id}/view`}>
-              {row.original.id}
+              {row.original.number}
             </Link>
           </Button>
         );

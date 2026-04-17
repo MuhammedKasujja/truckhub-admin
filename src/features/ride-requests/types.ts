@@ -7,6 +7,7 @@ export type Passenger = {
 
 export type RideRequest = {
   id: number;
+  number: string
   origin: string;
   destination: string;
   created_at: Date;
@@ -21,6 +22,7 @@ export type RideRequest = {
 
 export type RideRequestDetails = {
   id: number;
+  number: string
   origin: Location;
   destination: Location;
   created_at: Date;
