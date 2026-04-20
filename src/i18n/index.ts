@@ -17,3 +17,5 @@ export function useTranslation<N extends Namespaces | undefined = undefined>(
     return t(key as string, values);
   };
 }
+
+export type TFunction = ReturnType<typeof useTranslation>

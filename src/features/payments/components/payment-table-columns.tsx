@@ -7,12 +7,13 @@ import { Trash2Icon } from "lucide-react";
 import { PaymentViewModal } from "./payment-view-modal";
 import { PaymentStatuses, PaymentModeList } from "@/config/constants";
 import { Badge } from "@/components/ui/badge";
+import { TFunction } from "@/i18n";
 
-export function getPaymentTableColumns(): ColumnDef<Payment>[] {
+export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
   return [
     {
       accessorKey: "number",
-      header: "Number",
+      header: tr("payments.number"),
       cell: ({ row }) => {
         return <Button variant={"link"}>{row.original.number}</Button>;
       },
@@ -20,7 +21,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
     },
     {
       accessorKey: "amount",
-      header: "Amount",
+      header: tr("payments.amount"),
       cell: ({ row }) => {
         return (
           <div className="flex gap-2">{formatPrice(row.original.amount)}</div>
@@ -29,7 +30,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: tr("payments.status"),
       cell: ({ row }) => {
         return (
           <Badge variant="outline" className="capitalize">
@@ -38,7 +39,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
         );
       },
       meta: {
-        label: "Status",
+        label: tr("payments.status"),
         variant: "multiSelect",
         options: PaymentStatuses.map((status) => ({
           label: `${status}`,
@@ -49,12 +50,12 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
     },
     {
       accessorKey: "payment_mode",
-      header: "Method",
+      header: tr("payments.method"),
       cell: ({ row }) => {
         return <Badge variant="outline">{row.original.payment_mode}</Badge>;
       },
       meta: {
-        label: "Method",
+        label: tr("payments.method"),
         variant: "select",
         options: PaymentModeList.map((method) => ({
           label: `${method}`,
@@ -65,7 +66,7 @@ export function getPaymentTableColumns(): ColumnDef<Payment>[] {
     },
     {
       accessorKey: "date",
-      header: "Date",
+      header: tr("payments.date"),
       cell: ({ row }) => {
         return <p>{formatDate(row.original.date)}</p>;
       },

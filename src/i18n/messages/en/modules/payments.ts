@@ -1,3 +1,29 @@
 export const en = {
-
-} as const
+  number: "Number",
+  revenue: "Revenue",
+  booking: "Booking",
+  ride: "Ride",
+  search: "Search",
+  this_month: "This month",
+  last_month: "Last month",
+  enter_payment: "Enter Payment",
+  form: {
+    create_payment_help: "Create a new payment",
+    edit_payment: "Edit Payment",
+    new_payment: "New Payment",
+    select_payment_method: "Select payment method",
+    submit: "Submit",
+    cancel: "Cancel",
+    edit: "Edit",
+    delete: "Delete",
+  },
+  status: "Status",
+  amount: "Amount",
+  date: "Date",
+  payment_method: "Payment Method",
+  transaction_ref: "Transaction Ref",
+  statuses: {
+    paid: "Paid",
+  },
+  method: "Method",
+} as const;

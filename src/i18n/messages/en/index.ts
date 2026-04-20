@@ -1,44 +1,11 @@
-import {} from "./modules/services";
-
-const userModuleTranslations = {
-  new_user: "New User",
-  create_user_help: "Create new user that can access the system",
-  edit_user: "Edit User",
-  user_created_successfully: "User created successfully",
-  user_updated_successfully: "User updated successfully",
-} as const;
-
-const serviceModuleTranslations = {
-  new_service: "New Service",
-  edit_service: "Edit Service",
-  create_new_service: "Create new Service",
-  seats: "Seating Capacity",
-  base_fare: "Base fare",
-  min_fare: "Min fare",
-  price_per_min: "Price per minute",
-  price_per_unit_distance: "Price per unit distance",
-  booking_fee: "Booking fee",
-  tax_fee: "Tax fee",
-  distance_unit: "Distance unit",
-  service_created_successfully: "Service created successfully",
-  service_updated_successfully: "Service updated successfully",
-} as const;
-
-const vehicleModuleTranslations = {
-  new_vehicle: "New Vehicle",
-  edit_vehicle: "Edit Vehicle",
-  create_new_vehicle: "Create new vehicle",
-  vehicle_created_successfully: "Vehicle created successfully",
-  plate_number: "Plate number",
-  color: "Color",
-  interior_color: "Interior color",
-  cylinders: "Cylinders",
-  tank_capacity: "Tank capacity",
-  fuel_type: "Fuel Type",
-  gearbox: "Gearbox",
-  year_of_manufacture: "Year of Manufacture",
-  seating_capacity: "Seating Capacity",
-} as const;
+import { en as rideEn } from "./modules/ride";
+import { en as usersEn } from "./modules/users";
+import { en as paymentEn } from "./modules/payments";
+import { en as serviceEn } from "./modules/services";
+import { en as bookingsEn } from "./modules/bookings";
+import { en as vehiclesEn } from "./modules/vehicles";
+import { en as settingsEn } from "./modules/settings";
+import { en as permissionsEn } from "./modules/permissions";
 
 const tripModuleTranslations = {
   new_trip: "New Trip request",
@@ -89,6 +56,8 @@ const en = {
     location: "Location",
     pickUp: "Pick up",
     trip: "Trip",
+    rides: "Rides",
+    bookings: "Bookings",
     manual: "Manual",
     automatic: "Automatic",
     petrol: "Petrol",
@@ -137,11 +106,16 @@ const en = {
     rides: "Rides",
     payments: "Payments",
   },
-  ...vehicleModuleTranslations,
-  services: { ...serviceModuleTranslations },
+  ...vehiclesEn,
+  services: { ...serviceEn },
   trips: { ...tripModuleTranslations },
-  ...userModuleTranslations,
-  ...bookingModuleTranslations
+  ...usersEn,
+  ...bookingModuleTranslations,
+  bookings: { ...bookingsEn },
+  payments: { ...paymentEn },
+  rides: { ...rideEn },
+  permissions: { ...permissionsEn },
+  settings: { ...settingsEn },
 } as const;
 
 export default en;

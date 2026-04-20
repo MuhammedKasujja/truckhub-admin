@@ -13,6 +13,7 @@ import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
 import { HasPermission } from "@/components/has-permission";
 import { EditPaymentModal } from "./edit-payment-modal";
+import { useTranslation } from "@/i18n";
 
 type PaymentTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getPayments>>]>;
@@ -20,7 +21,8 @@ type PaymentTableProps = {
 
 export function PaymentTable(props: PaymentTableProps) {
   const [{ data, error, pagination }] = React.use(props.promises);
-  const columns = React.useMemo(() => getPaymentTableColumns(), []);
+  const tr = useTranslation();
+  const columns = React.useMemo(() => getPaymentTableColumns(tr), [tr]);
 
   useFetchEror(error);
 
@@ -47,8 +49,8 @@ export function PaymentTable(props: PaymentTableProps) {
             }}
             trigger={
               <Button>
-                  <PlusIcon />
-                  New Payment
+                <PlusIcon />
+                {tr("payments.form.new_payment")}
               </Button>
             }
           />
@@ -60,11 +62,5 @@ export function PaymentTable(props: PaymentTableProps) {
 }
 
 export function PaymentTableSkeleton() {
-  return (
-    <DataTableSkeleton
-      columnCount={getPaymentTableColumns().length}
-      filterCount={1}
-      shrinkZero
-    />
-  );
+  return <DataTableSkeleton columnCount={6} filterCount={1} shrinkZero />;
 }

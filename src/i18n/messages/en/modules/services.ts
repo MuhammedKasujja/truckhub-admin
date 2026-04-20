@@ -1,4 +1,5 @@
 export const en = {
+  module: "Services",
   new_service: "New Service",
   edit_service: "Edit Service",
   create_new_service: "Create new Service",
@@ -12,5 +13,6 @@ export const en = {
   distance_unit: "Distance unit",
   service_created_successfully: "Service created successfully",
   service_updated_successfully: "Service updated successfully",
-  year_of_manufacture: "Year of Manufacture"
+  year_of_manufacture: "Year of Manufacture",
+  seats: "Seating Capacity",
 } as const;
