@@ -23,7 +23,19 @@ export const en = {
   payment_method: "Payment Method",
   transaction_ref: "Transaction Ref",
   statuses: {
-    paid: "Paid",
+    pending: "Pending",
+    cancelled: "Cancelled",
+    refunded: "Refunded",
+    failed: "Failed",
+    completed: "Completed",
+    partially_refunded: "Partially Refunded",
   },
   method: "Method",
+  methods: {
+    cash: "Cash",
+    mobile_money: "Mobile Money",
+    bank_transfer: "Bank Transfer",
+    paypal: "Paypal",
+    credit_card: "Credit Card",
+  },
 } as const;

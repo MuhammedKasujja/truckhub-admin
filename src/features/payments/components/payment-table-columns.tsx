@@ -18,6 +18,9 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
         return <Button variant={"link"}>{row.original.number}</Button>;
       },
       size: 100,
+      meta:{
+        label: tr("payments.number")
+      }
     },
     {
       accessorKey: "amount",
@@ -27,6 +30,9 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
           <div className="flex gap-2">{formatPrice(row.original.amount)}</div>
         );
       },
+      meta:{
+        label: tr("payments.amount")
+      }
     },
     {
       accessorKey: "status",
@@ -34,7 +40,7 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
       cell: ({ row }) => {
         return (
           <Badge variant="outline" className="capitalize">
-            {row.original.status}
+            {tr(`payments.statuses.${row.original.status}`)}
           </Badge>
         );
       },
@@ -42,7 +48,7 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
         label: tr("payments.status"),
         variant: "multiSelect",
         options: PaymentStatuses.map((status) => ({
-          label: `${status}`,
+          label: tr(`payments.statuses.${status}`),
           value: `${status}`,
         })),
       },
@@ -52,13 +58,16 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
       accessorKey: "payment_mode",
       header: tr("payments.method"),
       cell: ({ row }) => {
-        return <Badge variant="outline">{row.original.payment_mode}</Badge>;
+        const method = row.original.payment_mode;
+        return (
+          <Badge variant="outline">{tr(`payments.methods.${method}`)}</Badge>
+        );
       },
       meta: {
         label: tr("payments.method"),
         variant: "select",
         options: PaymentModeList.map((method) => ({
-          label: `${method}`,
+          label: tr(`payments.methods.${method}`),
           value: `${method}`,
         })),
       },
@@ -70,6 +79,9 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
       cell: ({ row }) => {
         return <p>{formatDate(row.original.date)}</p>;
       },
+      meta:{
+        label: tr("payments.date")
+      }
     },
     {
       id: "actions",
