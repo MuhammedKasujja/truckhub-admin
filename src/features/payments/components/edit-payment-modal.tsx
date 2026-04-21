@@ -107,7 +107,7 @@ export function EditPaymentModal({ initialData, trigger }: PaymentFormProps) {
                 emptyPlaceholder="No payment method found"
                 options={
                   PaymentModeList.map((opt) => ({
-                    label: opt,
+                    label: tr(`payments.methods.${opt}`),
                     value: opt,
                   })) ?? []
                 }

@@ -52,6 +52,7 @@ export function BookingDetailsWrapper({
       <Card>
         <CardHeader>
           <CardTitle>
+            {booking?.number}
             {formatDate(booking?.pickup_time)} -{" "}
             {formatDate(booking?.return_time)}
           </CardTitle>

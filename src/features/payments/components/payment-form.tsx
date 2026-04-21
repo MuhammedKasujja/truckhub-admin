@@ -65,7 +65,7 @@ export function PaymentForm({ initialData }: PaymentFormProps) {
           emptyPlaceholder="No payment method found"
           options={
             PaymentModeList.map((opt) => ({
-              label: opt,
+              label: tr(`payments.methods.${opt}`),
               value: opt,
             })) ?? []
           }

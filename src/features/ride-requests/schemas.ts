@@ -23,6 +23,7 @@ export const RideRequestCreateSchema = z.object({
   pickup_location: LocationSchema,
   destination_location: LocationSchema,
   requires_fuel: z.boolean().default(false).optional(),
+  requires_loaders: z.boolean().default(false).optional(),
   is_scheduled: z.boolean().default(false).optional(),
   estimated_time: z.number().optional(),
   estimated_distance: z.number().optional(),

@@ -13,6 +13,7 @@ import {
   AutoCompleteField,
   DatePickerField,
   NumberField,
+  SwitchField,
   TextField,
 } from "@/components/ui/form-fields";
 import { useTranslation } from "@/i18n";
@@ -142,22 +143,36 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
                 }
                 placeholder="Search customer..."
               /> */}
-              <NumberField
-                label={"Partial"}
-                name={"partial"}
-                control={form.control}
-                required={false}
-              />
-              <NumberField
-                label={"Discount"}
-                name={"discount"}
-                control={form.control}
-                required={false}
-              />
+              <div className="flex flex-row gap-5">
+                <NumberField
+                  label={"Partial"}
+                  name={"partial"}
+                  control={form.control}
+                  required={false}
+                />
+                <NumberField
+                  label={"Discount"}
+                  name={"discount"}
+                  control={form.control}
+                  required={false}
+                />
+              </div>
               <DatePickerField
                 label={"Start time"}
                 name={"request_start_time"}
                 control={form.control}
+              />
+              <SwitchField
+                label="Needs Loaders"
+                control={form.control}
+                name={"requires_loaders"}
+                description="Indicates client needs off-loaders"
+              />
+              <SwitchField
+                label="Needs Fuel"
+                control={form.control}
+                name={"requires_fuel"}
+                description="Vehicle must be fueled"
               />
               <LocationAutoComplete
                 onPlaceLoaded={(place) => {
