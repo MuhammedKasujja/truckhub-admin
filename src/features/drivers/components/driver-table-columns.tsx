@@ -15,7 +15,13 @@ export function getDriverTableColumns(): ColumnDef<Driver>[] {
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => {
-        return <Button variant={"link"}>{row.original.fullname}</Button>;
+        return (
+          <Button variant={"link"} asChild>
+            <Link href={`/drivers/${row.original.id}/view`}>
+              {row.original.fullname}
+            </Link>
+          </Button>
+        );
       },
     },
     {
