@@ -80,8 +80,10 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
         return <p>{formatDate(row.original.date)}</p>;
       },
       meta:{
-        label: tr("payments.date")
-      }
+        label: tr("payments.date"),
+        variant: 'dateRange'
+      },
+      enableColumnFilter: true,
     },
     {
       id: "actions",

@@ -11,7 +11,9 @@ import { RecentBookingTable } from "@/features/dashboard/components/recent-booki
 import { RecentRideTable } from "@/features/dashboard/components/recent-ride-table";
 import { DollarSign, TrendingUp } from "lucide-react";
 import { formatPrice } from "@/lib/format";
-import { PageHeader, PageTitle } from "@/components/header";
+import { PageAction, PageHeader, PageTitle } from "@/components/header";
+import { DateRangePicker } from "@/components/ui/date-range-picker/date-range-picker";
+import { DateRangePicker as DateRangePicker2 } from "@/components/ui/date-picker/date-range-picker";
 
 export default async function Page() {
   const { data, error } = await getDashboardStatistics();
@@ -23,6 +25,22 @@ export default async function Page() {
     <div className="flex flex-col gap-5">
       <PageHeader className="pb-0">
         <PageTitle>Dashboard</PageTitle>
+        <PageAction>
+          <DateRangePicker2
+            initialDateFrom={new Date()}
+            initialDateTo={
+              new Date(new Date().setDate(new Date().getDate() + 7))
+            }
+          />
+          <DateRangePicker
+            // onUpdate={(values) => console.log(values)}
+            initialDateFrom="2026-01-01"
+            initialDateTo="2026-12-31"
+            align="start"
+            locale="en-GB"
+            showCompare={false}
+          />
+        </PageAction>
       </PageHeader>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
         <Stat>
