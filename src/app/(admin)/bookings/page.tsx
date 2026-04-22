@@ -8,6 +8,7 @@ import { BookingSearchParamsCache } from "@/features/bookings/schemas";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { requirePermission } from "@/lib/auth";
 import { PageHeader } from "@/components/page-header";
+import { BookingStatisticsCard } from "@/features/bookings/components";
 
 export default async function Page(props: PageProps<"/bookings">) {
   await requirePermission("bookings:view");
@@ -21,6 +22,7 @@ export default async function Page(props: PageProps<"/bookings">) {
   return (
     <Suspense fallback={<BookingTableSkeleton />}>
       <PageHeader title="Bookings" />
+      <BookingStatisticsCard/>
       <BookingTable promises={promises} />
     </Suspense>
   );
