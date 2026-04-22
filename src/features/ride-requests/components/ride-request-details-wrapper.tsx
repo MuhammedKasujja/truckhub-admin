@@ -26,6 +26,46 @@ import { HasPermission } from "@/components/has-permission";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 import { RideRequestMap } from "./ride-request-map";
 import { RidePassenger } from "./ride-passenger";
+import { Code, Layers, Rocket } from "lucide-react";
+
+import {
+  Timeline,
+  TimelineItem,
+  TimelineDot,
+  TimelineConnector,
+  TimelineContent,
+  TimelineHeader,
+  TimelineTitle,
+  TimelineTime,
+  TimelineDescription,
+} from "@/components/ui/timeline";
+
+const timelineItems = [
+  {
+    id: "project-kickoff",
+    dateTime: "2025-01-15",
+    date: "January 15, 2025",
+    title: "Project Kickoff",
+    description: "Initial meeting to define scope.",
+    icon: Rocket,
+  },
+  {
+    id: "design-phase",
+    dateTime: "2025-02-01",
+    date: "February 1, 2025",
+    title: "Design Phase",
+    description: "Created wireframes and mockups.",
+    icon: Layers,
+  },
+  {
+    id: "development",
+    dateTime: "2025-03-01",
+    date: "March 1, 2025",
+    title: "Development",
+    description: "Building core features.",
+    icon: Code,
+  },
+];
 
 type RideRequestDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getRideRequestDetailsById>>]>;
@@ -69,13 +109,31 @@ export function RideRequestDetailsWrapper({
                 </Link>
               </Button>
             </CardAction>
-            <CardDescription></CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>{formatDate(ride?.request_start_time)}</div>
             <div>{formatDate(ride?.created_at)}</div>
-            <div>Distance: {formatDistance(ride!.distance)}</div>
-            <div>Time: {formatDuration(ride!.duration)}</div>
+            <Timeline activeIndex={1} className="[--timeline-dot-size:2rem]">
+              {timelineItems.map((item) => (
+                <TimelineItem key={item.id}>
+                  <TimelineDot>
+                    <item.icon className="size-3.5" />
+                  </TimelineDot>
+                  <TimelineConnector />
+                  <TimelineContent>
+                    <TimelineHeader>
+                      <TimelineTime dateTime={item.dateTime}>
+                        {item.date}
+                      </TimelineTime>
+                      <TimelineTitle>{item.title}</TimelineTitle>
+                    </TimelineHeader>
+                    <TimelineDescription>
+                      {item.description}
+                    </TimelineDescription>
+                  </TimelineContent>
+                </TimelineItem>
+              ))}
+            </Timeline>
           </CardContent>
           <CardFooter className="space-y-4 flex items-center gap-2">
             <Button>{formatPrice(ride?.amount)}</Button>
