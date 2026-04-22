@@ -1,3 +1,5 @@
 export const en = {
-
-} as const
+  module: "Clients",
+  clients: "Clients",
+  new_client: "New Client",
+} as const;

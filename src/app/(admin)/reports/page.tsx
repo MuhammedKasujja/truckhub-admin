@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -7,6 +8,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Cloud } from "lucide-react";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -18,7 +20,14 @@ export default function Page() {
         <EmptyTitle className="text-3xl">Reports</EmptyTitle>
       </EmptyHeader>
       <EmptyContent>
-        <EmptyDescription>Comming soon.......</EmptyDescription>
+        <EmptyDescription className="flex flex-col gap-4 justify-center items-center">
+          Comming soon.......
+          <Button type="button" variant={"link"} asChild>
+            <Link href={"/reports/audits"}>
+              View Logs
+            </Link>
+          </Button>
+        </EmptyDescription>
       </EmptyContent>
     </Empty>
   );

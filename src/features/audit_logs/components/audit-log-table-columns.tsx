@@ -9,24 +9,13 @@ import { Button } from "@/components/ui/button";
 export function getAuditLogTableColumns(tr: TFunction): ColumnDef<AuditLog>[] {
   return [
     {
-      accessorKey: "user_id",
-      header: "ID",
-      cell: ({ row }) => {
-        return <Button variant={"link"}>{row.original.user_id}</Button>;
-      },
-      size: 100,
-      meta: {
-        label: tr("payments.number"),
-      },
-    },
-    {
       accessorKey: "resource_type",
-      header: tr("payments.amount"),
+      header: "Model",
       cell: ({ row }) => {
         return <div className="flex gap-2">{row.original.resource_type}</div>;
       },
       meta: {
-        label: tr("payments.amount"),
+        label: "Model",
       },
     },
     {

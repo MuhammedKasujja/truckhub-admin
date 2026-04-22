@@ -10,7 +10,7 @@ import { AuditLog } from "./types";
 
 export const AuditLogSearchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),
-  perPage: parseAsInteger.withDefault(10),
+  perPage: parseAsInteger.withDefault(25),
   sort: getSortingStateParser<AuditLog>().withDefault([
     { id: "created_at", desc: true },
   ]),

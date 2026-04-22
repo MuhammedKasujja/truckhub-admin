@@ -42,6 +42,8 @@ const en = {
     year: "Year",
     driver: "Driver",
     passenger: "Passenger",
+    clients: "Clients",
+    customers: "Customers",
     service: "Service",
     services: "Services",
     vehicle_type: "Vehicle type",

@@ -17,9 +17,11 @@ import { Button } from "@/components/ui/button";
 import { HasPermission } from "@/components/has-permission";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
+import { getTranslations } from "@/i18n/server";
 
 export default async function Page(props: PageProps<"/customers">) {
   await requirePermission("customers:view");
+  const tr = await getTranslations()
 
   const searchParams = await generatePageSearchParams(
     props.searchParams,
@@ -30,7 +32,7 @@ export default async function Page(props: PageProps<"/customers">) {
   return (
     <Suspense fallback={<CustomerTableSkeleton />}>
       <PageHeader>
-        <PageTitle>Customers</PageTitle>
+        <PageTitle>{tr("common.clients")}</PageTitle>
         {/* <PageDescription>Manage your projects and team members</PageDescription> */}
         <PageAction>
           <HasPermission permission={"customers:create"}>

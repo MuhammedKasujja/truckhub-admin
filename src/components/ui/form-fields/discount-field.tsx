@@ -59,7 +59,7 @@ export function DiscountField<T extends FieldValues>({
             </InputGroupAddon>
             <InputGroupAddon align="inline-end">
               <InputGroupButton variant="secondary">
-                %
+                fixed
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
