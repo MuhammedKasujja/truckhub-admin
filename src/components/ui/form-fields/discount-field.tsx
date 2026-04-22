@@ -1,3 +1,5 @@
+"use client";
+
 import { Controller, FieldValues } from "react-hook-form";
 import {
   Field,
@@ -58,9 +60,7 @@ export function DiscountField<T extends FieldValues>({
               </InputGroupButton>
             </InputGroupAddon>
             <InputGroupAddon align="inline-end">
-              <InputGroupButton variant="secondary">
-                fixed
-              </InputGroupButton>
+              <InputGroupButton variant="secondary">fixed</InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
           {description && <FieldDescription>{description}</FieldDescription>}

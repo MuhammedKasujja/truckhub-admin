@@ -29,6 +29,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { EntityId } from "@/types";
+import { VehicleCylinderList } from "@/config/constants";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type VehicleFormProps = {
   configPromises: Promise<[Awaited<ReturnType<typeof getVehicleSettings>>]>;
@@ -142,10 +144,15 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 control={form.control}
                 required={false}
               />
-              <NumberField
+              <SelectField
                 label={tr("cylinders")}
-                name={"cylinders"}
                 control={form.control}
+                name={"cylinders"}
+                placeholder="Select cylinder"
+                options={VehicleCylinderList.map((opt) => ({
+                  label: `${opt}`,
+                  value: `${opt}`,
+                }))}
               />
               <NumberField
                 label={tr("tank_capacity")}
@@ -258,7 +265,7 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit">{tr("common.form.submit")}</Button>
+          <SubmitButton isSubmitting={form.formState.isSubmitting} />
         </CardFooter>
       </form>
     </Card>

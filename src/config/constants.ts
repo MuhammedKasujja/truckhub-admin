@@ -26,6 +26,8 @@ export const PaymentStatuses = [
   "partially_refunded",
 ] as const;
 
+export const VehicleCylinderList = [2, 4, 5, 6, 8];
+
 export const PaymentEntityList = ["ride", "booking"] as const;
 
 export const MAP_TILE_URL =

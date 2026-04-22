@@ -4,9 +4,14 @@ export const Gearboxes = ["manual", "automatic"] as const;
 export type Engine = (typeof EngineTypes)[number];
 export type Gearbox = (typeof Gearboxes)[number];
 
-export type Vehicle = {
+export type VehicleDriver = {
   id: number;
-  number: string
+  name: string;
+};
+
+export interface VehicleBase {
+  id: number;
+  number: string;
   plate_number: string;
   color: string;
   interior_color: string;
@@ -22,4 +27,8 @@ export type Vehicle = {
   tonnage_id: number;
   created_at: Date;
   updated_at: Date;
-};
+}
+
+export interface Vehicle extends VehicleBase {
+  driver: VehicleDriver | null;
+}

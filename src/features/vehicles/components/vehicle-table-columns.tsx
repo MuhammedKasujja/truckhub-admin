@@ -58,7 +58,8 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
       id: "driver",
       header: "Driver",
       cell: ({ row }) => {
-        return <p>-</p>;
+        const driver = row.original.driver
+        return <p>{driver == null ? '-': driver.name}</p>;
       },
     },
     {

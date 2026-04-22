@@ -13,7 +13,7 @@ import { PageBackButton } from "@/components/page-header";
 
 export default async function Page(props: PageProps<"/reports/audits">) {
   await requirePermission("config:view:audit_logs");
-  const tr = await getTranslations();
+  // const tr = await getTranslations();
 
   const searchParams = await generatePageSearchParams(
     props.searchParams,

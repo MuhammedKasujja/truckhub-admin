@@ -29,7 +29,7 @@ export function AuditLogTable(props: AuditLogTableProps) {
     initialState: {
       sorting: [{ id: "created_at", desc: true }],
     },
-    getRowId: (originalRow) => originalRow.created_at.toString(),
+    getRowId: (originalRow) => originalRow.id.toString(),
     shallow: false,
     clearOnDefault: true,
   });

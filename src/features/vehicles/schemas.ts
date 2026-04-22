@@ -13,7 +13,7 @@ export const VehicleCreateSchema = z.object({
   plate_number: z.string(),
   color: z.string(),
   interior_color: z.string().optional().nullable(),
-  cylinders: z.number(),
+  cylinders: z.string(),
   tank_capacity: z.number(),
   engine_type: z.enum(EngineTypes),
   gearbox: z.enum(Gearboxes),
