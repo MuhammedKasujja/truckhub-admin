@@ -1,24 +1,56 @@
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Driver } from "../types";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookingCustomer } from "@/features/bookings/types";
 import Link from "next/link";
+import { HasPermission } from "@/components/has-permission";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { MailIcon, PhoneIcon } from "lucide-react";
 
-type RideDriverWidgetProps = {
-  client: BookingCustomer;
-};
+interface RideDriverProps {
+  driver: Driver | undefined;
+}
 
-export function RideDriverWidget({ client }: RideDriverWidgetProps) {
+export function RideDriver({ driver }: RideDriverProps) {
+  const generateAvatorFallback = () => {
+    if (!driver) return "";
+    const [firstName, lastName] = driver.fullname.split(" ");
+    return `${firstName[0]}${lastName[0]}`.toUpperCase();
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{client.fullname}</CardTitle>
+        <CardTitle>Driver</CardTitle>
+        <CardAction>
+          <HasPermission permission="drivers:view">
+            <Button variant={"secondary"} asChild>
+              <Link href={`/drivers/${driver?.id}/view`}>View</Link>
+            </Button>
+          </HasPermission>
+        </CardAction>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* <Button variant={"secondary"} asChild>
-          <Link href={`/customers/${client.id}/view`}>{client.fullname}</Link>
-        </Button> */}
-        <div>{client.email}</div>
-        <div>{client.phone}</div>
+        <Avatar>
+          <AvatarImage src={driver?.profile_url} alt="driver" />
+          <AvatarFallback>{generateAvatorFallback()}</AvatarFallback>
+        </Avatar>
+        <p>{driver?.fullname}</p>
+        <Separator />
+        <div className="flex flex-row gap-4 items-center">
+          <PhoneIcon size={16}/>
+          <p>{driver?.phone}</p>
+        </div>
+        <div className="flex flex-row gap-4 items-center">
+          <MailIcon size={16}/>
+          <p>{driver?.email}</p>
+        </div>
       </CardContent>
     </Card>
   );

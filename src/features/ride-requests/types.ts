@@ -3,6 +3,15 @@ export type Passenger = {
   fullname: string;
   phone: string;
   email: string;
+  profile_url?: string;
+};
+
+export type Driver = {
+  id: number;
+  fullname: string;
+  phone: string;
+  email: string;
+  profile_url?: string;
 };
 
 export type RideRequest = {
@@ -18,6 +27,7 @@ export type RideRequest = {
   discount: number;
   amount: number;
   customer: Passenger;
+  driver: Driver | undefined
 };
 
 export type RideRequestDetails = {

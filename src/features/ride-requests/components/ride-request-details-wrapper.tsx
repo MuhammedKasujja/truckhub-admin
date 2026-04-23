@@ -39,6 +39,8 @@ import {
   TimelineTime,
   TimelineDescription,
 } from "@/components/ui/timeline";
+import { RideTimeline } from "./ride-timeline";
+import { RideDriver } from "./ride-driver";
 
 const timelineItems = [
   {
@@ -56,14 +58,6 @@ const timelineItems = [
     title: "Design Phase",
     description: "Created wireframes and mockups.",
     icon: Layers,
-  },
-  {
-    id: "development",
-    dateTime: "2025-03-01",
-    date: "March 1, 2025",
-    title: "Development",
-    description: "Building core features.",
-    icon: Code,
   },
 ];
 
@@ -113,7 +107,7 @@ export function RideRequestDetailsWrapper({
           <CardContent className="space-y-4">
             <div>{formatDate(ride?.request_start_time)}</div>
             <div>{formatDate(ride?.created_at)}</div>
-            <Timeline activeIndex={1} className="[--timeline-dot-size:2rem]">
+            <Timeline className="[--timeline-dot-size:2rem]">
               {timelineItems.map((item) => (
                 <TimelineItem key={item.id}>
                   <TimelineDot>
@@ -144,6 +138,7 @@ export function RideRequestDetailsWrapper({
           </CardFooter>
         </Card>
         <RidePassenger passenger={ride!.customer} />
+        <RideDriver driver={ride!.customer} />
       </div>
       <div className="grid grid-cols-3 gap-4">
         <Card>
@@ -163,11 +158,18 @@ export function RideRequestDetailsWrapper({
           </CardContent>
         </Card>
       </div>
-      <RideRequestMap
-        origin={ride!.origin}
-        destination={ride!.destination}
-        waypoints={[]}
-      />
+      <div className="grid grid-cols-6 gap-5">
+        <div className="col-span-4">
+          <RideRequestMap
+            origin={ride!.origin}
+            destination={ride!.destination}
+            waypoints={[]}
+          />
+        </div>
+        <div className="col-span-2">
+          <RideTimeline status={ride?.status} />
+        </div>
+      </div>
     </div>
   );
 }

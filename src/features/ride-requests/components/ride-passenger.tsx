@@ -27,7 +27,7 @@ export function RidePassenger({ passenger }: RidePassengerProps) {
           </HasPermission>
         </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         <p>{passenger.fullname}</p>
         <p>{passenger.phone}</p>
         <p>{passenger.email}</p>
