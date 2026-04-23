@@ -38,7 +38,6 @@ export function DateTimePickerModified({ onSelect, selected }: DateTimePickerPro
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0 flex items-start flex-row" align="start">
-        {/* <div ref={calendarRef}> */}
           <Calendar
             mode="single"
             captionLayout="dropdown"
@@ -59,7 +58,6 @@ export function DateTimePickerModified({ onSelect, selected }: DateTimePickerPro
               Number(date) > Date.now() + 1000 * 60 * 60 * 24 * 30
             }
           />
-        {/* </div> */}
         <div className="w-30 my-4 mr-2">
           <ScrollArea className="h-72">
             <div className="flex flex-col gap-2 h-full">

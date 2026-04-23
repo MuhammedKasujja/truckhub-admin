@@ -21,7 +21,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -35,6 +34,8 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { BookingClientWidget } from "./booking-client";
+import { BookingServiceList } from "./booking-serive-list";
 
 type BookingDetailsWrapperProps = {
   promises: Promise<[Awaited<ReturnType<typeof getBookingDetailsById>>]>;
@@ -49,103 +50,51 @@ export function BookingDetailsWrapper({
 
   return (
     <div className="grid gap-5">
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            {booking?.number}
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>{booking?.number}</CardTitle>
+            <CardAction className="flex gap-4">
+              {!booking?.is_paid && (
+                <HasPermission permission={"payments:create"}>
+                  <EditPaymentModal
+                    initialData={{
+                      entity_id: booking?.id,
+                      amount: booking?.balance,
+                      type: "booking",
+                    }}
+                  />
+                </HasPermission>
+              )}
+              <Status>{booking?.status}</Status>
+              <HasPermission permission={"bookings:edit"}>
+                <Button asChild>
+                  <Link href={`/bookings/${booking?.id}/edit`}>
+                    <Edit2Icon />
+                  </Link>
+                </Button>
+              </HasPermission>
+            </CardAction>
+            <CardDescription></CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-xl font-semibold">
+              {formatPrice(booking?.amount)}
+            </div>
+            <div>{formatPrice(booking?.balance)}</div>
+            <div>{formatDate(booking?.created_at)}</div>
+          </CardContent>
+          <CardFooter className="space-y-4 flex items-center gap-2">
+            <Button variant={"outline"}>
+              Partial: {formatPrice(booking?.partial)}
+            </Button>
             {formatDate(booking?.pickup_time)} -{" "}
             {formatDate(booking?.return_time)}
-          </CardTitle>
-          <CardAction className="flex gap-4">
-            {!booking?.is_paid && (
-              <HasPermission permission={"payments:create"}>
-                <EditPaymentModal
-                  initialData={{
-                    entity_id: booking?.id,
-                    amount: booking?.balance,
-                    type: "booking",
-                  }}
-                />
-              </HasPermission>
-            )}
-            <Status>{booking?.status}</Status>
-            <HasPermission permission={"bookings:edit"}>
-              <Button asChild>
-                <Link href={`/bookings/${booking?.id}/edit`}>
-                  <Edit2Icon />
-                </Link>
-              </Button>
-            </HasPermission>
-          </CardAction>
-          <CardDescription></CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Button variant={"secondary"} asChild>
-            <Link href={`/customers/${booking?.customer.id}/view`}>
-              {booking?.customer.fullname}
-            </Link>
-          </Button>
-          <div>{booking?.customer.email}</div>
-          <div>{booking?.customer.phone}</div>
-          <div>{formatDate(booking?.created_at)}</div>
-        </CardContent>
-        <CardFooter className="space-y-4 flex items-center gap-2">
-          <Button>{formatPrice(booking?.amount)}</Button>
-          <Button>
-            {booking?.is_paid ? "Paid" : formatPrice(booking?.balance)}
-          </Button>
-          <Button variant={"outline"}>
-            Partial: {formatPrice(booking?.partial)}
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Services</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-hidden rounded-lg border bg-background">
-            <Table>
-              <TableHeader className="bg-muted/50">
-                <TableRow>
-                  <TableHead className="w-25">Service</TableHead>
-                  <TableHead>Cost</TableHead>
-                  <TableHead>Count</TableHead>
-                  <TableHead>Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {booking?.services.map((service) => (
-                  <TableRow key={service.service_id}>
-                    <TableCell className="font-medium">
-                      {service.service_name}
-                    </TableCell>
-                    <TableCell>{formatPrice(service.cost_per_item)}</TableCell>
-                    <TableCell>{service.total_items}</TableCell>
-                    <TableCell>
-                      {formatPrice(service.cost_per_item * service.total_items)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={3}>Total</TableCell>
-                  <TableCell className="text-right">
-                    {formatPrice(
-                      booking?.services.reduce(
-                        (prev, service) =>
-                          service.cost_per_item * service.total_items + prev,
-                        0,
-                      ) ?? 0,
-                    )}
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+          </CardFooter>
+        </Card>
+        <BookingClientWidget client={booking!.customer} />
+      </div>
+      <BookingServiceList services={booking?.services ?? []} />
       <Card>
         <CardHeader>
           <CardTitle>Payments</CardTitle>

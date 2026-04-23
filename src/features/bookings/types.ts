@@ -1,5 +1,12 @@
 import { Payment } from "@/features/payments/types";
 
+export type BookingCustomer = {
+  id: number;
+  fullname: string;
+  phone: string;
+  email: string;
+};
+
 export type BookingServiceItem = {
   service_id: number;
   service_name: string;
@@ -10,7 +17,7 @@ export type BookingServiceItem = {
 
 export type Booking = {
   id: number;
-  number: string
+  number: string;
   created_at: Date;
   request_start_time: Date;
   pickup_time: Date;
@@ -21,17 +28,12 @@ export type Booking = {
   discount: number;
   amount: number;
   services: BookingServiceItem[];
-  customer: {
-    id: number;
-    fullname: string;
-    phone: string;
-    email: string;
-  };
+  customer: BookingCustomer;
 };
 
 export type BookingDetails = {
   id: number;
-  number: string
+  number: string;
   created_at: Date;
   pickup_time: Date;
   return_time: Date;
@@ -42,13 +44,8 @@ export type BookingDetails = {
   discount: number;
   amount: number;
   services: BookingServiceItem[];
-  customer: {
-    id: number;
-    fullname: string;
-    phone: string;
-    email: string;
-  };
-  payments: Payment[]
+  customer: BookingCustomer;
+  payments: Payment[];
 };
 
 export type BookingStatus =
