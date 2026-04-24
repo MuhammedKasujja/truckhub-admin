@@ -35,7 +35,7 @@ export type RideRequestDetails = {
   number: string
   origin: Location;
   destination: Location;
-  created_at: Date;
+  created_at: string;
   polyline_route: string | undefined;
   request_start_time: Date;
   status: RideStatus;

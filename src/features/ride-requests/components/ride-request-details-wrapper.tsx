@@ -81,9 +81,7 @@ export function RideRequestDetailsWrapper({
       <div className="grid grid-flow-col gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>
-              {ride?.origin.name} - {ride?.destination.name}
-            </CardTitle>
+            <CardTitle>R-{ride?.number}</CardTitle>
             <CardAction className="flex gap-4">
               {!ride?.is_paid && (
                 <HasPermission permission={"payments:create"}>
@@ -108,21 +106,24 @@ export function RideRequestDetailsWrapper({
             <div>{formatDate(ride?.request_start_time)}</div>
             <div>{formatDate(ride?.created_at)}</div>
             <Timeline className="[--timeline-dot-size:2rem]">
-              {timelineItems.map((item) => (
-                <TimelineItem key={item.id}>
+              {[
+                { ...ride!.origin, icon: Rocket },
+                { ...ride!.destination, icon: Layers },
+              ].map((item) => (
+                <TimelineItem key={item.name}>
                   <TimelineDot>
                     <item.icon className="size-3.5" />
                   </TimelineDot>
                   <TimelineConnector />
                   <TimelineContent>
                     <TimelineHeader>
-                      <TimelineTime dateTime={item.dateTime}>
-                        {item.date}
+                      <TimelineTime dateTime={ride?.created_at}>
+                        {formatDate(ride?.created_at)}
                       </TimelineTime>
-                      <TimelineTitle>{item.title}</TimelineTitle>
+                      <TimelineTitle>{item.name}</TimelineTitle>
                     </TimelineHeader>
                     <TimelineDescription>
-                      {item.description}
+                      {/* {item.description} */}
                     </TimelineDescription>
                   </TimelineContent>
                 </TimelineItem>
@@ -141,6 +142,14 @@ export function RideRequestDetailsWrapper({
         <RideDriver driver={ride!.customer} />
       </div>
       <div className="grid grid-cols-3 gap-4">
+        <Card>
+          <CardHeader>
+            <CardDescription>ESTIMATED COST</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CardTitle>{formatPrice(ride!.amount)}</CardTitle>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <CardDescription>DISTANCE</CardDescription>

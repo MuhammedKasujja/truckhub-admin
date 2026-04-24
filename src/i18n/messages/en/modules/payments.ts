@@ -1,4 +1,6 @@
 export const en = {
+  module: "Payments",
+  customer: "Customer",
   number: "Number",
   revenue: "Revenue",
   booking: "Booking",
@@ -16,9 +18,11 @@ export const en = {
     cancel: "Cancel",
     edit: "Edit",
     delete: "Delete",
+    close: "Close",
   },
   status: "Status",
   amount: "Amount",
+  applied: "Applied",
   date: "Date",
   payment_method: "Payment Method",
   transaction_ref: "Transaction Ref",

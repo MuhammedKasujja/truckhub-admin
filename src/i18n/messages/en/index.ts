@@ -31,6 +31,7 @@ const en = {
   welcome_back_info: "Login into Truckhub",
   search: "Search",
   search_system: "Search Truckhub",
+  payment: "Payment",
   common: {
     locale: {
       header: "Locale",
