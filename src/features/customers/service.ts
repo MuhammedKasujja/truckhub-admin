@@ -1,7 +1,9 @@
 "use server";
 
 import * as apiClient from "@/lib/api-client";
+import { Booking } from "@/features/bookings/types";
 import { Customer } from "@/features/customers/types";
+import { RideRequest } from "@/features/ride-requests/types";
 import {
   CustomerCreateSchemaType,
   CustomerListSearchParams,
@@ -64,5 +66,19 @@ export async function createCustomer(data: CustomerCreateSchemaType) {
 }
 
 export async function getCustomerPayments(customerId: EntityId) {
-  return await apiClient.getFn<Payment[]>(`/v1/customers/${customerId}/payments`);
+  return await apiClient.getFn<Payment[]>(
+    `/v1/customers/${customerId}/payments`,
+  );
+}
+
+export async function getCustomerBookings(customerId: EntityId) {
+  return await apiClient.getFn<Booking[]>(
+    `/v1/customers/${customerId}/bookings`,
+  );
+}
+
+export async function getCustomerRides(customerId: EntityId) {
+  return await apiClient.getFn<RideRequest[]>(
+    `/v1/customers/${customerId}/rides`,
+  );
 }
