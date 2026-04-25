@@ -7,10 +7,6 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getServiceTableColumns } from "./service-table-columns";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
-import { HasPermission } from "@/components/has-permission";
 import { ServiceGroup } from "@/features/services/types";
 
 type ServiceTableProps = {
@@ -35,9 +31,9 @@ export function ServiceTable({ services }: ServiceTableProps) {
 
   return (
     <DataTable table={table}>
-      <DataTableToolbar table={table}>
+      {/* <DataTableToolbar table={table}>
         <DataTableSortList table={table} align="end" />
-      </DataTableToolbar>
+      </DataTableToolbar> */}
     </DataTable>
   );
 }

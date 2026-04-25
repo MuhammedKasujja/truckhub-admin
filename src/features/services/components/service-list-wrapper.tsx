@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardAction, CardHeader, CardTitle } from "@/components/ui/card";
 import { ServiceGroup } from "@/features/services/types";
 import { ListIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,38 +8,44 @@ import { ServiceList } from "./service-list";
 import React, { Activity } from "react";
 import { HasPermission } from "@/components/has-permission";
 import Link from "next/link";
+import { PageTitle, PageHeader, PageAction } from "@/components/header";
+import { Badge } from "@/components/ui/badge";
 
 type ServiceListWrapperProps = {
   services: ServiceGroup[];
 };
 
 export function ServiceListWrapper({ services }: ServiceListWrapperProps) {
-  const [view, setView] = React.useState<"table" | "list">('list');
+  const [view, setView] = React.useState<"table" | "list">("list");
+  const serviceList = React.useMemo(() => {
+    return services.flatMap((ele) => ele.services);
+  }, [services]);
+
   return (
     <div className="space-y-4">
-      <Card className="py-2">
-        <CardHeader>
-          <CardTitle>Services</CardTitle>
-          <CardAction className="space-x-2">
-            <HasPermission permission={"services:create"}>
-              <Button asChild>
-                <Link href={"/services/new"}>
-                  <PlusIcon />
-                </Link>
-              </Button>
-            </HasPermission>
-            <Button
-              type="button"
-              size={"icon"}
-              onClick={() =>
-                setView((prev) => (prev === "list" ? "table" : "list"))
-              }
-            >
-              <ListIcon />
+      <PageHeader className="pb-0">
+        <PageTitle>
+          Services <Badge variant={"outline"}>{serviceList.length}</Badge>
+        </PageTitle>
+        <PageAction className="gap-5">
+          <HasPermission permission={"services:create"}>
+            <Button asChild>
+              <Link href={"/services/new"}>
+                <PlusIcon />
+              </Link>
             </Button>
-          </CardAction>
-        </CardHeader>
-      </Card>
+          </HasPermission>
+          <Button
+            type="button"
+            size={"icon"}
+            onClick={() =>
+              setView((prev) => (prev === "list" ? "table" : "list"))
+            }
+          >
+            <ListIcon />
+          </Button>
+        </PageAction>
+      </PageHeader>
       <Activity mode={view === "table" ? "visible" : "hidden"}>
         <ServiceTable services={services} />
       </Activity>
