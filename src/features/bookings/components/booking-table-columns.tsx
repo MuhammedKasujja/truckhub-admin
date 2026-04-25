@@ -61,7 +61,7 @@ export function getBookingTableColumns(): ColumnDef<Booking>[] {
       accessorKey: "pickup_time",
       header: "Pickup Date",
       cell: ({ row }) => {
-        return <p>{formatDateTime(row.original.pickup_time)}</p>;
+        return <p>{formatDateTime(row.original.estimated_pickup_time)}</p>;
       },
     },
     {

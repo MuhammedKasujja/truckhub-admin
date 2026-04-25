@@ -23,7 +23,7 @@ import {
 import { formatDate, formatPrice } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowUpRight, PlusIcon } from "lucide-react";
+import { PlusIcon, ChevronRightIcon } from "lucide-react";
 import { RideRequest } from "@/features/ride-requests/types";
 
 type RecentRideTableProps = {
@@ -39,7 +39,7 @@ export function RecentRideTable({ rides }: RecentRideTableProps) {
           <Button type="button" variant={"secondary"} asChild>
             <Link href={"/rides"}>
               View
-              <ArrowUpRight />
+              <ChevronRightIcon />
             </Link>
           </Button>
         </CardAction>

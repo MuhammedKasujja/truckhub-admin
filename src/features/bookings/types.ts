@@ -22,6 +22,8 @@ export type Booking = {
   request_start_time: Date;
   pickup_time: Date;
   return_time: Date;
+  estimated_pickup_time: Date;
+  estimated_return_time: Date;
   status: BookingStatus;
   partial: number | null;
   balance: number;

@@ -28,15 +28,16 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
       accessorKey: "origin",
       header: "Origin",
       cell: ({ row }) => {
-        return <p>{row.original.origin}</p>;
+        return <p className="text-ellipsis">{row.original.origin}</p>;
       },
     },
     {
       accessorKey: "destination",
       header: "Destination",
       cell: ({ row }) => {
-        return <p>{row.original.destination}</p>;
+        return <p className="text-ellipsis">{row.original.destination}</p>;
       },
+      size: 120,
     },
     {
       accessorKey: "customer",
