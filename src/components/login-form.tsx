@@ -10,6 +10,7 @@ import { login } from "@/features/auth/service";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmailField, PasswordField } from "@/components/ui/form-fields";
+import { SubmitButton } from "./ui/submit-button";
 
 const formSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }).trim(),
@@ -59,7 +60,10 @@ export function LoginForm() {
               placeholder="********"
             />
             <Field>
-              <Button type="submit">{tr("common.form.login")}</Button>
+              <SubmitButton
+                text={tr("common.form.login")}
+                isSubmitting={form.formState.isSubmitting}
+              />
             </Field>
           </FieldGroup>
         </form>
