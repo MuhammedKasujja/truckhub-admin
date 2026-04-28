@@ -12,12 +12,12 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
-  DatePickerField,
   HiddenField,
   NumberField,
   TextField,
   DiscountField,
   MoneyField,
+  DateTimePickerField
 } from "@/components/ui/form-fields";
 import { getCustomersByQuery } from "@/features/customers/service";
 import { getServicesByQuery } from "@/features/services/service";
@@ -140,12 +140,12 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                     value: ele.id,
                   }))}
                 />
-                <DatePickerField
+                <DateTimePickerField
                   label={"Pickup Date"}
                   name={"pickup_time"}
                   control={control}
                 />
-                <DatePickerField
+                <DateTimePickerField
                   label={"Return Date"}
                   name={"return_time"}
                   control={control}

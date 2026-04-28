@@ -30,7 +30,7 @@ export function ServiceTable({ services }: ServiceTableProps) {
   });
 
   return (
-    <DataTable table={table}>
+    <DataTable table={table} showPagination={false}>
       {/* <DataTableToolbar table={table}>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar> */}

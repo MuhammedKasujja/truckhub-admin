@@ -4,7 +4,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn, now } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,17 +13,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { DateTime } from "luxon";
 
-interface DateTimePickerProps {
+
+export interface DateTimePickerProps {
   onSelect: (date: Date | undefined) => void;
   startDate?: Date;
   selected?: Date;
   endDate?: Date | undefined;
+  placeholder?: string
 }
 
-export function DateTimePickerModified({ onSelect, selected }: DateTimePickerProps) {
+export function DateTimePickerModified({ onSelect, selected, placeholder }: DateTimePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [time, setTime] = useState<string>("05:00");
+  const [time, setTime] = useState<string>(now().toFormat("HH:mm"));
   const [date, setDate] = useState<Date | undefined>(selected);
 
   return (
@@ -33,7 +36,7 @@ export function DateTimePickerModified({ onSelect, selected }: DateTimePickerPro
           variant="outline"
           className={cn("w-full font-normal", !date && "text-muted-foreground")}
         >
-          {date ? `${format(date, "PPP")}, ${time}` : <span>Pick a date</span>}
+          {date ? `${format(date, "PPP")}, ${time}` : <span>{placeholder}</span>}
           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>

@@ -11,3 +11,5 @@ export function getDateTime() {
 }
 
 export const systemDateTime = getDateTime();
+
+export const now = getDateTime;
