@@ -20,9 +20,14 @@ import {
   CarBrandUpdateSchema,
   CarBrandUpdateSchemaType,
 } from "@/features/setiings/car-brand/schemas";
-import { createCarBrand, updateCarBrand } from "@/features/setiings/car-brand/service";
+import {
+  createCarBrand,
+  updateCarBrand,
+} from "@/features/setiings/car-brand/service";
 import { TextField } from "@/components/ui/form-fields";
 import React from "react";
+import { useTranslation } from "@/i18n";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type Props = {
   trigger?: React.ReactNode;
@@ -30,6 +35,8 @@ type Props = {
 };
 
 export function CarBrandForm({ trigger, initialData }: Props) {
+  const tr = useTranslation();
+
   const [open, setOpen] = React.useState(false);
   const isEdit = !!initialData;
 
@@ -76,9 +83,10 @@ export function CarBrandForm({ trigger, initialData }: Props) {
             </div>
           </div>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit">
-              Submit
-            </Button>
+            <SubmitButton
+              text={tr("common.form.submit")}
+              isSubmitting={form.formState.isSubmitting}
+            />
           </DialogFooter>
         </form>
       </DialogContent>

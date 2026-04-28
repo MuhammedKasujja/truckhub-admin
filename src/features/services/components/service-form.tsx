@@ -28,6 +28,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type ServiceFormProps = {
   vehicleConfigPromise: Promise<Awaited<ReturnType<typeof getVehicleSettings>>>;
@@ -155,14 +156,10 @@ export function ServiceForm({
           </FieldGroup>
         </CardContent>
         <CardFooter>
-          <Button type="submit">
-            {form.formState.isSubmitting && (
-              <Loader2 className="size-4 animate-spin" />
-            )}
-            {form.formState.isSubmitting
-              ? "Submitting..."
-              : `${tr("common.form.submit")}`}
-          </Button>
+          <SubmitButton
+            text={tr("common.form.submit")}
+            isSubmitting={form.formState.isSubmitting}
+          />
         </CardFooter>
       </form>
     </Card>

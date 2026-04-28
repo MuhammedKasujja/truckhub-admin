@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -41,6 +40,7 @@ import {
   type MapRef,
 } from "@/components/ui/map";
 import polyline from "@mapbox/polyline";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type RideRequestFormProps = {
   promises: Promise<
@@ -175,7 +175,10 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
             </FieldGroup>
           </CardContent>
           <CardFooter>
-            <Button type="submit">{tr("common.form.submit")}</Button>
+            <SubmitButton
+              text={tr("common.form.submit")}
+              isSubmitting={form.formState.isSubmitting}
+            />
           </CardFooter>
         </form>
       </Card>

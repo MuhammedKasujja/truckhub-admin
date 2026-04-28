@@ -15,12 +15,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 import z from "zod";
-import { TonnageCreateSchema, TonnageUpdateSchema } from "@/features/setiings/tonnage/schemas";
-import { createTonnage, updateTonnage } from "@/features/setiings/tonnage/service";
+import {
+  TonnageCreateSchema,
+  TonnageUpdateSchema,
+} from "@/features/setiings/tonnage/schemas";
+import {
+  createTonnage,
+  updateTonnage,
+} from "@/features/setiings/tonnage/service";
 import { NumberField, TextField } from "@/components/ui/form-fields";
 import React from "react";
 import { FieldGroup } from "@/components/ui/field";
 import { useTranslation } from "@/i18n";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type TonnageFormProps = {
   trigger?: React.ReactNode;
@@ -88,9 +95,10 @@ export function TonnageForm({ trigger, initialData }: TonnageFormProps) {
             />
           </FieldGroup>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit" variant="secondary">
-              {tr("common.form.submit")}
-            </Button>
+            <SubmitButton
+              text={tr("common.form.submit")}
+              isSubmitting={form.formState.isSubmitting}
+            />
           </DialogFooter>
         </form>
       </DialogContent>

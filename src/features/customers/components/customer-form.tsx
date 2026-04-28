@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type ClientFormProps = {
   initialData?: z.infer<typeof CustomerUpdateSchema>;
@@ -97,7 +97,10 @@ export function CustomerForm({ initialData }: ClientFormProps) {
           </FieldGroup>
         </CardContent>
         <CardFooter>
-          <Button type="submit">{tr("common.form.submit")}</Button>
+          <SubmitButton
+            text={tr("common.form.submit")}
+            isSubmitting={form.formState.isSubmitting}
+          />
         </CardFooter>
       </form>
     </Card>

@@ -265,7 +265,10 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <SubmitButton isSubmitting={form.formState.isSubmitting} />
+          <SubmitButton
+            text={tr("common.form.submit")}
+            isSubmitting={form.formState.isSubmitting}
+          />
         </CardFooter>
       </form>
     </Card>

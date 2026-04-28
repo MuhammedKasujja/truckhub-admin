@@ -17,7 +17,7 @@ import {
   TextField,
   DiscountField,
   MoneyField,
-  DateTimePickerField
+  DateTimePickerField,
 } from "@/components/ui/form-fields";
 import { getCustomersByQuery } from "@/features/customers/service";
 import { getServicesByQuery } from "@/features/services/service";
@@ -29,12 +29,13 @@ import { toast } from "sonner";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { ListIcon, Loader2, Trash2Icon } from "lucide-react";
+import { ListIcon, Trash2Icon } from "lucide-react";
 import { createBooking } from "@/features/bookings/services";
 import { AutoComplete } from "@/components/ui/autocomplete";
 import { Service } from "@/features/services/types";
 import { formatPrice } from "@/lib/format";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type BookingRequestFormProps = {
   promises: Promise<
@@ -245,65 +246,69 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                         </TabsTrigger>
                       ))}
                     </TabsList>
-                    {fields.map((service, index) =>{
+                    {fields.map((service, index) => {
                       const serviceWithTotal = calculatedServicesTotals[index];
                       return (
-                      <TabsContent
-                        key={`services.${index}`}
-                        value={`services.${index}`}
-                      >
-                        <Card>
-                          <CardHeader>
-                            <CardAction>
-                              <Button
-                                type="button"
-                                variant={"destructive"}
-                                size={"icon-sm"}
-                                onClick={()=>{
-                                  remove(index)
-                                  setActiveServiceTab('services.0')
-                                }}
-                              >
-                                <Trash2Icon />
-                              </Button>
-                            </CardAction>
-                          </CardHeader>
-                          <CardContent
-                            key={service.id}
-                            className="grid grid-cols-1 gap-2"
-                          >
-                            <HiddenField
-                              name={`services.${index}.service_id`}
-                              control={control}
-                            />
-                            <TextField
-                              label={"Service"}
-                              name={`services.${index}.service_name`}
-                              control={control}
-                            />
-                            <TextField
-                              label={"Cost"}
-                              name={`services.${index}.cost_per_item`}
-                              control={control}
-                            />
-                            <NumberField
-                              label={"Total"}
-                              name={`services.${index}.total_items`}
-                              control={control}
-                            />
-                            <NumberField
-                              required={false}
-                              label={"Discount"}
-                              name={`services.${index}.discount`}
-                              control={control}
-                            />
-                          </CardContent>
-                          <CardFooter>
-                            Total: {formatPrice(serviceWithTotal?.lineTotal, {showZeroAsNumber: true})}
-                          </CardFooter>
-                        </Card>
-                      </TabsContent>
-                    )})}
+                        <TabsContent
+                          key={`services.${index}`}
+                          value={`services.${index}`}
+                        >
+                          <Card>
+                            <CardHeader>
+                              <CardAction>
+                                <Button
+                                  type="button"
+                                  variant={"destructive"}
+                                  size={"icon-sm"}
+                                  onClick={() => {
+                                    remove(index);
+                                    setActiveServiceTab("services.0");
+                                  }}
+                                >
+                                  <Trash2Icon />
+                                </Button>
+                              </CardAction>
+                            </CardHeader>
+                            <CardContent
+                              key={service.id}
+                              className="grid grid-cols-1 gap-2"
+                            >
+                              <HiddenField
+                                name={`services.${index}.service_id`}
+                                control={control}
+                              />
+                              <TextField
+                                label={"Service"}
+                                name={`services.${index}.service_name`}
+                                control={control}
+                              />
+                              <TextField
+                                label={"Cost"}
+                                name={`services.${index}.cost_per_item`}
+                                control={control}
+                              />
+                              <NumberField
+                                label={"Total"}
+                                name={`services.${index}.total_items`}
+                                control={control}
+                              />
+                              <NumberField
+                                required={false}
+                                label={"Discount"}
+                                name={`services.${index}.discount`}
+                                control={control}
+                              />
+                            </CardContent>
+                            <CardFooter>
+                              Total:{" "}
+                              {formatPrice(serviceWithTotal?.lineTotal, {
+                                showZeroAsNumber: true,
+                              })}
+                            </CardFooter>
+                          </Card>
+                        </TabsContent>
+                      );
+                    })}
                   </Tabs>
                 </Activity>
                 <Activity mode={serviceView === "list" ? "visible" : "hidden"}>
@@ -347,17 +352,11 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
           </Card>
         </CardContent>
         <CardFooter>
-          <Button
-            type="submit"
-            disabled={formState.isSubmitting || fields.length === 0}
-          >
-            {formState.isSubmitting && (
-              <Loader2 className="size-4 animate-spin" />
-            )}
-            {formState.isSubmitting
-              ? "Submitting..."
-              : `${tr("common.form.submit")}`}
-          </Button>
+          <SubmitButton
+            text={tr("common.form.submit")}
+            isSubmitting={formState.isSubmitting}
+            disabled={fields.length === 0}
+          />
         </CardFooter>
       </form>
     </Card>

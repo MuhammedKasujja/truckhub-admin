@@ -29,6 +29,7 @@ import React from "react";
 import { FieldGroup } from "@/components/ui/field";
 import { useTranslation } from "@/i18n";
 import { VehicleConfigurations } from "@/types/setting";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type CarModelFormProps = {
   vehicleConfigurations: VehicleConfigurations | undefined;
@@ -115,7 +116,10 @@ export function CarModelForm({
             />
           </FieldGroup>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit">{tr("common.form.submit")}</Button>
+            <SubmitButton
+              text={tr("common.form.submit")}
+              isSubmitting={form.formState.isSubmitting}
+            />
           </DialogFooter>
         </form>
       </DialogContent>

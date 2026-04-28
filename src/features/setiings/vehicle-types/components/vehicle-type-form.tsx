@@ -26,6 +26,8 @@ import {
 } from "@/features/setiings/vehicle-types/service";
 import { SwitchField, TextField } from "@/components/ui/form-fields";
 import React from "react";
+import { SubmitButton } from "@/components/ui/submit-button";
+import { useTranslation } from "@/i18n";
 
 type Props = {
   trigger?: React.ReactNode;
@@ -33,6 +35,7 @@ type Props = {
 };
 
 export function VehicleTypeForm({ trigger, initialData }: Props) {
+  const tr = useTranslation();
   const [open, setOpen] = React.useState(false);
   console.table(initialData);
 
@@ -87,7 +90,10 @@ export function VehicleTypeForm({ trigger, initialData }: Props) {
             </div>
           </div>
           <DialogFooter className="sm:justify-end">
-            <Button type="submit">Submit</Button>
+            <SubmitButton
+              text={tr("common.form.submit")}
+              isSubmitting={form.formState.isSubmitting}
+            />
           </DialogFooter>
         </form>
       </DialogContent>
