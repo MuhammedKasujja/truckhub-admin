@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/page-header";
+import { PageHeader, PageTitle } from "@/components/header";
 import {
   Card,
   CardContent,
@@ -27,7 +27,9 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
 
   return (
     <Suspense fallback={<PaymentTableSkeleton />}>
-      <PageHeader title="Payments" />
+      <PageHeader>
+        <PageTitle>Payments</PageTitle>
+      </PageHeader>
       <div className="grid md:grid-cols-3 gap-5 pb-5">
         <Card>
           <CardHeader>

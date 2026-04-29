@@ -26,7 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
-import { HasPermission } from "@/components/has-permission";
+import { Can } from "@/components/has-permission";
 import {
   Empty,
   EmptyContent,
@@ -56,7 +56,7 @@ export function BookingDetailsWrapper({
             <CardTitle>{booking?.number}</CardTitle>
             <CardAction className="flex gap-4">
               {!booking?.is_paid && (
-                <HasPermission permission={"payments:create"}>
+                <Can permission={"payments:create"}>
                   <EditPaymentModal
                     initialData={{
                       entity_id: booking?.id,
@@ -64,16 +64,16 @@ export function BookingDetailsWrapper({
                       type: "booking",
                     }}
                   />
-                </HasPermission>
+                </Can>
               )}
               <Status>{booking?.status}</Status>
-              <HasPermission permission={"bookings:edit"}>
+              <Can permission={"bookings:edit"}>
                 <Button asChild>
                   <Link href={`/bookings/${booking?.id}/edit`}>
                     <Edit2Icon />
                   </Link>
                 </Button>
-              </HasPermission>
+              </Can>
             </CardAction>
             <CardDescription></CardDescription>
           </CardHeader>
@@ -136,7 +136,7 @@ export function BookingDetailsWrapper({
                         </EmptyHeader>
                         <EmptyContent>
                           {!booking?.is_paid && (
-                            <HasPermission permission={"payments:create"}>
+                            <Can permission={"payments:create"}>
                               <EditPaymentModal
                                 initialData={{
                                   entity_id: booking?.id,
@@ -149,7 +149,7 @@ export function BookingDetailsWrapper({
                                   </Button>
                                 }
                               />
-                            </HasPermission>
+                            </Can>
                           )}
                         </EmptyContent>
                       </Empty>

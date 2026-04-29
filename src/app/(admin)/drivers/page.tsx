@@ -4,6 +4,7 @@ import { DriverTable, DriverTableSkeleton } from "@/features/drivers/components/
 import { generatePageSearchParams } from "@/lib/search-params";
 import { DriverSearchParamsCache } from "@/features/drivers/schemas";
 import { requirePermission } from "@/lib/auth";
+import { PageHeader, PageTitle } from "@/components/header";
 
 export default async function Page(props: PageProps<"/drivers">) {
   await requirePermission("drivers:view");
@@ -16,6 +17,9 @@ export default async function Page(props: PageProps<"/drivers">) {
   const promises = Promise.all([getDrivers(searchParams)]);
   return (
     <Suspense fallback={<DriverTableSkeleton />}>
+      <PageHeader>
+        <PageTitle>Drivers</PageTitle>
+      </PageHeader>
       <DriverTable promises={promises} />
     </Suspense>
   );
