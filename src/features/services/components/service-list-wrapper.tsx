@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { ServiceTable } from "./service-table";
 import { ServiceList } from "./service-list";
 import React, { Activity } from "react";
-import { HasPermission } from "@/components/has-permission";
+import { Can } from "@/components/has-permission";
 import Link from "next/link";
-import { PageTitle, PageHeader, PageAction } from "@/components/header";
+import { PageTitle, PageHeader, PageAction } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 
 type ServiceListWrapperProps = {
@@ -28,13 +28,13 @@ export function ServiceListWrapper({ services }: ServiceListWrapperProps) {
           Services <Badge variant={"outline"}>{serviceList.length}</Badge>
         </PageTitle>
         <PageAction className="gap-5">
-          <HasPermission permission={"services:create"}>
+          <Can permission={"services:create"}>
             <Button asChild>
               <Link href={"/services/new"}>
                 <PlusIcon />
               </Link>
             </Button>
-          </HasPermission>
+          </Can>
           <Button
             type="button"
             size={"icon"}

@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { UserSearchParamsCache } from "@/features/users/schemas";
 import { requirePermission } from "@/lib/auth";
-import { PageHeader, PageTitle } from "@/components/header";
+import { PageHeader, PageTitle } from "@/components/page-header";
 
 export default async function UsersPage(props: PageProps<"/users">) {
   await requirePermission("users:view");

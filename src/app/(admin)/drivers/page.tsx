@@ -4,7 +4,7 @@ import { DriverTable, DriverTableSkeleton } from "@/features/drivers/components/
 import { generatePageSearchParams } from "@/lib/search-params";
 import { DriverSearchParamsCache } from "@/features/drivers/schemas";
 import { requirePermission } from "@/lib/auth";
-import { PageHeader, PageTitle } from "@/components/header";
+import { PageHeader, PageTitle } from "@/components/page-header";
 
 export default async function Page(props: PageProps<"/drivers">) {
   await requirePermission("drivers:view");

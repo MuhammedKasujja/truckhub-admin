@@ -6,7 +6,7 @@ import {
   PageHeader,
   PageTitle,
   PageTitleIcon,
-} from "@/components/header";
+} from "@/components/page-header";
 import { SettingsIcon } from "lucide-react";
 
 export default function SettingsPage({

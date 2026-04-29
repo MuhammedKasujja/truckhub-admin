@@ -11,7 +11,7 @@ import { RecentBookingTable } from "@/features/dashboard/components/recent-booki
 import { RecentRideTable } from "@/features/dashboard/components/recent-ride-table";
 import { DollarSign, TrendingUp } from "lucide-react";
 import { formatPrice } from "@/lib/format";
-import { PageAction, PageHeader, PageTitle } from "@/components/header";
+import { PageAction, PageHeader, PageTitle } from "@/components/page-header";
 import { DateRangePicker } from "@/components/ui/date-range-picker/date-range-picker";
 import { DateRangePicker as DateRangePicker2 } from "@/components/ui/date-picker/date-range-picker";
 

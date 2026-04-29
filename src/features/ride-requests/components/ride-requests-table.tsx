@@ -10,9 +10,8 @@ import React from "react";
 import { getRideRequestTableColumns } from "./ride-request-table-columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PlusIcon, MapIcon } from "lucide-react";
+import { MapIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { HasPermission } from "@/components/has-permission";
 
 type TripTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getRideRequests>>]>;
@@ -41,20 +40,12 @@ export function RideRequestTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <Button asChild>
+        <Button size={"sm"} asChild>
             <Link href={"/rides/live"}>
               <MapIcon />
               Live
             </Link>
           </Button>
-        <HasPermission permission="rides:create">
-          <Button asChild>
-            <Link href={"/rides/new"}>
-              <PlusIcon />
-              New Request
-            </Link>
-          </Button>
-        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

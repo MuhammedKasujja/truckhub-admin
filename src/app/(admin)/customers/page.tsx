@@ -12,7 +12,7 @@ import {
   PageDescription,
   PageHeader,
   PageTitle,
-} from "@/components/header";
+} from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { HasPermission } from "@/components/has-permission";
 import Link from "next/link";

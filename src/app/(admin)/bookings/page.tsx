@@ -8,7 +8,7 @@ import { BookingSearchParamsCache } from "@/features/bookings/schemas";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { requirePermission } from "@/lib/auth";
 import { BookingStatisticsCard } from "@/features/bookings/components";
-import { PageHeader, PageTitle } from "@/components/header";
+import { PageHeader, PageTitle } from "@/components/page-header";
 
 export default async function Page(props: PageProps<"/bookings">) {
   await requirePermission("bookings:view");

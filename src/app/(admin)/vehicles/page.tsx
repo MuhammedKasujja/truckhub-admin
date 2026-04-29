@@ -4,7 +4,7 @@ import { generatePageSearchParams } from "@/lib/search-params";
 import { VehicleSearchParamsCache } from "@/features/vehicles/schemas";
 import { Suspense } from "react";
 import { requirePermission } from "@/lib/auth";
-import { PageHeader, PageTitle } from "@/components/header";
+import { PageHeader, PageTitle } from "@/components/page-header";
 
 export default async function VehiclePage(props: PageProps<"/vehicles">) {
   await requirePermission("vehicles:view");
