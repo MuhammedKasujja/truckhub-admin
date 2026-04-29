@@ -10,7 +10,7 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
-  DatePickerField,
+  DateTimePickerField,
   NumberField,
   SwitchField,
   TextField,
@@ -148,7 +148,7 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
                   required={false}
                 />
               </div>
-              <DatePickerField
+              <DateTimePickerField
                 label={"Start time"}
                 name={"request_start_time"}
                 control={form.control}

@@ -7,7 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { HasPermission } from "@/components/has-permission";
+import { Can } from "@/components/has-permission";
 
 export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
   return [
@@ -15,7 +15,15 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
       accessorKey: "number",
       header: "ID",
       cell: ({ row }) => {
-        return <Button variant={"link"}>{row.original.number}</Button>;
+        return (
+          <Can permission={"vehicles:view"}>
+            <Button variant={"link"} asChild>
+              <Link href={`/vehicles/${row.original.id}/view`}>
+                {row.original.number}
+              </Link>
+            </Button>
+          </Can>
+        );
       },
     },
     {
@@ -62,9 +70,13 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
         return driver == null ? (
           <p>-</p>
         ) : (
-          <Button variant={"link"} asChild>
-            <Link href={`/drivers/${row.original.id}/view`}>{driver.name}</Link>
-          </Button>
+          <Can permission="drivers:view">
+            <Button variant={"link"} asChild>
+              <Link href={`/drivers/${row.original.id}/view`}>
+                {driver.name}
+              </Link>
+            </Button>
+          </Can>
         );
       },
     },
@@ -80,21 +92,21 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
       cell: ({ row }) => {
         return (
           <div className="flex gap-2">
-            <HasPermission permission={"vehicles:view"}>
+            <Can permission={"vehicles:view"}>
               <Button variant={"outline"} size={"icon"}>
                 <Link href={`/vehicles/${row.original.id}/view`}>
                   <EyeIcon />
                 </Link>
               </Button>
-            </HasPermission>
-            <HasPermission permission={"vehicles:edit"}>
+            </Can>
+            <Can permission={"vehicles:edit"}>
               <Button variant={"outline"} size={"icon"} asChild>
                 <Link href={`/vehicles/${row.original.id}/edit`}>
                   <EditIcon />
                 </Link>
               </Button>
-            </HasPermission>
-            <HasPermission permission={"vehicles:delete"}>
+            </Can>
+            <Can permission={"vehicles:delete"}>
               <ActionButton
                 variant={"destructive"}
                 size={"icon"}
@@ -113,7 +125,7 @@ export function getVehicleTableColumns(): ColumnDef<Vehicle>[] {
               >
                 <Trash2Icon />
               </ActionButton>
-            </HasPermission>
+            </Can>
           </div>
         );
       },

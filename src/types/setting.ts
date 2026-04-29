@@ -5,6 +5,18 @@ export type Setting = {
   value: unknown;
 };
 
+export type DriveTrain = {
+  name: string;
+  is_truck: boolean;
+  id: EntityId;
+};
+export type CarModel = {
+  name: string;
+  id: EntityId;
+  car_brand_id: EntityId;
+  vehicle_type_id: EntityId;
+};
+
 export type VehicleConfigurations = {
   vehicle_types: [
     {
@@ -19,13 +31,7 @@ export type VehicleConfigurations = {
       id: EntityId;
     },
   ];
-  car_models: [
-    {
-      name: string;
-      id: EntityId;
-      car_brand_id: EntityId;
-    },
-  ];
+  car_models: CarModel[];
   truck_tonnages: [
     {
       id: EntityId;
@@ -42,11 +48,5 @@ export type VehicleConfigurations = {
       id: EntityId;
     },
   ];
-  drive_trains: [
-    {
-      name: string;
-      is_truck: boolean;
-      id: EntityId;
-    },
-  ];
+  drive_trains: DriveTrain[];
 };

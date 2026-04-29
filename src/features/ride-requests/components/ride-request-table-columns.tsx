@@ -17,7 +17,7 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
         return (
           <Button variant={"link"} asChild>
             <Link href={`/rides/${row.original.id}/view`}>
-              {row.original.id}
+              {row.original.number}
             </Link>
           </Button>
         );

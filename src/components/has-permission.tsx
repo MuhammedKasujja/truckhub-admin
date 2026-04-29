@@ -24,3 +24,5 @@ export function HasPermission({
     return <NoPermissionCard>{fallbackText}</NoPermissionCard>;
   return null;
 }
+
+export const Can = HasPermission

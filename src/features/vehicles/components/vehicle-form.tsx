@@ -31,6 +31,7 @@ import z from "zod";
 import { EntityId } from "@/types";
 import { VehicleCylinderList } from "@/config/constants";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { CarModel, DriveTrain } from "@/types/setting";
 
 type VehicleFormProps = {
   configPromises: Promise<[Awaited<ReturnType<typeof getVehicleSettings>>]>;
@@ -49,20 +50,13 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     | undefined
   >();
 
-  const [driveTrains, setDriveTrains] = React.useState<
-    {
-      name: string;
-      is_truck: boolean;
-      id: EntityId;
-    }[]
-  >(vehicleCofig?.drive_trains ?? []);
+  const [driveTrains, setDriveTrains] = React.useState<DriveTrain[]>(
+    vehicleCofig?.drive_trains ?? [],
+  );
 
-  const [carModels, setCarModels] = React.useState<
-    {
-      name: string;
-      id: EntityId;
-    }[]
-  >(vehicleCofig?.car_models ?? []);
+  const [carModels, setCarModels] = React.useState<CarModel[]>(
+    vehicleCofig?.car_models ?? [],
+  );
 
   const isEdit = !!initialData;
 
@@ -73,14 +67,15 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
     defaultValues: initialData,
   });
 
-  const selectedVehicleId = form.watch("vehicle_type_id");
   const selectedCarBrandId = form.watch("car_brand_id");
+  const selectedCarModelId = form.watch("car_model_id");
 
-  //  Track vehicle type select to populate drive trains for small cars and trucks
+  //  Track vehicle type when car model changes to populate drive trains for small cars and trucks
   React.useEffect(() => {
-    const vehicleType = vehicleCofig?.vehicle_types.find(
-      (ele) => ele.id === selectedVehicleId,
+    const vehicleType = vehicleCofig?.vehicle_types.find((ele) =>
+      carModels.find((model) => model.vehicle_type_id === ele.id),
     );
+    form.setValue("vehicle_type_id", Number(vehicleType?.id));
     setVehicleType(vehicleType);
     setDriveTrains(
       vehicleCofig?.drive_trains.filter(
@@ -88,9 +83,9 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
       ) ?? [],
     );
     // form.reset({ drive_train_id: undefined, tonnage_id: undefined });
-  }, [selectedVehicleId, vehicleCofig]);
+  }, [vehicleCofig, selectedCarModelId]);
 
-  //  Populate car models basing on car selected car make
+  //  Populate car models basing on selected car make
   React.useEffect(() => {
     const carBrand = vehicleCofig?.car_brands.find(
       (ele) => ele.id === selectedCarBrandId,
@@ -134,6 +129,11 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 control={form.control}
               />
               <TextField
+                label={tr("common.year")}
+                name={"year"}
+                control={form.control}
+              />
+              <TextField
                 label={tr("color")}
                 name={"color"}
                 control={form.control}
@@ -159,6 +159,14 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 name={"tank_capacity"}
                 control={form.control}
               />
+              <NumberField
+                label={tr("services.seats")}
+                name={"seats"}
+                control={form.control}
+                required={false}
+              />
+            </FieldGroup>
+            <FieldGroup>
               <SelectField
                 label={tr("fuel_type")}
                 control={form.control}
@@ -178,32 +186,6 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                   label: tr(`common.${opt}`),
                   value: opt,
                 }))}
-              />
-              <TextField
-                label={tr("common.year")}
-                name={"year"}
-                control={form.control}
-              />
-              <NumberField
-                label={tr("services.seats")}
-                name={"seats"}
-                control={form.control}
-                required={false}
-              />
-            </FieldGroup>
-            <FieldGroup>
-              <AutoCompleteField
-                label={tr("common.vehicle_type")}
-                control={form.control}
-                name={"vehicle_type_id"}
-                placeholder="Select Vehicle"
-                emptyPlaceholder="No vehicles found"
-                options={
-                  vehicleCofig?.vehicle_types.map((opt) => ({
-                    label: opt.name,
-                    value: opt.id,
-                  })) ?? []
-                }
               />
               <AutoCompleteField
                 label={tr("common.car_brand")}
