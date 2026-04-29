@@ -9,7 +9,7 @@ import {
 } from "@/components/page-header";
 import { SettingsIcon } from "lucide-react";
 
-export default function SettingsPage({
+export default function SettingsLayout({
   children,
 }: {
   children: React.ReactNode;

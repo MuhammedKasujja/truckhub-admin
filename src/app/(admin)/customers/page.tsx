@@ -10,6 +10,7 @@ import { requirePermission } from "@/lib/auth";
 import {
   PageAction,
   PageDescription,
+  PageBackButton,
   PageHeader,
   PageTitle,
 } from "@/components/page-header";
@@ -32,7 +33,9 @@ export default async function Page(props: PageProps<"/customers">) {
   return (
     <Suspense fallback={<CustomerTableSkeleton />}>
       <PageHeader>
-        <PageTitle>{tr("common.clients")}</PageTitle>
+        <PageTitle>
+          <PageBackButton/>
+          {tr("common.clients")}</PageTitle>
         {/* <PageDescription>Manage your projects and team members</PageDescription> */}
         <PageAction>
           <HasPermission permission={"customers:create"}>

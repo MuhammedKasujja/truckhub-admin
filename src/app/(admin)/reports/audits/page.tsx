@@ -24,7 +24,9 @@ export default async function Page(props: PageProps<"/reports/audits">) {
   return (
     <Suspense fallback={<AuditLogTableSkeleton />}>
       <PageHeader>
-        <PageTitle>Audit Logs</PageTitle>
+        <PageTitle>
+          <PageBackButton />
+          Audit Logs</PageTitle>
         <PageAction>
           <PageBackButton />
         </PageAction>
