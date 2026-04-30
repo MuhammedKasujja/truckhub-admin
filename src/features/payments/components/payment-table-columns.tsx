@@ -38,9 +38,10 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
       accessorKey: "status",
       header: tr("payments.status"),
       cell: ({ row }) => {
+        const status = row.original.status
         return (
           <Badge variant="outline" className="capitalize">
-            {tr(`payments.statuses.${row.original.status}`)}
+            {tr(`payments.statuses.${status}`)}
           </Badge>
         );
       },
