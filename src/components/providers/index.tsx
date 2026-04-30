@@ -3,8 +3,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme/provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { QueryClientProvider } from "./query-client-provider";
 
-export function AppProviders({
+export function Providers({
   locale,
   children,
 }: Readonly<{
@@ -20,7 +21,9 @@ export function AppProviders({
     >
       <NuqsAdapter>
         <NextIntlClientProvider locale={locale}>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <QueryClientProvider>{children}</QueryClientProvider>
+          </TooltipProvider>
         </NextIntlClientProvider>
         <Toaster />
       </NuqsAdapter>
