@@ -8,7 +8,11 @@ import { BookingSearchParamsCache } from "@/features/bookings/schemas";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { requirePermission } from "@/lib/auth";
 import { BookingStatisticsCard } from "@/features/bookings/components";
-import { PageHeader, PageTitle } from "@/components/page-header";
+import { PageAction, PageHeader, PageTitle } from "@/components/page-header";
+import { Can } from "@/components/has-permission";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
 export default async function Page(props: PageProps<"/bookings">) {
   await requirePermission("bookings:view");
@@ -23,8 +27,18 @@ export default async function Page(props: PageProps<"/bookings">) {
     <Suspense fallback={<BookingTableSkeleton />}>
       <PageHeader>
         <PageTitle>Bookings</PageTitle>
+        <PageAction>
+          <Can permission="bookings:create">
+            <Button asChild>
+              <Link href={"/bookings/new"}>
+                <PlusIcon />
+                New Booking
+              </Link>
+            </Button>
+          </Can>
+        </PageAction>
       </PageHeader>
-      <BookingStatisticsCard/>
+      <BookingStatisticsCard />
       <BookingTable promises={promises} />
     </Suspense>
   );

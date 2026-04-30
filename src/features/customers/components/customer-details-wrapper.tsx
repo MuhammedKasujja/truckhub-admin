@@ -37,6 +37,9 @@ import {
 import { HasPermission } from "@/components/has-permission";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { logger } from "@/lib/logger";
+import { EntityId } from "@/types";
 
 type CustomerDetailsWrapperProps = {
   promises: Promise<
@@ -47,10 +50,12 @@ type CustomerDetailsWrapperProps = {
       Awaited<ReturnType<typeof getCustomerRides>>,
     ]
   >;
+  customerId: EntityId
 };
 
 export function CustomerDetailsWrapper({
   promises,
+  customerId,
 }: CustomerDetailsWrapperProps) {
   const [
     { data: customer, error },
@@ -60,6 +65,12 @@ export function CustomerDetailsWrapper({
   ] = React.use(promises);
 
   useFetchEror(error);
+
+  const { data } = useSuspenseQuery({
+    queryKey: ["client-details", customerId],
+    queryFn: () => getCustomerDetailsById(customerId),
+  });
+  logger.error(`Client data fetched ->> ${data.data?.fullname}`);
 
   const latestBooking = bookings?.find((ele) => ele.amount);
   const latestPayment = payments?.find((ele) => ele.date);

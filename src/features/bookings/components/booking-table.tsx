@@ -8,11 +8,7 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getBookings } from "@/features/bookings/services";
 import React from "react";
 import { getBookingTableColumns } from "./booking-table-columns";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { PlusIcon } from "lucide-react";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { HasPermission } from "@/components/has-permission";
 
 type TripTableProps = {
   promises: Promise<[Awaited<ReturnType<typeof getBookings>>]>;
@@ -41,14 +37,6 @@ export function BookingTable(props: TripTableProps) {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <HasPermission permission="bookings:create">
-          <Button asChild>
-            <Link href={"/bookings/new"}>
-              <PlusIcon />
-              Hire
-            </Link>
-          </Button>
-        </HasPermission>
         <DataTableSortList table={table} align="end" />
       </DataTableToolbar>
     </DataTable>

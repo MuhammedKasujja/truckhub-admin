@@ -95,7 +95,7 @@ function ServiceTable({ services }: BookingServiceListProps) {
 
 function ServiceList({ services }: BookingServiceListProps) {
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="grid gap-4">
       {services.map((service, index) => (
         <Item key={`${service.service_id}*${index}`} variant={"outline"}>
           <ItemContent>

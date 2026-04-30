@@ -21,7 +21,7 @@ export default async function Page(props: PageProps<"/customers/[id]/view">) {
 
   return (
     <Suspense fallback={<div>Loading customer details...</div>}>
-      <CustomerDetailsWrapper promises={promises} />
+      <CustomerDetailsWrapper promises={promises} customerId={customerId} />
     </Suspense>
   );
 }

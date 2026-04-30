@@ -94,73 +94,75 @@ export function BookingDetailsWrapper({
         </Card>
         <BookingClientWidget client={booking!.customer} />
       </div>
-      <BookingServiceList services={booking?.services ?? []} />
-      <Card>
-        <CardHeader>
-          <CardTitle>Payments</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-hidden rounded-lg border bg-background">
-            <Table>
-              <TableHeader className="bg-muted/50">
-                <TableRow>
-                  <TableHead className="w-25">Number</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Mode</TableHead>
-                  <TableHead>Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {booking?.payments.length ? (
-                  booking?.payments.map((payment) => (
-                    <TableRow key={payment.id.toString()}>
-                      <TableCell className="font-medium">
-                        {payment.number}
-                      </TableCell>
-                      <TableCell>{formatPrice(payment.amount)}</TableCell>
-                      <TableCell>{payment.status}</TableCell>
-                      <TableCell>{payment.payment_mode}</TableCell>
-                      <TableCell>{formatDate(payment.date)}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
+      <div className="grid  md:grid-flow-col gap-4">
+        <BookingServiceList services={booking?.services ?? []} />
+        <Card>
+          <CardHeader>
+            <CardTitle>Payments</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-hidden rounded-lg border bg-background">
+              <Table>
+                <TableHeader className="bg-muted/50">
                   <TableRow>
-                    <TableCell colSpan={5} className="h-24 text-center">
-                      <Empty className="">
-                        <EmptyHeader>
-                          <EmptyMedia variant="icon">
-                            <CreditCard />
-                          </EmptyMedia>
-                          <EmptyTitle>No Payments Found</EmptyTitle>
-                        </EmptyHeader>
-                        <EmptyContent>
-                          {!booking?.is_paid && (
-                            <Can permission={"payments:create"}>
-                              <EditPaymentModal
-                                initialData={{
-                                  entity_id: booking?.id,
-                                  amount: booking?.balance,
-                                  type: "booking",
-                                }}
-                                trigger={
-                                  <Button variant={"outline"}>
-                                    Make Payment
-                                  </Button>
-                                }
-                              />
-                            </Can>
-                          )}
-                        </EmptyContent>
-                      </Empty>
-                    </TableCell>
+                    <TableHead className="w-25">Number</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Mode</TableHead>
+                    <TableHead>Date</TableHead>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {booking?.payments.length ? (
+                    booking?.payments.map((payment) => (
+                      <TableRow key={payment.id.toString()}>
+                        <TableCell className="font-medium">
+                          {payment.number}
+                        </TableCell>
+                        <TableCell>{formatPrice(payment.amount)}</TableCell>
+                        <TableCell>{payment.status}</TableCell>
+                        <TableCell>{payment.payment_mode}</TableCell>
+                        <TableCell>{formatDate(payment.date)}</TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} className="h-24 text-center">
+                        <Empty className="">
+                          <EmptyHeader>
+                            <EmptyMedia variant="icon">
+                              <CreditCard />
+                            </EmptyMedia>
+                            <EmptyTitle>No Payments Found</EmptyTitle>
+                          </EmptyHeader>
+                          <EmptyContent>
+                            {!booking?.is_paid && (
+                              <Can permission={"payments:create"}>
+                                <EditPaymentModal
+                                  initialData={{
+                                    entity_id: booking?.id,
+                                    amount: booking?.balance,
+                                    type: "booking",
+                                  }}
+                                  trigger={
+                                    <Button variant={"outline"}>
+                                      Make Payment
+                                    </Button>
+                                  }
+                                />
+                              </Can>
+                            )}
+                          </EmptyContent>
+                        </Empty>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
