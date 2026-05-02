@@ -11,10 +11,14 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SystemPermissions } from "@/features/auth/permissions";
-import { assignPermissionsToRole, getRoles } from "@/server/permissions";
+import {
+  assignPermissionsToRole,
+  getRoles,
+} from "@/features/settings/permissions/service";
 import { use, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { EditRoleDialog } from "./edit-role-modal";
+import { Can } from "@/components/has-permission";
 
 const modules = Object.keys(SystemPermissions);
 
@@ -121,7 +125,9 @@ export function PermissionsWrapper({ promises }: PermissionsWrapperProps) {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <EditRoleDialog/>
+        <Can permission={"config:create:role"}>
+          <EditRoleDialog />
+        </Can>
         <Button type="button" onClick={() => saveRolePermissions()}>
           Sync Permissions
         </Button>

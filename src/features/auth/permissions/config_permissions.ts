@@ -6,6 +6,7 @@ export const ConfigModulePermissions = {
   "config:delete": ["settings:delete"],
   "config:edit": ["settings:update", "settings:view_single"],
   "config:view:audit_logs": ["settings:update", "settings:view_single"],
+  "config:create:role": ["roles:update", "roles:create"],
 } as const;
 
 export type ConfigPermissions = keyof typeof ConfigModulePermissions;

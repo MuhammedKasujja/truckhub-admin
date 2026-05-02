@@ -2,6 +2,7 @@ import z from "zod";
 
 export const RoleCreateSchema = z.object({
   name: z.string(),
+  description: z.string().optional().nullable(),
 });
 
 export const RoleUpdateSchema = z.object({

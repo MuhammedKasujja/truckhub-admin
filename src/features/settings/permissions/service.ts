@@ -9,7 +9,11 @@ import {
 
 const endpoint = "/v1/permissions/roles";
 
-export async function getRoleTypeById(roleId: number | string) {
+export async function getRoles() {
+  return await apiClient.getFn<Role[]>(endpoint);
+}
+
+export async function getRoleById(roleId: number | string) {
   return await apiClient.getFn<Role>(`${endpoint}/${roleId}`);
 }
 
@@ -24,4 +28,28 @@ export async function updateRole(data: RoleUpdateSchemaType) {
 
 export async function createRole(data: RoleCreateSchemaType) {
   return await apiClient.postFn(endpoint, data);
+}
+
+export async function assignPermissionsToRole({
+  roleId,
+  permissions,
+}: {
+  roleId: string;
+  permissions: string[];
+}) {
+  return await apiClient.postFn<Role>(`/v1/permissions/roles/${roleId}/permissions`, {
+    permissions,
+  });
+}
+
+export async function fetchPermissions() {
+  try {
+    const response = await apiClient.postFn<string[]>(
+      "/v1/permissions/generate",
+      {},
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Error fetchPermissions");
+  }
 }
