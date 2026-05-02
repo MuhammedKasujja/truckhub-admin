@@ -24,7 +24,7 @@ export default function SettingsLayout({
           Settings
         </PageTitle>
         <PageDescription>
-          Manage system account preferences and security
+          Manage system settings and preferences
         </PageDescription>
       </PageHeader>
       <SidebarProvider className="items-start">

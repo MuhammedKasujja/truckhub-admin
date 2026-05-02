@@ -1,4 +1,4 @@
-import { PermissionsWrapper } from "@/features/setiings/permissions/components/permissions-wrapper";
+import { PermissionsWrapper } from "@/features/settings/permissions/components/permissions-wrapper";
 import { fetchPermissions, getRoles } from "@/server/permissions";
 
 export default async function PermissionsPage() {

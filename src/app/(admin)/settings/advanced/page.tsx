@@ -1,5 +1,5 @@
-import { EditSettingsForm } from "@/features/setiings";
-import { getSettings } from "@/features/setiings/service";
+import { EditSettingsForm } from "@/features/settings";
+import { getSettings } from "@/features/settings/service";
 
 export default async function AdvancedSettingsPage() {
   const { data: settings } = await getSettings();

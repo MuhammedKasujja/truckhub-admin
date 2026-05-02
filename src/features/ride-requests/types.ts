@@ -16,7 +16,7 @@ export type Driver = {
 
 export type RideRequest = {
   id: number;
-  number: string
+  number: string;
   origin: string;
   destination: string;
   created_at: Date;
@@ -27,12 +27,13 @@ export type RideRequest = {
   discount: number;
   amount: number;
   customer: Passenger;
-  driver: Driver | undefined
+  driver: Driver | undefined;
+  type: RideType;
 };
 
 export type RideRequestDetails = {
   id: number;
-  number: string
+  number: string;
   origin: Location;
   destination: Location;
   created_at: string;
@@ -47,6 +48,9 @@ export type RideRequestDetails = {
   amount: number;
   is_paid: number;
   customer: Passenger;
+  driver: Driver | undefined;
+  type: RideType;
+  checkpoints: Location[];
 };
 
 export const RideStatusList = [
@@ -59,6 +63,15 @@ export const RideStatusList = [
 ] as const;
 
 export type RideStatus = (typeof RideStatusList)[number];
+
+export const RideTypeList = [
+  "passenger",
+  "scheduled_passenger",
+  "cargo",
+  "scheduled_cargo",
+] as const;
+
+export type RideType = (typeof RideTypeList)[number];
 
 export interface LocationPoint {
   lat: number;
