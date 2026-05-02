@@ -8,7 +8,7 @@ import {
 import { Driver } from "../types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { HasPermission } from "@/components/has-permission";
+import { Can } from "@/components/has-permission";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { MailIcon, PhoneIcon } from "lucide-react";
@@ -29,26 +29,28 @@ export function RideDriver({ driver }: RideDriverProps) {
       <CardHeader>
         <CardTitle>Driver</CardTitle>
         <CardAction>
-          <HasPermission permission="drivers:view">
+          <Can permission="drivers:view">
             <Button variant={"secondary"} asChild>
               <Link href={`/drivers/${driver?.id}/view`}>View</Link>
             </Button>
-          </HasPermission>
+          </Can>
         </CardAction>
       </CardHeader>
       <CardContent className="space-y-4">
-        <Avatar>
-          <AvatarImage src={driver?.profile_url} alt="driver" />
-          <AvatarFallback>{generateAvatorFallback()}</AvatarFallback>
-        </Avatar>
-        <p>{driver?.fullname}</p>
+        <div className="flex gap-4 items-center">
+          <Avatar size="lg">
+            <AvatarImage src={driver?.profile_url} alt="driver" />
+            <AvatarFallback>{generateAvatorFallback()}</AvatarFallback>
+          </Avatar>
+          <p>{driver?.fullname}</p>
+        </div>
         <Separator />
         <div className="flex flex-row gap-4 items-center">
-          <PhoneIcon size={16}/>
+          <PhoneIcon size={16} />
           <p>{driver?.phone}</p>
         </div>
         <div className="flex flex-row gap-4 items-center">
-          <MailIcon size={16}/>
+          <MailIcon size={16} />
           <p>{driver?.email}</p>
         </div>
       </CardContent>

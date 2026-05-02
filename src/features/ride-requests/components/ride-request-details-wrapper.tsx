@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useFetchEror } from "@/hooks/use-fetch-error";
-import { Edit2Icon } from "lucide-react";
+import { CircleDotIcon, Edit2Icon, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { getRideRequestDetailsById } from "@/features/ride-requests/service";
@@ -22,11 +22,11 @@ import {
   formatPrice,
 } from "@/lib/format";
 import { Status } from "@/components/ui/status";
-import { HasPermission } from "@/components/has-permission";
+import { Can } from "@/components/has-permission";
 import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 import { RideRequestMap } from "./ride-request-map";
 import { RidePassenger } from "./ride-passenger";
-import { Code, Layers, Rocket } from "lucide-react";
+import { Layers, Rocket } from "lucide-react";
 
 import {
   Timeline,
@@ -78,13 +78,13 @@ export function RideRequestDetailsWrapper({
 
   return (
     <div className="grid gap-5">
-      <div className="grid grid-flow-col gap-4">
+      <div className="grid md:grid-flow-col gap-4">
         <Card>
           <CardHeader>
             <CardTitle>R-{ride?.number}</CardTitle>
             <CardAction className="flex gap-4">
               {!ride?.is_paid && (
-                <HasPermission permission={"payments:create"}>
+                <Can permission={"payments:create"}>
                   <EditPaymentModal
                     initialData={{
                       entity_id: ride?.id,
@@ -92,7 +92,7 @@ export function RideRequestDetailsWrapper({
                       type: "ride",
                     }}
                   />
-                </HasPermission>
+                </Can>
               )}
               <Status>{ride?.status}</Status>
               <Button asChild>
@@ -107,8 +107,8 @@ export function RideRequestDetailsWrapper({
             <div>{formatDate(ride?.created_at)}</div>
             <Timeline className="[--timeline-dot-size:2rem]">
               {[
-                { ...ride!.origin, icon: Rocket },
-                { ...ride!.destination, icon: Layers },
+                { ...ride!.origin, icon: MapPin },
+                { ...ride!.destination, icon: CircleDotIcon },
               ].map((item) => (
                 <TimelineItem key={item.name}>
                   <TimelineDot>
@@ -144,7 +144,9 @@ export function RideRequestDetailsWrapper({
       <div className="grid grid-cols-3 gap-4">
         <Card>
           <CardHeader>
-            <CardDescription>ESTIMATED COST</CardDescription>
+            <CardDescription>
+              <span>ESTIMATED COST</span>
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <CardTitle>{formatPrice(ride!.amount)}</CardTitle>

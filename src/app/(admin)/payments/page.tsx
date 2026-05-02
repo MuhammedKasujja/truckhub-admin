@@ -1,4 +1,6 @@
-import { PageHeader, PageTitle } from "@/components/page-header";
+import { Can } from "@/components/has-permission";
+import { PageAction, PageHeader, PageTitle } from "@/components/page-header";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,17 +9,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { EditPaymentModal } from "@/features/payments/components/edit-payment-modal";
 import {
   PaymentTable,
   PaymentTableSkeleton,
 } from "@/features/payments/components/payment-table";
 import { PaymentSearchParamsCache } from "@/features/payments/schemas";
 import { getPayments } from "@/features/payments/service";
+import { getTranslations } from "@/i18n/server";
 import { formatPrice } from "@/lib/format";
 import { generatePageSearchParams } from "@/lib/search-params";
+import { PlusIcon } from "lucide-react";
 import { Suspense } from "react";
 
 export default async function PaymentsPage(props: PageProps<"/payments">) {
+  const tr = await getTranslations();
   const searchParams = await generatePageSearchParams(
     props.searchParams,
     PaymentSearchParamsCache,
@@ -28,7 +34,20 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
   return (
     <Suspense fallback={<PaymentTableSkeleton />}>
       <PageHeader>
-        <PageTitle>Payments</PageTitle>
+        <PageTitle>{tr("modules.payments")}</PageTitle>
+        <PageAction>
+          <Can permission={"payments:create"}>
+            <EditPaymentModal
+              initialData={{ type: "booking" }}
+              trigger={
+                <Button>
+                  <PlusIcon />
+                  {tr("payments.form.new_payment")}
+                </Button>
+              }
+            />
+          </Can>
+        </PageAction>
       </PageHeader>
       <div className="grid md:grid-cols-3 gap-5 pb-5">
         <Card>

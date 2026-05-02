@@ -32,6 +32,16 @@ const en = {
   search: "Search",
   search_system: "Search Truckhub",
   payment: "Payment",
+  modules: {
+    payments: "Payments",
+    bookings: "Bookings",
+    rides: "Rides",
+    services: "Services",
+    customers: "Customers",
+    drivers: "Drivers",
+    vehicles: "Vehicles",
+    users: "Users",
+  },
   common: {
     locale: {
       header: "Locale",

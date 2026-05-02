@@ -1,9 +1,8 @@
 "use client";
 import { tabs } from "slidytabs";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { usePathname, useRouter } from "next/navigation";
 
 const vehicleConfigSections = [
   {
@@ -28,30 +27,34 @@ const vehicleConfigSections = [
   },
 ] as const;
 
+type ConfigRoute = (typeof vehicleConfigSections)
+
 export default function VehicleConfigLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  console.log("Settings path", pathname)
+
+  const activeTab = pathname ?? vehicleConfigSections[0].route;
   return (
     <Tabs
       ref={tabs()}
-      defaultValue={pathname}
+      value={activeTab}
       className="w-full"
+      onValueChange={(val) => router.push(val)}
     >
       <TabsList>
         {vehicleConfigSections.map((section) => (
-          <TabsTrigger key={section.name} value={section.route} asChild>
-            <Link href={section.route}>{section.name}</Link>
+          <TabsTrigger key={section.name} value={section.route}>
+            {section.name}
           </TabsTrigger>
         ))}
       </TabsList>
-      {vehicleConfigSections.map((section) => (
-        <TabsContent key={section.name} value={section.route}>
-          {children}
-        </TabsContent>
-      ))}
+      <div className="mt-4">{children}</div>
     </Tabs>
   );
 }
