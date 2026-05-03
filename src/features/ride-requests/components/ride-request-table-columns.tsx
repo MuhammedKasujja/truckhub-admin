@@ -38,6 +38,7 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
         return <p className="text-ellipsis">{row.original.destination}</p>;
       },
       size: 120,
+      maxSize: 120,
     },
     {
       accessorKey: "customer",

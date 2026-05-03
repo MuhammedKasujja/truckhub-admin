@@ -23,9 +23,9 @@ export default async function AdminLayout({
   
   return (
     <AuthProvider value={user}>
-      <SidebarProvider>
+      <SidebarProvider className="overflow-x-hidden">
         <AppSidebar />
-        <SidebarInset>
+        <SidebarInset className="overflow-x-hidden">
           <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -34,19 +34,6 @@ export default async function AdminLayout({
             />
             <div className="w-full flex justify-between gap-4 items-center">
               <SearchForm />
-              {/* <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Build Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb> */}
               <NavigationActions />
             </div>
           </header>
