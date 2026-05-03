@@ -41,6 +41,13 @@ import {
 } from "@/components/ui/map";
 import polyline from "@mapbox/polyline";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type RideRequestFormProps = {
   promises: Promise<
@@ -79,8 +86,59 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
     }
   }
 
+  async function computeRideCost() {
+    const pickup = form.getValues("pickup_location");
+    const destination = form.getValues("destination_location");
+
+    const serviceId = form.getValues("service_id");
+    if (!serviceId) {
+      toast.error("Please select a service to continue");
+      form.setError("service_id", {
+        message: "Please select a service to continue",
+      });
+      return;
+    }
+    try {
+    } catch (error) {}
+    const { data, error, isSuccess } = await computeRideRequestEsimatedFare({
+      serviceId: serviceId,
+      origin: { lat: pickup.lat, lng: pickup.lng },
+      destination: { lat: destination.lat, lng: destination.lng },
+    });
+
+    if (error) {
+      toast.error(error.message);
+    }
+
+    if (isSuccess) {
+      setLocationDistanceTime(data);
+      if (data) {
+        form.setValue("estimated_distance", data.distance);
+        form.setValue("polyline_route", data.polyline);
+        // base 10 automatically returns the first numeric string when is encounters
+        // the first char `s` in the string `14245s`
+        form.setValue("estimated_time", data.duration);
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    const pickup = form.getValues("pickup_location");
+    const destination = form.getValues("destination_location");
+    setLocationDistanceTime(undefined);
+    form.setValue("estimated_distance", undefined);
+    form.setValue("polyline_route", undefined);
+    form.setValue("estimated_time", undefined);
+
+    if (pickup && destination) {
+      computeRideCost().then(() => {
+        console.log("Ride updated");
+      });
+    }
+  }, [serviceId]);
+
   return (
-    <div className="grid grid-cols-2 gap-5">
+    <div className="grid md:grid-cols-2 gap-5">
       <Card>
         <CardHeader>
           <CardTitle>{tr("trips.new_trip")}</CardTitle>
@@ -195,6 +253,7 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
               }))}
             />
             <LocationAutoComplete
+              label="Pickup"
               onPlaceLoaded={(place) => {
                 setLocationDistanceTime(undefined);
                 if (place) {
@@ -207,88 +266,110 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
                 }
               }}
             />
-            <LocationAutoComplete
-              onPlaceLoaded={async (place) => {
-                if (place) {
-                  form.setValue("destination_location", {
-                    name: place.address1,
-                    lat: place.lat,
-                    lng: place.lng,
-                    place_id: place.placeId,
-                  });
-                  const pickup = form.getValues("pickup_location");
-                  const { data } = await computeRideRequestEsimatedFare({
-                    serviceId: form.getValues("service_id"),
-                    origin: { lat: pickup.lat, lng: pickup.lng },
-                    destination: { lat: place.lat, lng: place.lng },
-                  });
-                  setLocationDistanceTime(data);
-                  if (data) {
-                    form.setValue("estimated_distance", data.distance);
-                    form.setValue("polyline_route", data.polyline);
-                    // base 10 automatically returns the first numeric string when is encounters
-                    // the first char `s` in the string `14245s`
-                    form.setValue("estimated_time", data.duration);
+            <div className="flex gap-4 items-end">
+              <LocationAutoComplete
+                label="Destination"
+                onPlaceLoaded={async (place) => {
+                  if (place) {
+                    form.setValue("destination_location", {
+                      name: place.address1,
+                      lat: place.lat,
+                      lng: place.lng,
+                      place_id: place.placeId,
+                    });
+                    await computeRideCost();
                   }
-                }
-              }}
-            />
+                }}
+              />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button size={"icon"}>
+                    <PlusIcon />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add checkpoint</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             {locationDistanceTime && service && (
-              <Card>
-                <CardContent className="space-y-2">
-                  <div>
-                    Estimate price:{" "}
-                    {formatPrice(
-                      parseFloat(locationDistanceTime.estimated_cost),
-                    )}
-                  </div>
-                  <div>
-                    Distance: {formatDistance(locationDistanceTime.distance)}
-                  </div>
-                  <div>
-                    Time: {formatDuration(locationDistanceTime.duration)}
-                  </div>
-                  <div className="h-96 w-full">
-                    <Map
-                      ref={mapRef}
-                      center={[
-                        form.getValues("pickup_location").lng,
-                        form.getValues("pickup_location").lat,
-                      ]}
-                      zoom={11.0}
-                      styles={{
-                        light: "https://tiles.openfreemap.org/styles/bright",
-                      }}
-                    >
-                      <MapRoute
-                        coordinates={polyline
-                          .decode(locationDistanceTime.polyline)
-                          .map(([lat, lng]) => [lng, lat])}
-                        color="#3b82f6"
-                        width={5}
-                        opacity={1}
-                      />
-                      {[
-                        form.getValues("pickup_location"),
-                        form.getValues("destination_location"),
-                      ].map((stop, index) => (
-                        <MapMarker
-                          key={stop.name}
-                          longitude={stop.lng}
-                          latitude={stop.lat}
-                        >
-                          <MarkerContent>
-                            <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
-                              {index == 0 ? "P" : "D"}
-                            </div>
-                          </MarkerContent>
-                          <MarkerTooltip>{stop.name}</MarkerTooltip>
-                        </MapMarker>
-                      ))}
-                    </Map>
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="space-y-5">
+                <div className="grid md:grid-flow-col gap-5">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="font-light text-sm">
+                        Estimated price
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="font-semibold text-lg">
+                      {formatPrice(
+                        parseFloat(locationDistanceTime.estimated_cost),
+                      )}
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="font-light text-sm">
+                        Distance
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="font-semibold text-lg">
+                      {formatDistance(locationDistanceTime.distance)}
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="font-light text-sm">Time</CardTitle>
+                    </CardHeader>
+                    <CardContent className="font-semibold text-lg">
+                      {formatDuration(locationDistanceTime.duration)}
+                    </CardContent>
+                  </Card>
+                </div>
+                <Card>
+                  <CardContent className="space-y-2">
+                    <div className="h-96 w-full">
+                      <Map
+                        ref={mapRef}
+                        center={[
+                          form.getValues("pickup_location").lng,
+                          form.getValues("pickup_location").lat,
+                        ]}
+                        zoom={11.0}
+                        styles={{
+                          light: "https://tiles.openfreemap.org/styles/bright",
+                        }}
+                      >
+                        <MapRoute
+                          coordinates={polyline
+                            .decode(locationDistanceTime.polyline)
+                            .map(([lat, lng]) => [lng, lat])}
+                          color="#3b82f6"
+                          width={5}
+                          opacity={1}
+                        />
+                        {[
+                          form.getValues("pickup_location"),
+                          form.getValues("destination_location"),
+                        ].map((stop, index) => (
+                          <MapMarker
+                            key={stop.name}
+                            longitude={stop.lng}
+                            latitude={stop.lat}
+                          >
+                            <MarkerContent>
+                              <div className="size-4.5 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-semibold">
+                                {index == 0 ? "P" : "D"}
+                              </div>
+                            </MarkerContent>
+                            <MarkerTooltip>{stop.name}</MarkerTooltip>
+                          </MapMarker>
+                        ))}
+                      </Map>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             )}
           </FieldGroup>
         </CardContent>

@@ -8,11 +8,11 @@ import { en as settingsEn } from "./modules/settings";
 import { en as permissionsEn } from "./modules/permissions";
 
 const tripModuleTranslations = {
-  new_trip: "New Trip request",
-  create_trip_help: "Create passenger trip request",
-  edit_trip: "Edit Trip Request",
-  trip_created_successfully: "Trip created successfully",
-  trip_updated_successfully: "Trip updated successfully",
+  new_trip: "New Ride request",
+  create_trip_help: "Create passenger ride request",
+  edit_trip: "Edit Ride",
+  trip_created_successfully: "Ride created successfully",
+  trip_updated_successfully: "Ride updated successfully",
 } as const;
 
 const bookingModuleTranslations = {
