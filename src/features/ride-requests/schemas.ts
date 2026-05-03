@@ -16,6 +16,16 @@ export const LocationSchema = z.object({
   place_id: z.string(),
 });
 
+export const CheckpointSchema = z.object({
+  name: z.string(),
+  lat: z.number(),
+  lng: z.number(),
+  distance: z.number(),
+  time: z.number(),
+  estimated_fare: z.number(),
+  position: z.number()
+});
+
 export const RideRequestCreateSchema = z.object({
   service_id: z.number(),
   customer_id: z.number(),
@@ -31,6 +41,7 @@ export const RideRequestCreateSchema = z.object({
   polyline_route: z.string().optional(),
   partial: z.number().optional().nullable(),
   discount: z.number().optional().nullable(),
+  checkpoints: z.array(CheckpointSchema).optional().nullable(),
 });
 
 export const RideRequestUpdateSchema = z.object({

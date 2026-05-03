@@ -22,7 +22,7 @@ import {
   createRideRequest,
 } from "@/features/ride-requests/service";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { getServicesByQuery } from "@/features/services/service";
@@ -69,6 +69,7 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
   const tr = useTranslation();
   const form = useForm<z.infer<typeof RideRequestCreateSchema>>({
     resolver: zodResolver(RideRequestCreateSchema),
+    defaultValues: { checkpoints: [] },
   });
 
   const serviceId = form.watch("service_id");
@@ -136,6 +137,34 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
       });
     }
   }, [serviceId]);
+
+  const { fields: checkpoints, append } = useFieldArray({
+    control: form.control,
+    name: "checkpoints",
+  });
+
+  function appendCheckpoint() {
+    const destination = form.getValues("destination_location");
+    if (!destination) {
+      toast.error("Added destination first");
+      return;
+    }
+    append({
+      name: destination.name,
+      lat: destination.lat,
+      lng: destination.lng,
+      distance: 900,
+      time: 8999,
+      position: checkpoints.length + 1,
+      estimated_fare: 6788,
+    });
+    form.setValue("destination_location", {
+      name: "",
+      lat: 0,
+      lng: 0,
+      place_id: "",
+    });
+  }
 
   return (
     <div className="grid md:grid-cols-2 gap-5">
@@ -266,11 +295,17 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
                 }
               }}
             />
+            {checkpoints.map((checkpoint) => (
+              <div key={checkpoint.distance}>
+                <div>{checkpoint.name}</div>
+              </div>
+            ))}
             <div className="flex gap-4 items-end">
               <LocationAutoComplete
                 label="Destination"
                 onPlaceLoaded={async (place) => {
                   if (place) {
+                    console.log("Place Destination Details", place);
                     form.setValue("destination_location", {
                       name: place.address1,
                       lat: place.lat,
@@ -283,7 +318,7 @@ export function RideRequestForm({ promises }: RideRequestFormProps) {
               />
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button size={"icon"}>
+                  <Button size={"icon"} onClick={appendCheckpoint}>
                     <PlusIcon />
                   </Button>
                 </TooltipTrigger>
