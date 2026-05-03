@@ -1,22 +1,37 @@
 import z from "zod";
 import React from "react";
 import { toast } from "sonner";
+import { useTranslation } from "@/i18n";
 import { Service } from "@/features/services/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
-import { LocationDistanceTime } from "@/server/actions/location";
 import { RideRequestCreateSchema } from "@/features/ride-requests/schemas";
-import { computeRideRequestEsimatedFare } from "@/features/ride-requests/service";
+import { LocationDistanceTime, PlaceDetails } from "@/server/actions/location";
+import {
+  createRideRequest,
+  computeRideRequestEsimatedFare,
+} from "@/features/ride-requests/service";
 
 export function useRideForm(services: Service[]) {
   const [locationDistanceTime, setLocationDistanceTime] = React.useState<
     LocationDistanceTime | undefined
   >(undefined);
 
+  const tr = useTranslation();
+
   const form = useForm<z.infer<typeof RideRequestCreateSchema>>({
     resolver: zodResolver(RideRequestCreateSchema),
     defaultValues: { checkpoints: [] },
   });
+
+  async function onSubmit(values: z.infer<typeof RideRequestCreateSchema>) {
+    const { isSuccess, error } = await createRideRequest(values);
+    if (isSuccess) {
+      toast.success(`${tr("trips.trip_created_successfully")}`);
+    } else {
+      toast.error(error!.message);
+    }
+  }
 
   const serviceId = form.watch("service_id");
 
@@ -36,8 +51,6 @@ export function useRideForm(services: Service[]) {
       });
       return;
     }
-    try {
-    } catch (error) {}
     const { data, error, isSuccess } = await computeRideRequestEsimatedFare({
       serviceId: serviceId,
       origin: { lat: pickup.lat, lng: pickup.lng },
@@ -83,7 +96,7 @@ export function useRideForm(services: Service[]) {
   function appendCheckpoint() {
     const destination = form.getValues("destination_location");
     if (!destination) {
-      toast.error("Added destination first");
+      toast.error("First add destination");
       return;
     }
     append({
@@ -103,11 +116,39 @@ export function useRideForm(services: Service[]) {
     });
   }
 
+  async function onDestinationChanged(place?: PlaceDetails | null) {
+    if (place) {
+      console.log("Place Destination Details", place);
+      form.setValue("destination_location", {
+        name: place.address1,
+        lat: place.lat,
+        lng: place.lng,
+        place_id: place.placeId,
+      });
+      await computeRideCost();
+    }
+  }
+
+  function onPickupChanged(place?: PlaceDetails | null) {
+    setLocationDistanceTime(undefined);
+    if (place) {
+      form.setValue("pickup_location", {
+        name: place.address1,
+        lat: place.lat,
+        lng: place.lng,
+        place_id: place.placeId,
+      });
+    }
+  }
+
   return {
     form,
     appendCheckpoint,
     service,
     locationDistanceTime,
-    setLocationDistanceTime,
+    onPickupChanged,
+    checkpoints,
+    onSubmit,
+    onDestinationChanged,
   };
 }
