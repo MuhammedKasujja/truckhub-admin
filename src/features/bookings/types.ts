@@ -65,3 +65,10 @@ export interface LocationPoint {
 export interface Location extends LocationPoint {
   name: string;
 }
+
+export type BookingStatistics = {
+  total: number;
+  confirmed: number;
+  canceled: number;
+  total_payments: number | string;
+};

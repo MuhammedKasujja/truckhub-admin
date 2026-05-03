@@ -5,6 +5,7 @@ import {
   Booking,
   LocationPoint,
   BookingDetails,
+  BookingStatistics,
 } from "@/features/bookings/types";
 import {
   BookingListSearchParams,
@@ -64,6 +65,10 @@ export async function updateBooking(data: BookingUpdateSchemaType) {
 
 export async function createBooking(data: BookingCreateSchemaType) {
   return await apiClient.postFn("/v1/bookings", data);
+}
+
+export async function getBookingStatistics() {
+  return await apiClient.getFn<BookingStatistics>("/v1/bookings/statistics");
 }
 
 /**

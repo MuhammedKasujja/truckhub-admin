@@ -10,13 +10,17 @@ import {
 } from "@/components/ui/stat";
 import { formatPrice } from "@/lib/format";
 import { DollarSign } from "lucide-react";
+import { BookingStatistics } from "../types";
 
-export function BookingStatisticsCard() {
+type Props ={
+  statistics?: BookingStatistics
+}
+export function BookingStatisticsCard({statistics}:Props) {
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-4 ring-foreground/10 bg-card text-card-foreground rounded-xl mb-5 border">
       <Stat className="min-h-32 ring-0 md:border-r-2 border-b-2 md:border-b-0 sm:rounded-r-none">
         <StatLabel>Orders</StatLabel>
-        <StatValue>60</StatValue>
+        <StatValue>{statistics?.total}</StatValue>
         <StatIndicator variant="icon" color="default">
           <DollarSign />
         </StatIndicator>
@@ -26,7 +30,7 @@ export function BookingStatisticsCard() {
       </Stat>
       <Stat className="min-h-32 ring-0 md:border-r-2 border-b-2 md:border-b-0 sm:rounded-r-none sm:rounded-l-none">
         <StatLabel>Confirmed</StatLabel>
-        <StatValue>5</StatValue>
+        <StatValue>{statistics?.confirmed}</StatValue>
         <StatIndicator variant="icon" color="default">
           <DollarSign />
         </StatIndicator>
@@ -36,7 +40,7 @@ export function BookingStatisticsCard() {
       </Stat>
       <Stat className="min-h-32 ring-0 md:border-r-2 border-b-2 md:border-b-0 sm:rounded-r-none sm:rounded-l-none">
         <StatLabel>Payments</StatLabel>
-        <StatValue>{formatPrice(789900)}</StatValue>
+        <StatValue>{formatPrice(statistics?.total_payments)}</StatValue>
         <StatIndicator variant="icon" color="default">
           <DollarSign />
         </StatIndicator>
@@ -46,7 +50,7 @@ export function BookingStatisticsCard() {
       </Stat>
       <Stat className="min-h-32 ring-0 sm:rounded-l-none">
         <StatLabel>Cancelled</StatLabel>
-        <StatValue>3</StatValue>
+        <StatValue>{statistics?.canceled}</StatValue>
         <StatIndicator variant="icon" color="default">
           <DollarSign />
         </StatIndicator>

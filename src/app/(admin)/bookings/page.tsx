@@ -3,7 +3,7 @@ import {
   BookingTable,
   BookingTableSkeleton,
 } from "@/features/bookings/components/booking-table";
-import { getBookings } from "@/features/bookings/services";
+import { getBookings, getBookingStatistics } from "@/features/bookings/services";
 import { BookingSearchParamsCache } from "@/features/bookings/schemas";
 import { generatePageSearchParams } from "@/lib/search-params";
 import { requirePermission } from "@/lib/auth";
@@ -23,6 +23,8 @@ export default async function Page(props: PageProps<"/bookings">) {
   );
 
   const promises = Promise.all([getBookings(searchParams)]);
+
+  const {data } = await getBookingStatistics()
   return (
     <Suspense fallback={<BookingTableSkeleton />}>
       <PageHeader>
@@ -38,7 +40,7 @@ export default async function Page(props: PageProps<"/bookings">) {
           </Can>
         </PageAction>
       </PageHeader>
-      <BookingStatisticsCard />
+      <BookingStatisticsCard statistics={data} />
       <BookingTable promises={promises} />
     </Suspense>
   );
