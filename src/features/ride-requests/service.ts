@@ -96,3 +96,15 @@ export async function computeRideRequestEsimatedFare({
     },
   );
 }
+
+export async function getActiveRides() {
+  return getRideRequests({
+    page: 1,
+    perPage: 30,
+    sort: [],
+    search: "",
+    created_at: [],
+    filters: [],
+    joinOperator: "and",
+  });
+}

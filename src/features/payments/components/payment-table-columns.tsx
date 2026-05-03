@@ -75,6 +75,13 @@ export function getPaymentTableColumns(tr: TFunction): ColumnDef<Payment>[] {
       enableColumnFilter: true,
     },
     {
+      id: "customer",
+      header: tr("client"),
+      cell: ({ row }) => {
+        return <p>{row.original.customer.fullname}</p>;
+      },
+    },
+    {
       accessorKey: "date",
       header: tr("payments.date"),
       cell: ({ row }) => {

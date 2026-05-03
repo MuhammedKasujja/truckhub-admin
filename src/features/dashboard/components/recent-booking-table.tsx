@@ -50,6 +50,7 @@ export function RecentBookingTable({ bookings }: RecentBookingTableProps) {
             <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead className="w-25">Number</TableHead>
+                <TableHead>Client</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Balance</TableHead>
@@ -61,8 +62,9 @@ export function RecentBookingTable({ bookings }: RecentBookingTableProps) {
                 bookings.map((booking) => (
                   <TableRow key={`booking-${booking.id.toString()}`}>
                     <TableCell className="font-medium">
-                      {booking.services.length}
+                      {booking.number}
                     </TableCell>
+                    <TableCell>{booking.customer.fullname}</TableCell>
                     <TableCell>{booking.status}</TableCell>
                     <TableCell>{formatPrice(booking.amount)}</TableCell>
                     <TableCell>{formatPrice(booking.balance)}</TableCell>

@@ -28,17 +28,16 @@ export function getRideRequestTableColumns(): ColumnDef<RideRequest>[] {
       accessorKey: "origin",
       header: "Origin",
       cell: ({ row }) => {
-        return <p className="text-ellipsis">{row.original.origin}</p>;
+        return <p className="max-w-92 truncate">{row.original.origin}</p>;
       },
     },
     {
       accessorKey: "destination",
       header: "Destination",
       cell: ({ row }) => {
-        return <p className="text-ellipsis">{row.original.destination}</p>;
+        return <p className="max-w-92 truncate">{row.original.destination}</p>;
       },
       size: 120,
-      maxSize: 120,
     },
     {
       accessorKey: "customer",

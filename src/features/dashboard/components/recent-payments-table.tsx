@@ -47,9 +47,10 @@ export function RecentPaymentsTable({ payments }: PaymentTableprops) {
             <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead className="w-25">Number</TableHead>
+                <TableHead>Client</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Mode</TableHead>
+                <TableHead>Method</TableHead>
                 <TableHead>Date</TableHead>
               </TableRow>
             </TableHeader>
@@ -60,6 +61,7 @@ export function RecentPaymentsTable({ payments }: PaymentTableprops) {
                     <TableCell className="font-medium">
                       {payment.number}
                     </TableCell>
+                    <TableCell>{payment.customer.fullname}</TableCell>
                     <TableCell>{formatPrice(payment.amount)}</TableCell>
                     <TableCell>{payment.status}</TableCell>
                     <TableCell>{payment.payment_mode}</TableCell>
