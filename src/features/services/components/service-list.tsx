@@ -23,7 +23,7 @@ export function ServiceList({ services }: ServiceListProps) {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">{service.name}</CardTitle>
-              <Badge variant="secondary">{service.category}</Badge>
+              <Badge variant="default">{service.category}</Badge>
             </div>
             <CardDescription>{service.description}</CardDescription>
           </CardHeader>

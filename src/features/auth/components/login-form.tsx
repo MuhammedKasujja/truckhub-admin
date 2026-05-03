@@ -1,7 +1,7 @@
 "use client";
-import { Card, CardContent } from "./ui/card";
-import { Field, FieldGroup } from "./ui/field";
-import { Button } from "./ui/button";
+import { Card, CardContent } from "../../../components/ui/card";
+import { Field, FieldGroup } from "../../../components/ui/field";
+import { Button } from "../../../components/ui/button";
 import { useTranslation } from "@/i18n";
 import { useRouter } from "next/navigation";
 import z from "zod";
@@ -10,7 +10,7 @@ import { login } from "@/features/auth/service";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmailField, PasswordField } from "@/components/ui/form-fields";
-import { SubmitButton } from "./ui/submit-button";
+import { SubmitButton } from "../../../components/ui/submit-button";
 
 const formSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }).trim(),

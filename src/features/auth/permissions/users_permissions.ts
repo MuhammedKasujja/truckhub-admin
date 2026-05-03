@@ -2,7 +2,7 @@
 
 export const UserModulePermissions = {
   "users:create": ["users:create"],
-  "users:view": ["users:index", "users:details"],
+  "users:view": ["users:list", "users:details"],
   "users:delete": ["users:delete"],
   "users:edit": ["users:update"],
 } as const;
