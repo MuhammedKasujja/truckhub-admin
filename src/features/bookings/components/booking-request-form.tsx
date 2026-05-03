@@ -51,7 +51,7 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
   const [activeServiceTab, setActiveServiceTab] = useState<
     string | undefined
   >();
-  const [serviceView, setServiceView] = useState<"list" | "single">("single");
+  const [serviceView, setServiceView] = useState<"list" | "single">("list");
 
   const { control, handleSubmit, formState, watch } = useForm<
     z.infer<typeof BookingCreateSchema>
@@ -287,17 +287,19 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                                 name={`services.${index}.cost_per_item`}
                                 control={control}
                               />
-                              <NumberField
-                                label={"Total"}
-                                name={`services.${index}.total_items`}
-                                control={control}
-                              />
-                              <NumberField
-                                required={false}
-                                label={"Discount"}
-                                name={`services.${index}.discount`}
-                                control={control}
-                              />
+                              <div className="grid grid-flow-col gap-4">
+                                <NumberField
+                                  label={"Units"}
+                                  name={`services.${index}.total_items`}
+                                  control={control}
+                                />
+                                <NumberField
+                                  required={false}
+                                  label={"Discount"}
+                                  name={`services.${index}.discount`}
+                                  control={control}
+                                />
+                              </div>
                             </CardContent>
                             <CardFooter>
                               Total:{" "}
@@ -312,40 +314,51 @@ export function BookingRequestForm({ promises }: BookingRequestFormProps) {
                   </Tabs>
                 </Activity>
                 <Activity mode={serviceView === "list" ? "visible" : "hidden"}>
-                  {fields.map((service, index) => (
-                    <Card key={`${service.id}*${index}`}>
-                      <CardContent
-                        key={`${service.id}-${index}`}
-                        className="grid grid-cols-1 gap-2"
-                      >
-                        <HiddenField
-                          name={`services.${index}.service_id`}
-                          control={control}
-                        />
-                        <TextField
-                          label={"Service"}
-                          name={`services.${index}.service_name`}
-                          control={control}
-                        />
-                        <TextField
-                          label={"Cost"}
-                          name={`services.${index}.cost_per_item`}
-                          control={control}
-                        />
-                        <NumberField
-                          label={"Total"}
-                          name={`services.${index}.total_items`}
-                          control={control}
-                        />
-                        <NumberField
-                          required={false}
-                          label={"Discount"}
-                          name={`services.${index}.discount`}
-                          control={control}
-                        />
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {fields.map((service, index) => {
+                    const serviceWithTotal = calculatedServicesTotals[index];
+                    return (
+                      <Card key={`${service.id}*${index}`}>
+                        <CardContent
+                          key={`${service.id}-${index}`}
+                          className="grid grid-cols-1 gap-2"
+                        >
+                          <HiddenField
+                            name={`services.${index}.service_id`}
+                            control={control}
+                          />
+                          <TextField
+                            label={"Service"}
+                            name={`services.${index}.service_name`}
+                            control={control}
+                          />
+                          <TextField
+                            label={"Cost"}
+                            name={`services.${index}.cost_per_item`}
+                            control={control}
+                          />
+                          <div className="grid grid-flow-col gap-4">
+                            <NumberField
+                              label={"Units"}
+                              name={`services.${index}.total_items`}
+                              control={control}
+                            />
+                            <NumberField
+                              required={false}
+                              label={"Discount"}
+                              name={`services.${index}.discount`}
+                              control={control}
+                            />
+                          </div>
+                        </CardContent>
+                        <CardFooter>
+                          Total:{" "}
+                          {formatPrice(serviceWithTotal?.lineTotal, {
+                            showZeroAsNumber: true,
+                          })}
+                        </CardFooter>
+                      </Card>
+                    );
+                  })}
                 </Activity>
               </FieldGroup>
             </CardContent>

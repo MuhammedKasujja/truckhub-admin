@@ -16,7 +16,7 @@ export function VehicleSearchFilter({ onSelected, className }: VehicleSearchFilt
     <AutoComplete<Vehicle>
       triggerClassName={className}
       fetcher={async (search) => {
-        if (!search || search.length < 3) return [];
+        // if (!search || search.length < 3) return [];
         const { data } = await getVehiclesByQuery({ search });
         return data ?? [];
       }}

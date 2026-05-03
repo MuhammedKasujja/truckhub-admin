@@ -18,6 +18,7 @@ import Link from "next/link";
 import React from "react";
 import { toast } from "sonner";
 import { getDriverDetailsById } from "@/features/drivers/service";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type DriverDetailsProps = {
   promises: Promise<[Awaited<ReturnType<typeof getDriverDetailsById>>]>;
@@ -72,9 +73,9 @@ export function DriverDetails({ promises }: DriverDetailsProps) {
           />
         </CardContent>
         <CardFooter>
-          <Button type="button" onClick={() => assignDriver()}>
+          <SubmitButton type="button" onClick={() => assignDriver()}>
             Submit
-          </Button>
+          </SubmitButton>
         </CardFooter>
       </Card>
     </div>
