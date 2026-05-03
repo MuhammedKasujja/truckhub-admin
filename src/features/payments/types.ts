@@ -38,3 +38,14 @@ export type Payment = {
   entity: PaymentableEntity;
   customer: PaymentCustomer;
 };
+
+type PaymentStat = {
+  newValue: number | string;
+  oldValue: number | string;
+};
+
+export type PaymentStatistics = {
+  grandTotal: PaymentStat;
+  bookings: PaymentStat;
+  rides: PaymentStat;
+};

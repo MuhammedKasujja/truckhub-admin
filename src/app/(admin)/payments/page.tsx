@@ -15,7 +15,10 @@ import {
   PaymentTableSkeleton,
 } from "@/features/payments/components/payment-table";
 import { PaymentSearchParamsCache } from "@/features/payments/schemas";
-import { getPayments } from "@/features/payments/service";
+import {
+  getPayments,
+  getPaymentsStatistics,
+} from "@/features/payments/service";
 import { getTranslations } from "@/i18n/server";
 import { formatPrice } from "@/lib/format";
 import { generatePageSearchParams } from "@/lib/search-params";
@@ -28,6 +31,8 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
     props.searchParams,
     PaymentSearchParamsCache,
   );
+
+  const { data: statistics } = await getPaymentsStatistics();
 
   const promises = Promise.all([getPayments(searchParams)]);
 
@@ -52,17 +57,19 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
       <div className="grid md:grid-cols-3 gap-5 pb-5">
         <Card>
           <CardHeader>
-            <CardDescription className="font-semibold">Revenue</CardDescription>
+            <CardDescription className="font-semibold">Total Revenue</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-flow-col gap-5">
             <div className="space-y-1.5">
-              <CardTitle className="font-bold">{formatPrice(12450)}</CardTitle>
+              <CardTitle className="font-bold">
+                {formatPrice(statistics?.grandTotal.newValue)}
+              </CardTitle>
               <CardDescription>This month</CardDescription>
             </div>
             <Separator orientation="vertical" />
             <div className="space-y-1.5">
               <CardTitle className="font-bold text-muted-foreground">
-                {formatPrice(10230)}
+                {formatPrice(statistics?.grandTotal.oldValue)}
               </CardTitle>
               <CardDescription>Last month</CardDescription>
             </div>
@@ -70,17 +77,19 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
         </Card>
         <Card>
           <CardHeader>
-            <CardDescription className="font-semibold">Revenue</CardDescription>
+            <CardDescription className="font-semibold">Booking Revenue</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-flow-col gap-5">
             <div className="space-y-1.5">
-              <CardTitle className="font-bold">{formatPrice(12450)}</CardTitle>
+              <CardTitle className="font-bold">
+                {formatPrice(statistics?.bookings.newValue)}
+              </CardTitle>
               <CardDescription>This month</CardDescription>
             </div>
             <Separator orientation="vertical" />
             <div className="space-y-1.5">
               <CardTitle className="font-bold text-muted-foreground">
-                {formatPrice(10230)}
+                {formatPrice(statistics?.bookings.oldValue)}
               </CardTitle>
               <CardDescription>Last month</CardDescription>
             </div>
@@ -88,17 +97,19 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
         </Card>
         <Card>
           <CardHeader>
-            <CardDescription className="font-semibold">Revenue</CardDescription>
+            <CardDescription className="font-semibold">Ride Revenue</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-flow-col gap-5">
             <div className="space-y-1.5">
-              <CardTitle className="font-bold">{formatPrice(12450)}</CardTitle>
+              <CardTitle className="font-bold">
+                {formatPrice(statistics?.rides.newValue)}
+              </CardTitle>
               <CardDescription>This month</CardDescription>
             </div>
             <Separator orientation="vertical" />
             <div className="space-y-1.5">
               <CardTitle className="font-bold text-muted-foreground">
-                {formatPrice(10230)}
+                {formatPrice(statistics?.rides.oldValue)}
               </CardTitle>
               <CardDescription>Last month</CardDescription>
             </div>

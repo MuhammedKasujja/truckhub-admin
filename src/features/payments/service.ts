@@ -2,8 +2,8 @@
 
 import * as apiClient from "@/lib/api-client";
 import { EntityId, SearchQuery } from "@/types";
-import { Payment } from "@/features/payments/types";
 import { generateApiSearchParams } from "@/lib/search-params";
+import { Payment, PaymentStatistics } from "@/features/payments/types";
 import { PaymentEditSchemaType, PaymentListSearchParams } from "./schemas";
 
 export async function getPayments(input: PaymentListSearchParams) {
@@ -44,4 +44,8 @@ export async function updatePayment(data: PaymentEditSchemaType) {
 
 export async function createPayment(data: PaymentEditSchemaType) {
   return await apiClient.postFn("/v1/payments", data);
+}
+
+export async function getPaymentsStatistics() {
+  return await apiClient.getFn<PaymentStatistics>("/v1/payments/statistics");
 }
