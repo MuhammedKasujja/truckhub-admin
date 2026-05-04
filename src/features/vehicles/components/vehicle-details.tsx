@@ -27,11 +27,18 @@ type VehicleDetailsProps = {
 
 export function VehicleDetails({ promises }: VehicleDetailsProps) {
   const [{ data: vehicle, error }] = React.use(promises);
-  const [driverId, setDriverId] = React.useState<string | null>();
+  const [driverId, setDriverId] = React.useState<number | undefined>(
+    vehicle?.driver?.id,
+  );
+  const driver = vehicle?.driver;
 
   useFetchEror(error);
 
   async function assignDriver() {
+    if (!driverId) {
+      toast.error("Please select a driver");
+      return;
+    }
     const { isSuccess, error, message } = await vehicleAssignDriver({
       vehicle_id: vehicle!.id,
       driver_id: driverId!,
@@ -47,9 +54,7 @@ export function VehicleDetails({ promises }: VehicleDetailsProps) {
     <div className="grid grid-cols-5 grid-flow-col gap-5">
       <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>
-            {vehicle?.plate_number} - {vehicle?.year}
-          </CardTitle>
+          <CardTitle>{vehicle?.display_name}</CardTitle>
           <CardAction>
             <Button asChild size={"icon"}>
               <Link href={`/vehicles/${vehicle?.id}/edit`}>
@@ -61,25 +66,47 @@ export function VehicleDetails({ promises }: VehicleDetailsProps) {
         </CardHeader>
         <CardContent></CardContent>
       </Card>
-      <Card className="col-span-2">
-        <CardHeader>
-          <CardTitle>Assign Driver</CardTitle>
-          <CardDescription>Attach new driver to the vehicle</CardDescription>
-        </CardHeader>
-        <CardContent className="flex">
-          <DriverSearchFilter
-            className="flex-1"
-            onSelected={(driver) => {
-              setDriverId(driver?.id.toString());
-            }}
-          />
-        </CardContent>
-        <CardFooter>
-          <Button type="button" onClick={() => assignDriver()}>
-            Submit
-          </Button>
-        </CardFooter>
-      </Card>
+      {driver ? (
+        <Card className="col-span-2">
+          <CardHeader>
+            <CardTitle>Driver</CardTitle>
+            <CardDescription>{driver.name}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex gap-4 flex-col">
+            <p>{driver.phone}</p>
+            <p>{driver.email}</p>
+          </CardContent>
+          <CardFooter>
+            <Button
+              type="button"
+              variant={"secondary"}
+              onClick={() => assignDriver()}
+            >
+              Change
+            </Button>
+          </CardFooter>
+        </Card>
+      ) : (
+        <Card className="col-span-2">
+          <CardHeader>
+            <CardTitle>Assign Driver</CardTitle>
+            <CardDescription>Attach new driver to the vehicle</CardDescription>
+          </CardHeader>
+          <CardContent className="flex">
+            <DriverSearchFilter
+              className="flex-1"
+              onSelected={(driver) => {
+                setDriverId(driver?.id);
+              }}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button type="button" onClick={() => assignDriver()}>
+              Submit
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
     </div>
   );
 }

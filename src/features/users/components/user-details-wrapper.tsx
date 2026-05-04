@@ -39,7 +39,7 @@ export function UserDetailsWrapper({ promises }: UserDetailsWrapperProps) {
           </CardAction>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <div>{user?.email}</div>
           <div>{user?.phone}</div>
           <div>{formatDate(user?.created_at)}</div>

@@ -7,10 +7,13 @@ export type Gearbox = (typeof Gearboxes)[number];
 export type VehicleDriver = {
   id: number;
   name: string;
+  email: string
+  phone: string
 };
 
 export interface VehicleBase {
   id: number;
+  display_name: string;
   number: string;
   plate_number: string;
   color: string;
