@@ -17,8 +17,8 @@ import { useTranslation } from "@/i18n";
 import {
   CustomerCreateSchema,
   CustomerUpdateSchema,
-} from "@/features/customers/schemas";
-import { createCustomer, updateCustomer } from "@/features/customers/service";
+} from "@/features/clients/schemas";
+import { createCustomer, updateCustomer } from "@/features/clients/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

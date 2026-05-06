@@ -1,11 +1,11 @@
-import { getCustomers } from "@/features/customers/service";
+import { getCustomers } from "@/features/clients/service";
 import { Suspense } from "react";
 import {
   CustomerTable,
   CustomerTableSkeleton,
-} from "@/features/customers/components/customer-table";
+} from "@/features/clients/components/customer-table";
 import { generatePageSearchParams } from "@/lib/search-params";
-import { CustomerSearchParamsCache } from "@/features/customers/schemas";
+import { CustomerSearchParamsCache } from "@/features/clients/schemas";
 import { requirePermission } from "@/lib/auth";
 import {
   PageAction,

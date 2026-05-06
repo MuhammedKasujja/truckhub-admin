@@ -1,10 +1,10 @@
-import { CustomerDetailsWrapper } from "@/features/customers/components/customer-details-wrapper";
+import { CustomerDetailsWrapper } from "@/features/clients/components/customer-details-wrapper";
 import {
   getCustomerDetailsById,
   getCustomerPayments,
   getCustomerBookings,
   getCustomerRides,
-} from "@/features/customers/service";
+} from "@/features/clients/service";
 import { requirePermission } from "@/lib/auth";
 import { Suspense } from "react";
 

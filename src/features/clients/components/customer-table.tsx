@@ -5,7 +5,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getCustomers } from "@/features/customers/service";
+import { getCustomers } from "@/features/clients/service";
 import React from "react";
 import { getCustomerTableColumns } from "./customer-table-columns";
 import { Button } from "@/components/ui/button";

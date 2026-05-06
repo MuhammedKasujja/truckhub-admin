@@ -1,5 +1,5 @@
 import z from "zod";
-import { Customer } from "@/features/customers/types";
+import { Customer } from "@/features/clients/types";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import {
   parseAsString,

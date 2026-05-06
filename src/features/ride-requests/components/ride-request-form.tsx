@@ -18,7 +18,7 @@ import {
 import { useTranslation } from "@/i18n";
 import { getServicesByQuery } from "@/features/services/service";
 import React from "react";
-import { getCustomersByQuery } from "@/features/customers/service";
+import { getCustomersByQuery } from "@/features/clients/service";
 import { LocationAutoComplete } from "@/components/location-autocomplete";
 import { formatDistance, formatDuration, formatPrice } from "@/lib/format";
 import {

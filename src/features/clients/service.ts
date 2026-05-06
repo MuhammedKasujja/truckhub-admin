@@ -2,13 +2,13 @@
 
 import * as apiClient from "@/lib/api-client";
 import { Booking } from "@/features/bookings/types";
-import { Customer } from "@/features/customers/types";
+import { Customer } from "@/features/clients/types";
 import { RideRequest } from "@/features/ride-requests/types";
 import {
   CustomerCreateSchemaType,
   CustomerListSearchParams,
   CustomerUpdateSchemaType,
-} from "@/features/customers/schemas";
+} from "@/features/clients/schemas";
 import { EntityId, SearchQuery } from "@/types";
 import { Payment } from "@/features/payments/types";
 import { generateApiSearchParams } from "@/lib/search-params";

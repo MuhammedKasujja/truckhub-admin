@@ -1,5 +1,5 @@
 import { getServicesByQuery } from "@/features/services/service";
-import { getCustomersByQuery } from "@/features/customers/service";
+import { getCustomersByQuery } from "@/features/clients/service";
 import { requirePermission } from "@/lib/auth";
 import { RideRequestForm } from "@/features/ride-requests/components/ride-request-form";
 

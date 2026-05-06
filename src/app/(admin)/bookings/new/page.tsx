@@ -1,6 +1,6 @@
 import { getServicesByQuery } from "@/features/services/service";
 import { BookingRequestForm } from "@/features/bookings/components/booking-request-form";
-import { getCustomersByQuery } from "@/features/customers/service";
+import { getCustomersByQuery } from "@/features/clients/service";
 import { requirePermission } from "@/lib/auth";
 
 export default async function CreateBookingPage() {

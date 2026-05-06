@@ -1,5 +1,5 @@
-import { getCustomerById } from "@/features/customers/service";
-import { CustomerForm } from "@/features/customers/components/customer-form";
+import { getCustomerById } from "@/features/clients/service";
+import { CustomerForm } from "@/features/clients/components/customer-form";
 import { requirePermission } from "@/lib/auth";
 
 export default async function Page(props: PageProps<"/customers/[id]/edit">) {
