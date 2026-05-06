@@ -14,7 +14,7 @@ import { Payment } from "@/features/payments/types";
 import { generateApiSearchParams } from "@/lib/search-params";
 import { DEFAULT_FITER_QUERY_PER_PAGE } from "@/config/constants";
 
-const endpoint = "/v1/customers";
+const endpoint = "/v1/clients";
 
 export async function getCustomers(input: CustomerListSearchParams) {
   const { page, perPage } = input;
@@ -67,18 +67,18 @@ export async function createCustomer(data: CustomerCreateSchemaType) {
 
 export async function getCustomerPayments(customerId: EntityId) {
   return await apiClient.getFn<Payment[]>(
-    `/v1/customers/${customerId}/payments`,
+    `${endpoint}/${customerId}/payments`,
   );
 }
 
 export async function getCustomerBookings(customerId: EntityId) {
   return await apiClient.getFn<Booking[]>(
-    `/v1/customers/${customerId}/bookings`,
+    `${endpoint}/${customerId}/bookings`,
   );
 }
 
 export async function getCustomerRides(customerId: EntityId) {
   return await apiClient.getFn<RideRequest[]>(
-    `/v1/customers/${customerId}/rides`,
+    `${endpoint}/${customerId}/rides`,
   );
 }

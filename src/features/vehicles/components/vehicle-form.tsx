@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FieldGroup } from "@/components/ui/field";
+import { Field, FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   NumberField,
@@ -128,32 +128,36 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 name={"plate_number"}
                 control={form.control}
               />
-              <TextField
-                label={tr("common.year")}
-                name={"year"}
-                control={form.control}
-              />
-              <TextField
-                label={tr("color")}
-                name={"color"}
-                control={form.control}
-              />
-              <TextField
-                label={tr("interior_color")}
-                name={"interior_color"}
-                control={form.control}
-                required={false}
-              />
-              <SelectField
-                label={tr("cylinders")}
-                control={form.control}
-                name={"cylinders"}
-                placeholder="Select cylinder"
-                options={VehicleCylinderList.map((opt) => ({
-                  label: `${opt}`,
-                  value: `${opt}`,
-                }))}
-              />
+              <Field className="" orientation={"horizontal"}>
+                <TextField
+                  label={tr("color")}
+                  name={"color"}
+                  control={form.control}
+                />
+                <TextField
+                  label={tr("interior_color")}
+                  name={"interior_color"}
+                  control={form.control}
+                  required={false}
+                />
+              </Field>
+              <Field className="" orientation={"horizontal"}>
+                <TextField
+                  label={tr("common.year")}
+                  name={"year"}
+                  control={form.control}
+                />
+                <SelectField
+                  label={tr("cylinders")}
+                  control={form.control}
+                  name={"cylinders"}
+                  placeholder="Select cylinder"
+                  options={VehicleCylinderList.map((opt) => ({
+                    label: `${opt}`,
+                    value: `${opt}`,
+                  }))}
+                />
+              </Field>
               <NumberField
                 label={tr("tank_capacity")}
                 name={"tank_capacity"}

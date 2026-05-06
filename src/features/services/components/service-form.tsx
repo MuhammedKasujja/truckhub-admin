@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FieldGroup } from "@/components/ui/field";
+import { Field, FieldGroup } from "@/components/ui/field";
 import {
   AutoCompleteField,
   NumberField,
@@ -101,6 +101,18 @@ export function ServiceForm({
               name={"display_name"}
               control={form.control}
             /> */}
+            <Field orientation={"horizontal"}>
+              <TextField
+                label={"Start Year"}
+                name={"start_year"}
+                control={form.control}
+              />
+              <TextField
+                label={"End Year"}
+                name={"end_year"}
+                control={form.control}
+              />
+            </Field>
             <NumberField
               label={tr("services.seats")}
               name={"seats"}
