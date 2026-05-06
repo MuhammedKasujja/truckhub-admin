@@ -160,6 +160,11 @@ export function VehicleForm({ configPromises, initialData }: VehicleFormProps) {
                 control={form.control}
               />
               <NumberField
+                label={"Consumption Rate"}
+                name={"consumption_rate"}
+                control={form.control}
+              />
+              <NumberField
                 label={tr("services.seats")}
                 name={"seats"}
                 control={form.control}

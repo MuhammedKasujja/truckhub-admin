@@ -81,6 +81,12 @@ export function CustomerForm({ initialData }: ClientFormProps) {
               control={form.control}
               required={false}
             />
+            <TextField
+              label={"Tin Number"}
+              name={"tin_number"}
+              control={form.control}
+              required={false}
+            />
             <EmailField
               label={tr("common.form.email")}
               name={"email"}

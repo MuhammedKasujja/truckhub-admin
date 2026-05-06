@@ -50,21 +50,21 @@ export function getCustomerTableColumns(): ColumnDef<Customer>[] {
       cell: ({ row }) => {
         return (
           <div className="flex gap-2">
-            <HasPermission permission={"customers:view"}>
+            <HasPermission permission={"clients:view"}>
               <Button variant={"outline"} size={"icon"}>
                 <Link href={`/customers/${row.original.id}/view`}>
                   <EyeIcon />
                 </Link>
               </Button>
             </HasPermission>
-            <HasPermission permission={"customers:edit"}>
+            <HasPermission permission={"clients:edit"}>
               <Button variant={"outline"} size={"icon"} asChild>
                 <Link href={`/customers/${row.original.id}/edit`}>
                   <EditIcon />
                 </Link>
               </Button>
             </HasPermission>
-            <HasPermission permission={"customers:delete"}>
+            <HasPermission permission={"clients:delete"}>
               <ActionButton
                 variant={"destructive"}
                 size={"icon"}

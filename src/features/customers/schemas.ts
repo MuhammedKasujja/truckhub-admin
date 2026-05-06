@@ -16,6 +16,7 @@ export const CustomerCreateSchema = z.object({
   phone: z.string(),
   email: z.string(),
   password: z.string(),
+  tin_number: z.string(),
 });
 
 export const CustomerUpdateSchema = z.object({

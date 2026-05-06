@@ -9,7 +9,7 @@ import { requirePermission } from "@/lib/auth";
 import { Suspense } from "react";
 
 export default async function Page(props: PageProps<"/customers/[id]/view">) {
-  await requirePermission("customers:view");
+  await requirePermission("clients:view");
   const customerId = (await props.params).id;
 
   const promises = Promise.all([

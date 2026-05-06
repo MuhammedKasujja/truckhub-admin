@@ -21,7 +21,7 @@ import { PlusIcon } from "lucide-react";
 import { getTranslations } from "@/i18n/server";
 
 export default async function Page(props: PageProps<"/customers">) {
-  await requirePermission("customers:view");
+  await requirePermission("clients:view");
   const tr = await getTranslations()
 
   const searchParams = await generatePageSearchParams(
@@ -38,7 +38,7 @@ export default async function Page(props: PageProps<"/customers">) {
           {tr("common.clients")}</PageTitle>
         {/* <PageDescription>Manage your projects and team members</PageDescription> */}
         <PageAction>
-          <HasPermission permission={"customers:create"}>
+          <HasPermission permission={"clients:create"}>
             <Button asChild>
               <Link href={"/customers/new"}>
                 <PlusIcon />

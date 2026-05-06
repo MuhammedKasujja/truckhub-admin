@@ -29,7 +29,7 @@ export function RidePassenger({ passenger }: RidePassengerProps) {
       <CardHeader>
         <CardTitle>Passenger</CardTitle>
         <CardAction>
-          <Can permission="customers:view">
+          <Can permission="clients:view">
             <Button variant={"secondary"} asChild>
               <Link href={`/customers/${passenger.id}/view`}>View</Link>
             </Button>
