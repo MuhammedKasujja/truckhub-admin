@@ -70,7 +70,7 @@ export function RecentPaymentsTable({ payments }: PaymentTableprops) {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center">
+                  <TableCell colSpan={6} className="h-24 text-center">
                     <Empty className="">
                       <EmptyHeader>
                         <EmptyMedia variant="icon"></EmptyMedia>

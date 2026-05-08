@@ -25,7 +25,7 @@ export function Providers({
             <QueryClientProvider>{children}</QueryClientProvider>
           </TooltipProvider>
         </NextIntlClientProvider>
-        <Toaster />
+        <Toaster position={"top-right"} />
       </NuqsAdapter>
     </ThemeProvider>
   );
