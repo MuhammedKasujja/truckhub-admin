@@ -10,11 +10,18 @@ export type DriveTrain = {
   is_truck: boolean;
   id: EntityId;
 };
+
 export type CarModel = {
   name: string;
   id: EntityId;
   car_brand_id: EntityId;
   vehicle_type_id: EntityId;
+};
+
+export type VehicleFeature = {
+  id: number;
+  name: string;
+  position: number;
 };
 
 export type VehicleConfigurations = {
@@ -49,4 +56,5 @@ export type VehicleConfigurations = {
     },
   ];
   drive_trains: DriveTrain[];
+  features: VehicleFeature;
 };
