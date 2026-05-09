@@ -3,7 +3,12 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { logout } from "@/features/auth/service";
-import { ApiResponse, ApiPaginatedResponse, ErrorStatusCode, Prettify } from "@/types";
+import {
+  Prettify,
+  ApiResponse,
+  ErrorStatusCode,
+  ApiPaginatedResponse,
+} from "@/types";
 
 export async function getFn<T>(url: string): Promise<Prettify<ApiResponse<T>>> {
   try {
@@ -104,8 +109,9 @@ function _handleApiException<T>(error: unknown): ApiResponse<T> {
   return {
     isSuccess: false,
     error: {
-      message: (error as any).response.data.error.message,
-      code: (error as any).response.data.error.code,
+      message:
+        (error as any).response?.data.error.message ?? "Operation failed",
+      code: (error as any).response?.data.error.code,
       status: statusCode,
     },
   };
